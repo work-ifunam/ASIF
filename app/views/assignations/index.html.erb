@@ -5,16 +5,12 @@
     <th>Usuario</th>
     <th>Categor&iacute;a</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @assignation_user.each do |assignation| %>
   <tr>
     <td><%= assignation.user.firstname %></td>
     <td><%= assignation.category.name %></td>
-    <td><%= link_to 'Mostrar', assignation %></td>
-    <td><%= link_to 'Editar', edit_assignation_path(assignation) %></td>
     <td><%= link_to 'Eliminar', assignation, confirm: '¿Est&aacute seguro?', method: :delete %></td>
   </tr>
 <% end %>
