@@ -9,8 +9,7 @@ class Ability
       can :manage, Category
       can :manage, Assignation          
     elsif user.category == "Personal COMPUTO" || user.category == "Personal ELECTRONICA"
-      can :read, Category
-      can :create, Category
+      can :manage, Category
     else
       can :read, :all
     end

@@ -3,16 +3,10 @@
     <tr> 
      <th>Categor&iacute;a</th> 
      <th></th> 
-     <th></th> 
     </tr> 
    <% @categories_assignations.each do |category| %> 
     <tr>  
      <td><%= category.name %></td> 
-     <td>
-       <% if can? :update, category %>
-         <%= link_to 'Edit', edit_category_path(category) %>
-      <% end %>
-     </td> 
      <td>
       <% if can? :delete, category %> 
          <%= link_to 'Destroy', category, confirm: 'Are you sure?', method: :delete %>
