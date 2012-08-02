@@ -16,15 +16,15 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label :firstname %><br />
+    <%= f.label 'Nombre(s)' %><br />
     <%= f.text_field :firstname %>
   </div>
   <div class="field">
-    <%= f.label :lastname %><br />
+    <%= f.label 'Apellido' %><br />
     <%= f.text_field :lastname %>
   </div>
   <div class="field">
-    <%= f.label :category %><br />
+    <%= f.label 'Categoría' %><br />
     <%= f.select(:category, [
 			['Administrador del Sistema ','Chuck Norris'],
 			['Administrador de Cómputo','Admin COMPUTO'],
@@ -35,16 +35,16 @@
   </div>
 
   <div class="field">
-  <%= f.label :password, f.object.new_record? ? nil : "Change password" %><br />
+  <%= f.label :password, f.object.new_record? ? nil : "Cambiar password" %><br />
   <%= f.password_field :password %>
   </div>
 
   <div class="field">
-  <%= f.label :password_confirmation %><br />
+  <%= f.label 'Confirmación de Password' %><br />
   <%= f.password_field :password_confirmation %>
   </div>
 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Crear usuario'%>
   </div>
 <% end %>
