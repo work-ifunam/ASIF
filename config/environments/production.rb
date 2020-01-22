@@ -1,5 +1,9 @@
 SuperSimpleHELPDESK::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
+# config.action_mailer.default_options = {from: 'asif@fisica.unam.mx'}
+#  config.action_mailer.delivery_method = :smtp
+#  config.action_mailer.default_options = {from: "asif@fisica.unam.mx"}
+#  config.action_mailer.smtp_settings = {address: "132.248.7.40", port: 25}
 
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -28,7 +32,7 @@ SuperSimpleHELPDESK::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+ config.force_ssl = false
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
@@ -64,4 +68,14 @@ SuperSimpleHELPDESK::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+#config.action_mailer.raise_delivery_errors = true
+#config.action_mailer.delivery_method = :smtp
+#config.action_mailer.delivery_method = :sendmail
+# Defaults to:
+# config.action_mailer.sendmail_settings = {
+#   location: '/usr/sbin/sendmail',
+#   arguments: '-i'
+# }
+#config.action_mailer.raise_delivery_errors = true
+#config.action_mailer.default_options = {from: 'no-reply@example.com'}
 end
