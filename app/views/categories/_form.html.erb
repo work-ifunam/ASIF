@@ -25,6 +25,8 @@
         f.hidden_field(:department, :value => "taller" )
       elsif current_user.category.eql?("Admin COMUNICACION") || current_user.category.eql?("Personal COMUNICACION")
         f.hidden_field(:department, :value => "comunicacion" )
+      elsif current_user.category.eql?("Admin Mantenimiento") || current_user.category.eql?("Personal Mantenimiento")
+        f.hidden_field(:department, :value => "mantenimiento" )
       else
         f.hidden_field(:department, :value => "error" )
       end

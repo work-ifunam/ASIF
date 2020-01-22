@@ -1,0 +1,93 @@
+<h1>Usted tiene <%= @my_maintenance.count %> solicitudes de servicio en Mantenimiento</h1>
+
+<p>
+<%= link_to "CREAR NUEVA SOLICITUD DE SERVICIO", new_ticket_path(:department => "mantenimiento"), :class => "mylink2" %>
+</p>
+
+
+<% @maintenance_tickets.each do |ticket| %>
+  <div class="ticket_title">
+      <span class="ticket_number">No. <%= ticket.folio %> - <%= ticket.created_at.strftime("%d/%m/%Y - %H:%M:%S") %></span>
+      <span class="ticket_category"><%= category = Category.find(ticket.category)
+     				        category.name %></span>
+  </div>  
+  <div class="ticket_status">
+      <strong><%= ticket.user.firstname + " " + ticket.user.lastname %></strong> solicita: 
+      <%= ticket.description %><br />
+  </div>
+  <div class="ticket_content">
+    <div class="accordion">
+      <h3>Estado de la Solicitud</h3>
+      <div>
+
+    <table width="730px">
+      <tr>
+      <td width="40%">	
+	<span class="ticket_responsible">Trabajo asignado a: </span><br />
+	<% unless ticket.technicians.nil? %>
+	    <% @technicians = ticket.technicians %>
+	    <% @technicians.each do |tech| %>
+	      <%= tech.firstname %> <%= tech.lastname %><br />
+	    <% end %>
+          <% end %>
+      </td>
+      <td width="50%">
+	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
+	<small><%= unless ticket.ideal_time.nil?
+	    ticket.ideal_time.strftime("%d/%m/%Y") 
+	    end
+	    %></small>
+        <br/><span class="ticket_responsible2">Fecha de entrega:</span> 
+	<small><%= unless ticket.ended_at.nil?
+	    ticket.ended_at.strftime("%d/%m/%Y") 
+	    end
+	    %></small>
+      </td>
+      <td width="10%">
+      <%= if ticket.status == "NO_ATENDIDO" 
+            image_tag("/assets/noatendido.png", :alt => "no atendido") 
+          elsif ticket.status == "EN_PROCESO"
+            image_tag("/assets/enproceso.png", :alt => "en proceso") 
+          elsif ticket.status == "EN_ESPERA" 
+            image_tag("/assets/enespera.png", :alt => "en espera") 
+          elsif ticket.status == "EN_REVISION" 
+            image_tag("/assets/enrevision.png", :alt => "en revision")
+          elsif ticket.status == "ENTREGADO" 
+            image_tag("/assets/entregado.png", :alt => "entregado")
+         end %>
+         <br />
+       <%= if ticket.client_status == "APROBADO" 
+            image_tag("/assets/aprobado.jpg", :alt => "aprobado") 
+          elsif ticket.client_status == "NO_APROBADO"
+            image_tag("/assets/noaprobado.jpg", :alt => "no aprobado") 
+        end %>
+
+        <br />
+	<!-- Uncomment to add ticket's approval
+            <% if ticket.status == "ENTREGADO" && ticket.client_status != "APROBADO"
+	        button_to "SI APRUEBO", { :controller => "reports", :action => "approve_ticket", :id => ticket.id }, :method => :get, :class => "button"
+	    end %>
+
+	    <% if ticket.status == "EN_REVISION" && ticket.client_status == "NO_APROBADO"
+	        button_to "SI APRUEBO", { :controller => "reports", :action => "approve_ticket", :id => ticket.id }, :method => :get, :class => "button"
+	    end %>
+
+            <% if ticket.status == "ENTREGADO" && ticket.client_status != "APROBADO" && ticket.client_status != "NO_APROBADO"
+	        button_to "NO APRUEBO", { :controller => "reports", :action => "not_approve_ticket", :id => ticket.id }, :method => :get, :class => "button"     
+	    end %>
+	-->    
+      </td>
+      </tr>
+      </table>
+      </div>
+      <h3>Bit&aacute;cora de Observaciones</h3>
+      <div>
+	<%= simple_format h ticket.revision %>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= paginate @maintenance_tickets %>
+
+
+

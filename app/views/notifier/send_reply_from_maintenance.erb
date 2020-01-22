@@ -1,12 +1,14 @@
-Información sobre su Solicitud de Servicio en taller
+Información sobre su Solicitud de Servicio enMantenimiento
 
 *****************************************************
 
 SU SOLICITUD SE ENCUENTRA: <%= @status %>
 
-SERVICIO ASIGNADO A: <%= @technician_complete_name %>
-
-FECHA DE ENTREGA: <%= @ideal_time.strftime("%d/%m/%Y") %>
+<%=
+   unless @ideal_time.nil?
+    print "FECHA ESTIMADA DE ENTREGA:" + " " + @ideal_time.strftime("%d/%m/%Y")
+   end
+%>
 
 ******************************************************
 

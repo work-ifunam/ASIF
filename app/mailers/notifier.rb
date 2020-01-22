@@ -27,10 +27,10 @@ class Notifier < ActionMailer::Base
     @id = ticket.id
     @folio = ticket.folio
     @link = "taller"
-    # Don't forget to change the email address to gleason@fisica.unam.mx and veytia@fisica.unam.mx
+    # Don't forget to change the email address to gleason@fisica.unam.mx and jperez@fisica.unam.mx
 
     if @category.id == 15
-        mail(:to => "gleason@fisica.unam.mx , veytia@fisica.unam.mx, stea-if@fisica.unam.mx, hesiquio@fisica.unam.mx",
+        mail(:to => "jperez@fisica.unam.mx, stea-if@fisica.unam.mx, hesiquio@fisica.unam.mx",
              :subject => "Tiene una nueva solicitud en ASIF - TALLER",
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
@@ -38,7 +38,7 @@ class Notifier < ActionMailer::Base
           format.text
         end
     else
-        mail(:to => "gleason@fisica.unam.mx , veytia@fisica.unam.mx, stea-if@fisica.unam.mx",
+        mail(:to => "jperez@fisica.unam.mx, stea-if@fisica.unam.mx",
              :subject => "Tiene una nueva solicitud en ASIF - TALLER",
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
@@ -82,6 +82,22 @@ class Notifier < ActionMailer::Base
     end
   end
 
+ def send_to_maintenance(ticket)    
+    @user = User.find(ticket.user_id)        
+    @category = Category.find(ticket.category)    
+    @description = ticket.description
+    @id = ticket.id
+    @folio = ticket.folio
+    @link = "mantenimiento"
+    # Don't forget to change the email address to gleason@fisica.unam.mx and mcuautle@fisica.unam.mx
+    mail(:to => "rlazard@fisica.unam.mx",
+         :subject => "Tiene una nueva solicitud en ASIF - MANTENIMIENTO",
+         :from => "asif@fisica.unam.mx",
+         :fail_to => "asif@fisica.unam.mx"
+         ) do |format|
+      format.text
+    end
+  end
 
 def send_reply_to_user(ticket)    
     @status = ticket.status
@@ -103,16 +119,18 @@ def send_reply_to_user(ticket)
       @email = ticket.user.email 
     elsif ticket.department == "comunicacion"
       @email = ticket.user.email
+    elsif ticket.department == "mantenimiento"
+      @email = ticket.user.email
     elsif ticket.department == "taller"
     # Don't forget to change the webmaster email address to gleason@fisica.unam.mx
-      @email = ticket.user.email + "," + " " + "gleason@fisica.unam.mx, stea-if@fisica.unam.mx"
+      @email = ticket.user.email + "," + " " + "jperez@fisica.unam.mx, stea-if@fisica.unam.mx"
     elsif ticket.department == "electronica"
       @email = Array.new
       ticket.technicians.each do |tech|
         @email << tech.email + "," + " "
       end
     # Don't forget to change the webmaster email address to gleason@fisica.unam.mx
-      @email << ticket.user.email + "," + " " + "gleason@fisica.unam.mx, stea-if@fisica.unam.mx"
+      @email << ticket.user.email + "," + " " + "jperez@fisica.unam.mx, stea-if@fisica.unam.mx"
     end
     # @technician = User.find(ticket.technician)
     # @technician_complete_name = @technician.firstname + " " + @technician.lastname

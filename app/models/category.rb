@@ -11,6 +11,8 @@ class Category < ActiveRecord::Base
        return Category.find(:all,:conditions => 'department  = "taller"') 
     elsif department.eql?("Admin COMUNICACION") || department.eql?("Personal COMUNICACION")
        return Category.find(:all,:conditions => 'department  = "comunicacion"') 
+    elsif department.eql?("Admin Mantenimiento") || department.eql?("Personal Mantenimiento")
+       return Category.find(:all,:conditions => 'department  = "mantenimiento"') 
     else
        return Category.find(:all,:condition => 'department = "null"')
     end

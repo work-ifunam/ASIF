@@ -5,6 +5,7 @@
     elsif params[:department] == "taller" && current_user.category == "Admin TALLER"
        render 'workshopip'	
     elsif params[:department] == "comunicacion" && current_user.category == "Admin COMUNICACION"
+    elsif params[:department] == "mantenimiento" && current_user.category == "Admin Mantenimiento"
        render 'communicationip'	
 end %>
 

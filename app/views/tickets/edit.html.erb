@@ -8,6 +8,8 @@
        render 'form4' 
     elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
        render 'form5' 
+    elsif current_user.category == "Admin Mantenimiento" || current_user.category == "Personal Mantenimiento"
+       render 'form6' 
 end %>
 
 

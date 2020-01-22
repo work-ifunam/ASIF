@@ -24,6 +24,8 @@ class Ticket < ActiveRecord::Base
           return Ticket.find(:all, :conditions => 'department = "taller"', :order => "created_at DESC")
        elsif department.eql?("Admin COMUNICACION") || department.eql?("Personal COMUNICACION") 
           return Ticket.find(:all, :conditions => 'department = "comunicacion"', :order => "created_at DESC")
+       elsif department.eql?("Admin Mantenimiento") || department.eql?("Personal Mantenimiento") 
+          return Ticket.find(:all, :conditions => 'department = "mantenimiento"', :order => "created_at DESC")
        else
           return Category.find(:all,:conditions => 'department = "null"')
        end

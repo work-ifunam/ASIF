@@ -11,6 +11,8 @@ class Assignation < ActiveRecord::Base
       return Assignation.find(:all,:include => :user,:include => :category,:conditions => 'department = "taller"')
     elsif department.eql?("Admin COMUNICACION")
       return Assignation.find(:all,:include => :user,:include => :category,:conditions => 'department = "comunicacion"')
+    elsif department.eql?("Admin Mantenimiento")
+      return Assignation.find(:all,:include => :user,:include => :category,:conditions => 'department = "mantenimiento"')
     else
       return Assignation.find(:all,:condition => 'department = "null"')
     end

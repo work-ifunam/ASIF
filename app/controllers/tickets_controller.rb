@@ -26,6 +26,13 @@ class TicketsController < ApplicationController
       @workshop_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "taller"])
       @workshop_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "taller"])
       @workshop_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "taller"])
+    elsif current_user.category == "Admin Mantenimiento" || current_user.category == "Personal Mantenimiento"
+      @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"])
+      @maintenance_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "mantenimiento"])
+      @maintenance_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "mantenimiento"])
+      @maintenance_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "mantenimiento"])
+      @maintenance_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "mantenimiento"])
+      @maintenance_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "mantenimiento"])
     elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
       @communication_tickets = Ticket.find(:all, :conditions => ['department = ?', "comunicacion"])
       @communication_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "comunicacion"])
@@ -50,6 +57,17 @@ class TicketsController < ApplicationController
     @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "computo"])
     render :layout => 'show_computer_tickets'
   end  
+  
+  def show_maintenance_tickets
+    tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"], :order => "created_at DESC")
+    @tickets = Kaminari.paginate_array(tickets).page(params[:page])
+    @maintenance_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "mantenimiento"])
+    @maintenance_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "mantenimiento"])
+    @maintenance_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "mantenimiento"])
+    @maintenance_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "mantenimiento"])
+    @maintenance_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "mantenimiento"])
+    render :layout => 'show_maintenance_tickets'
+  end  
 
   def show_communication_tickets
     tickets = Ticket.find(:all, :conditions => ['department = ?', "comunicacion"], :order => "created_at DESC")
@@ -70,6 +88,8 @@ class TicketsController < ApplicationController
       render :layout => 'show_workshop_tickets'
     elsif params[:department] == "electronica"
       render :layout => 'show_electronic_tickets'
+    elsif params[:department] == "mantenimiento"
+      render :layout => 'show_maintenance_tickets'
     elsif params[:department] == "comunicacion"
       render :layout => 'show_communication_tickets'
     end
@@ -83,6 +103,8 @@ class TicketsController < ApplicationController
       render :layout => 'show_workshop_tickets'
     elsif params[:department] == "electronica"
       render :layout => 'show_electronic_tickets'
+    elsif params[:department] == "mantenimiento"
+      render :layout => 'show_maintenance_tickets'
     elsif params[:department] == "comunicacion"
       render :layout => 'show_communication_tickets'
     end
@@ -96,6 +118,8 @@ class TicketsController < ApplicationController
       render :layout => 'show_workshop_tickets'
     elsif params[:department] == "electronica"
       render :layout => 'show_electronic_tickets'
+    elsif params[:department] == "mantenimiento"
+      render :layout => 'show_maintenance_tickets'
     elsif params[:department] == "comunicacion"
       render :layout => 'show_communication_tickets'
     end
@@ -109,6 +133,8 @@ class TicketsController < ApplicationController
       render :layout => 'show_workshop_tickets'
     elsif params[:department] == "electronica"
       render :layout => 'show_electronic_tickets'
+    elsif params[:department] == "mantenimiento"
+      render :layout => 'show_maintenance_tickets'
     elsif params[:department] == "comunicacion"
       render :layout => 'show_communication_tickets'
     end
@@ -122,6 +148,8 @@ class TicketsController < ApplicationController
       render :layout => 'show_workshop_tickets'
     elsif params[:department] == "electronica"
       render :layout => 'show_electronic_tickets'
+    elsif params[:department] == "mantenimiento"
+      render :layout => 'show_maintenance_tickets'
     elsif params[:department] == "comunicacion"
       render :layout => 'show_communication_tickets'
     end
@@ -233,6 +261,14 @@ class TicketsController < ApplicationController
           Notifier.send_to_communication(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
           format.html { redirect_to show_communication_tickets_path }
+          format.json { render json: @ticket, status: :created, location: @ticket }
+        elsif @ticket.department == "mantenimiento"
+          @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"])
+          @ticket.folio = @maintenance_tickets.count
+          @ticket.save
+          Notifier.send_to_maintenance(@ticket).deliver
+          flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
+          format.html { redirect_to show_maintenance_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "taller"
           @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
