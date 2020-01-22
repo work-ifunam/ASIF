@@ -9,7 +9,7 @@
 
 <% @assignation_user.each do |assignation| %>
   <tr>
-    <td><%= assignation.user.firstname %></td>
+    <td><%= assignation.technician.firstname %></td>
     <td><%= assignation.category.name %></td>
     <td><%= link_to 'Eliminar', assignation, confirm: '¿Est&aacute seguro?', method: :delete %></td>
   </tr>

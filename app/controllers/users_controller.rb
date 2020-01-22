@@ -4,10 +4,14 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @users = User.all
-    respond_to do |format|
-      format.html 
-      format.json { render json: @users }
+    if current_user.category == "Chuck Norris"
+      @users = User.find(:all, :order => "lastname")
+      respond_to do |format|
+        format.html 
+        format.json { render json: @users }
+      end
+    else
+      redirect_to :home
     end
   end
 
@@ -27,9 +31,11 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     respond_to do |format|
       if @user.save
+        puts 'user.save controlador usuario bien'
         format.html { redirect_to action: 'index'}
         format.json { render json: @user, status: :created, location: @user }
       else
+        puts 'user.save controlador usuario mal'
         format.html { render action: "new" }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end

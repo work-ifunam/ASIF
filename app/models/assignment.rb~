@@ -1,0 +1,3 @@
+class Assignment < ActiveRecord::Base
+  attr_accessible :technician_id, :ticket_id
+end

@@ -1,27 +1,31 @@
 !!!
 %html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
  %head
-  %title IFUNAM - Helpdesk 
+  %title ASIF 
   %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
   %meta{"http-equiv" => "content-language", "content" => "en"}
   %meta{"http-equiv" => "description", "content" => " "}
   %meta{"http-equiv" => "keywords", "content" => " "}
   %meta{"http-equiv" => "author", "content" => "Goz"}
   %meta{"http-equiv" => "copyright", "content" => " "}
-  %link{"rel" => "stylesheet", "type" => "text/css", "href" => "http://fonts.googleapis.com/css?family=Montserrat"}
-  %link{"rel" => "shortcut icon", "href" => "/assets/favicon.ico"}
+  %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
+  %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
   = stylesheet_link_tag "application"
  %body
   %div#wrapper
    %div#header1
-    %div#logo
     %div#title
-     Helpdesk
-   %div#header2
+     ASIF  
+    %div#title2
+     Administrador de Solicitudes del Instituto de F&iacute;sica
    %div#main_content
-    %div#login
-     = yield
-    %div#content      
+    %div#left_menu
+     
+    %div#content
+     = yield      
    %div#footer
-    Instituto de F&iacute;sica UNAM - 2012
+    Instituto de F&iacute;sica UNAM - 2020 | Circuito de la Investigaci&oacute;n Cient&iacute;fica, Ciudad Universitaria, M&eacute;xico, D.F.<br />
+    Hecho en M&eacute;xico con software libre | &Uacute;ltima actualizaci&oacute;n: Enero 2020
    %div.clear
+
+

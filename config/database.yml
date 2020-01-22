@@ -5,25 +5,25 @@ development:
   database: helpdesk
   pool: 5
   username: root
-  password: holamundo
+  password: 4s1F2013$#%
   socket: /var/run/mysqld/mysqld.sock
 
 test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: helpdesk_tests
+  database: helpdesk_test
   pool: 5
   username: root
-  password: holamundo
+  password: 
   socket: /var/run/mysqld/mysqld.sock
 
 production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: helpdesk_production
+  database: helpdesk
   pool: 5
   username: root
-  password: holamundo
+  password: 4s1F2013$#%
   socket: /var/run/mysqld/mysqld.sock

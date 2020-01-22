@@ -1,32 +1,10 @@
-<h1>Listado Tickets</h1>
+<%= if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO"
+       render 'computers'
+    elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA"
+       render 'electronics' 
+    elsif current_user.category == "Admin TALLER" || current_user.category == "Personal TALLER"
+       render 'workshop'
+    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
+       render 'communications' 
+end %>
 
-<table>
-  <tr>
-    <th>Usuario</th>
-    <th>Descripci&oacute;n</th>
-    <th>Status</th>
-    <th>Categor&iacute;a</th>
-    <th>Prioridad</th>
-    <th>T&eacute;cnico</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @tickets.each do |ticket| %>
-  <tr>
-    <td><%= ticket.user.firstname %></td>
-    <td><%= ticket.description %></td>
-    <td><%= ticket.status %></td>
-    <td><%= ticket.category %></td>
-    <td><%= ticket.priority %></td>
-    <td><%= ticket.technician %></td>
-    <td><%= link_to 'Mostrar', ticket %></td>
-    <td><%= link_to 'Editar', edit_ticket_path(ticket) %></td>
-    <td><%= link_to 'Eliminar', ticket, confirm: '¿Estás seguro?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-<%= link_to 'Nuevo Ticket', new_ticket_path %>

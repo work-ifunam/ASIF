@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label "Usuario" %><br />
-    <%= f.select :user_id, @user.collect { |record| [record.firstname, record.id] } %>
+    <%= f.select :technician_id, @technician.collect { |record| [record.firstname, record.id] } %>
   </div>
 
  <div class="field">
@@ -28,6 +28,8 @@
         f.hidden_field(:department, :value => "computo" ) 
       elsif current_user.category.eql?("Admin ELECTRONICA")
         f.hidden_field(:department, :value => "electronica" )
+      elsif current_user.category.eql?("Admin COMUNICACION" )
+        f.hidden_field(:department, :value => "comunicacion" )
       else
         f.hidden_field(:department, :value => "error" )
       end

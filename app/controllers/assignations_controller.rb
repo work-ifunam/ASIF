@@ -4,17 +4,21 @@ class AssignationsController < ApplicationController
   load_and_authorize_resource
   
   def index
-    @assignation_user = Assignation.user(current_user.category);
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @assignations }
+    if current_user.category == "Chuck Norris"
+      @assignation_user = Assignation.user(current_user.category);
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render json: @assignations }
+      end
+    else
+    redirect_to :home
     end
   end
   
   def new
     @assignation = Assignation.new
     @category = Category.assignation(current_user.category);
-    @user = User.assignation(current_user.category);
+    @technician = Technician.assignation(current_user.category);
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @assignation }

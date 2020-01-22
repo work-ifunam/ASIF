@@ -1,0 +1,6 @@
+Tienes un ticket de soporte
+
+CATEGORIA: <%= @category.name %>
+
+DESCRIPCION:
+<%= @description %>

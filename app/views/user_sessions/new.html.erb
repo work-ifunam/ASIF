@@ -1,14 +1,24 @@
-<h1>Login</h1>
+<h1>Bienvenido/a</h1>
+
+  <p>
+   Estimado usuario el acceso a esta secci&oacute;n es exclusivo para el personal del IFUNAM.<br />
+   Por favor ingrese su login y contrase&ntilde;a de su cuenta de correo.
+  </p>
 
 <%= form_for @user_session, :as => :user_session, :url => { :action => "create" } do |f| %>
   <%= render "shared/error_messages", :target => @user_session %>
-  <%= f.label :email %><br />
-  <%= f.text_field :email %><br />
+  Usuario:<br />
+  <%= f.text_field :login, :size => "9" %>@fisica.unam.mx<br />
   <br />
-  <%= f.label :password %><br />
-  <%= f.password_field :password %><br />
+  Password:<br />
+  <%= f.password_field :password, :size => "17" %><br />
   <br />
-  <%= f.check_box :remember_me %><%= f.label :remember_me %><br />
   <br />
-  <%= f.submit "Login" %>
+  <%= f.submit "Entrar" %>
 <% end %>
+<br /><br />
+<hr color="#217794" />
+<p>
+En caso de ser <b>estudiante asociado</b> deja tu comentario a la Coordinaci&oacute;n Docente
+<br /><%= button_to "Entrar", send_students_message_path, :method => "get" %>
+</p>

@@ -1,8 +1,8 @@
 <%= form_for(@ticket) do |f| %>
+
   <% if @ticket.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
-
       <ul>
       <% @ticket.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -11,14 +11,26 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label 'Descripción' %><br />
-    <%= f.text_area :description %>
-  </div>
+  <p>
+    Seleccione una categor&iacute;a:<br />
+    <%= f.select :category, @category.collect { |record| [record.name, record.id] } %>
+  <p>
 
-  <%= f.hidden_field :user_id, :value => current_user.id %>    
-  <%= f.hidden_field :status, :value => "NO ATENDIDO" %>    
-  <div class="actions">
-    <%= f.submit 'Actualizar ticket'%>
-  </div>
+  <p>
+    Descripci&oacute;n detallada del problema o solicitud:<br />
+    <%= f.text_area :description, :size => "75x15" %>
+  </p>
+
+  <%= if @current_user.login == "salma" 
+    f.select :user_id, @user.collect { |record| [record.lastname + " " + record.firstname, record.id] }
+    end %> 
+
+  <%= f.hidden_field :department, :value => params[:department] %>
+  <%= f.hidden_field :status, :value => "NO ATENDIDO" %>
+  
+  <p>
+    <%= f.submit 'Crear ticket'%>
+  </p>
+
 <% end %>
+

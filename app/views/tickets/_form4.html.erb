@@ -1,0 +1,64 @@
+<%= form_for(@ticket) do |f| %>
+
+  <% if @ticket.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+      <ul>
+      <% @ticket.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table width="390px">
+    <tr>
+      <td>
+	<strong>Categor&iacute;a:</strong><br />
+	<%= f.select :category, @category.collect { |record| [record.name, record.id] } %>
+      </td>
+      <td>
+	<strong>Status:</strong><br />
+	<%= f.select :status, %w{ EN_REVISION EN_ESPERA EN_PROCESO ENTREGADO } %>
+      </td>
+    </tr>
+  </table>
+  <br />
+  <div class="ticket_status">
+    <strong>Solicitud de <%=@ticket.user.firstname %> <%=@ticket.user.lastname %> <small>(<%=@ticket.user.email %>)</small></strong><br />
+    <p><%= @ticket.description %></p>
+  </div>
+  
+  <p>
+    <strong>Asignar a:</strong><br />
+    <% for technician in Technician.find(:all, :conditions => ['category = ?', "Admin ELECTRONICA"], :order => "lastname") %>    
+       <%= check_box_tag "ticket[technician_ids][]", technician.id, @ticket.technicians.include?(technician) %>  
+       <%= technician.lastname %> <%= technician.firstname %> |  
+     <% end %>  
+  </p>
+
+  <p>
+    <strong>Fecha estimada de entrega:</strong>
+    <%= f.date_select :ideal_time, :order => [:day,:month,:year], :include_blank => true, :default => nil %></td>  
+  </p>
+
+  <br />
+  <table width="797px">
+    <tr valign="top">
+      <td width="40%">
+	<strong>Agregar informaci&oacute;n a bit&aacute;cora:</strong><br />
+	<small>La fecha y hora son autom&aacute;ticas</small><br />
+	<%= f.text_area :revision_old %>	
+      </td>
+      <td width="60%" class="ticket_revision">
+	<strong>Bit&aacute;cora de observaciones:</strong>
+	<p><%= simple_format h @ticket.revision %></p>
+      </td>
+    </tr>
+  </table>
+    <br />
+     <center><%= f.submit 'ACTUALIZAR SOLICITUD DE SERVICIO'%></center>
+<% end %>
+
+
+

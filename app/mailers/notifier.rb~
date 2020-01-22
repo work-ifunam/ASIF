@@ -1,0 +1,117 @@
+class Notifier < ActionMailer::Base
+
+ def send_to_computer(ticket)
+    @user = User.find(ticket.user_id)        
+    @category = Category.find(ticket.category)    
+    @description = ticket.description
+    @id = ticket.id
+    @folio = ticket.folio
+    @link = "computo"
+    emails = Array.new
+    @category.technicians.each do |tech|
+      emails << tech.email + "," + " "
+    end
+    mail(:to => emails,
+         :subject => "Tiene una nueva solicitud en ASIF - COMPUTO",
+         :from => "asif@fisica.unam.mx",
+         :fail_to => "asif@fisica.unam.mx"
+         ) do |format|
+      format.text
+    end
+  end
+
+ def send_to_workshop(ticket)    
+    @user = User.find(ticket.user_id)        
+    @category = Category.find(ticket.category)    
+    @description = ticket.description
+    @id = ticket.id
+    @folio = ticket.folio
+    @link = "taller"
+    # Don't forget to change the email address to gleason@fisica.unam.mx and veytia@fisica.unam.mx
+    mail(:to => "gleason@fisica.unam.mx , veytia@fisica.unam.mx, stea-if@fisica.unam.mx",
+         :subject => "Tiene una nueva solicitud en ASIF - TALLER",
+         :from => "asif@fisica.unam.mx",
+         :fail_to => "asif@fisica.unam.mx"
+         ) do |format|
+      format.text
+    end
+  end
+
+ def send_to_electronic(ticket)    
+    @user = User.find(ticket.user_id)        
+    @category = Category.find(ticket.category)    
+    @description = ticket.description
+    @id = ticket.id
+    @folio = ticket.folio
+    @link = "electronica"
+    # Don't forget to change the email address to gleason@fisica.unam.mx and mcuautle@fisica.unam.mx
+    mail(:to => "gleason@fisica.unam.mx , mcuautle@fisica.unam.mx, stea-if@fisica.unam.mx",
+         :subject => "Tiene una nueva solicitud en ASIF - ELECTRONICA",
+         :from => "asif@fisica.unam.mx",
+         :fail_to => "asif@fisica.unam.mx"
+         ) do |format|
+      format.text
+    end
+  end
+
+def send_reply_to_user(ticket)    
+    @status = ticket.status
+    @user = User.find(ticket.user_id)        
+    @category = Category.find(ticket.category)    
+    @description = ticket.description
+    @id = ticket.id
+    @folio = ticket.folio
+    @revision = ticket.revision
+    @message1 = "NO DEFINIDA"
+    @message2 = "NO DEFINIDO"
+    @techs = Array.new
+    @subject = "ASIF - Actualizacion sobre Solicitud de Servicio No." + ticket.folio.to_s
+    ticket.technicians.each do |tech|
+      @techs << tech.firstname + " " + tech.lastname + " " + tech.email + " "
+    end
+    @technicians = @techs.join(",")
+    if ticket.department == "computo"
+      @email = ticket.user.email
+    elsif ticket.department == "taller"
+    # Don't forget to change the webmaster email address to gleason@fisica.unam.mx
+      @email = ticket.user.email + "," + " " + "gleason@fisica.unam.mx, stea-if@fisica.unam.mx"
+    elsif ticket.department == "electronica"
+      @email = Array.new
+      ticket.technicians.each do |tech|
+        @email << tech.email + "," + " "
+      end
+    # Don't forget to change the webmaster email address to gleason@fisica.unam.mx
+      @email << ticket.user.email + "," + " " + "gleason@fisica.unam.mx, stea-if@fisica.unam.mx"
+    end
+    # @technician = User.find(ticket.technician)
+    # @technician_complete_name = @technician.firstname + " " + @technician.lastname
+    @ideal_time = ticket.ideal_time
+    mail(:to => @email,
+         :subject => @subject,
+         :from => "asif@fisica.unam.mx",
+         :fail_to => "asif@fisica.unam.mx"
+         ) do |format|
+      format.text
+    end
+  end
+
+ def send_message(ticket)    
+    # @researcher_name = user.applicant.name + " " + user.applicant.lastname
+    # @researcher_category = user.applicant.category  
+    # @reference_name = user.name + " " + user.lastname 
+    #  mail(:to => user.email_address_with_name,
+
+    @user = User.find(ticket.user_id)    
+    @category = Category.find(ticket.category)    
+    @description = ticket.description
+
+    mail(:to => "goz@fisica.unam.mx",
+         :subject => "Solicitud de Servicio",
+         :from => "asif@fisica.unam.mx",
+         :fail_to => "asif@fisica.unam.mx"
+         ) do |format|
+      format.text
+    end
+  end
+
+end

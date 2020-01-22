@@ -1,0 +1,8 @@
+<h1>Mis Solicitudes de Servicio en Taller</h1>
+
+
+<% @tickets.each do |ticket| %>
+
+
+
+<% end %>

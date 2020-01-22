@@ -21,6 +21,10 @@
         f.hidden_field(:department, :value => "computo" )
       elsif current_user.category.eql?("Admin ELECTRONICA") || current_user.category.eql?("Personal ELECTRONICA")
         f.hidden_field(:department, :value => "electronica" )
+      elsif current_user.category.eql?("Admin TALLER") || current_user.category.eql?("Personal TALLER")
+        f.hidden_field(:department, :value => "taller" )
+      elsif current_user.category.eql?("Admin COMUNICACION") || current_user.category.eql?("Personal COMUNICACION")
+        f.hidden_field(:department, :value => "comunicacion" )
       else
         f.hidden_field(:department, :value => "error" )
       end

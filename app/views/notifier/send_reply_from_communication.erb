@@ -1,0 +1,18 @@
+Información sobre su Solicitud de Servicio en Cómputo
+
+*****************************************************
+
+SU SOLICITUD SE ENCUENTRA: <%= @status %>
+
+<%=
+   unless @ideal_time.nil?
+    print "FECHA ESTIMADA DE ENTREGA:" + " " + @ideal_time.strftime("%d/%m/%Y")
+   end
+%>
+
+******************************************************
+
+CATEGORIA: <%= @category.name %>
+
+DESCRIPCION:
+<%= @description %>

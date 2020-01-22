@@ -3,9 +3,11 @@
 <table>
   <tr>
     <th>Email</th>
+    <th>login</th>
     <th>Nombre(s)</th>
     <th>Apellido</th>
     <th>Categor&iacute;a</th>
+    <th>Tecnico</th>
     <th></th>
     <th></th>
   </tr>
@@ -13,12 +15,15 @@
 <% @users.each do |user| %>
   <tr>
     <td><%= user.email %></td>
+    <td><%= user.login %></td>
     <td><%= user.firstname %></td>
     <td><%= user.lastname %></td>
     <td><%= user.category %></td>
+    <td><%= user.tech %></td>
     <td><%= link_to 'Editar', edit_user_path(user) %></td>
     <td><%= link_to 'Eliminar', user, confirm: '¿Estás seguro?', method: :delete %></td>
   </tr>
+ <tr><td colspan="7"><hr /></td></tr>
 <% end %>
 </table>
 

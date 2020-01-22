@@ -1,0 +1,52 @@
+<table>
+<tr>
+<td>No. de Ticket</td>
+<td>Creado</td>
+<td>Departamento</td>
+<td>Categor&iacute;a</td>
+<td>Status</td>
+<td>Solicitante</td>
+<td>Descripci&oacute;n</td>
+<td>Responsables</td>
+<td>Fecha estimada de entrega</td>
+<td>Fecha de entregado</td>
+<td>Bit&aacute;cora</td>
+</tr>
+
+<% @tickets.each do |ticket| %>
+<tr>
+<td><%= ticket.folio %></td>
+<td><%= ticket.created_at.strftime("%d/%m/%Y - %H:%M:%S") %></td>
+<td><%= ticket.department %></td>
+<td>
+    <%= category = Category.find(ticket.category)
+    category.name %>
+</td>
+<td><%= ticket.status %></td>
+<td><%= ticket.user.firstname + " " + ticket.user.lastname %></td>
+<td><%= ticket.description %></td>
+<td>
+ <% unless ticket.technicians.nil? %>
+     <% @technicians = ticket.technicians %>
+        <% @technicians.each do |tech| %>
+          <%= tech.firstname %> <%= tech.lastname %><br />
+        <% end %>
+  <% end %>
+</td>
+<td>
+<%= unless ticket.ideal_time.nil?
+            ticket.ideal_time.strftime("%d/%m/%Y")
+            end
+            %>
+</td>
+<td>
+<%= unless ticket.ended_at.nil?
+            ticket.ended_at.strftime("%d/%m/%Y - %H:%M:%S")
+            end
+            %>
+</td>
+<td><%= simple_format h ticket.revision %></td>
+</tr>
+<% end %>
+</table>
+

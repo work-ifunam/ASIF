@@ -1,1 +1,32 @@
 <span class="username">Sesi&oacute;n de <%= @current_user.firstname %> <%= @current_user.lastname %></span> - <span class="category"><%= @current_user.category %></span>
+
+<p>
+Bienvenido/a a trav&eacute;s de este panel usted podr&aacute; llevar un seguimiento de sus solicitudes de servicio. Por favor seleccione
+una de las siguientes opciones para comenzar:
+</p>
+
+<p><%= link_to "Ver mis Solicitudes de Servicio en Cómputo", my_computer_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Servicio en Taller", my_workshop_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Servicio en Electrónica", my_electronic_reports_path, :class => "mylink3" %></p>
+
+<div class="stats">
+<table id="mystats1">
+  <caption>Solicitudes de <%= @current_user.firstname %> <%= @current_user.lastname %></caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th>COMPUTO</th>
+      <th>TALLER</th>
+      <th>ELECTRONICA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th></th>
+      <td><%= @my_computer.count.to_s %></td>
+      <td><%= @my_workshop.count.to_s %></td>
+      <td><%= @my_electronic.count.to_s %></td>
+    </tr>
+  </tbody>
+</table>
+</div>

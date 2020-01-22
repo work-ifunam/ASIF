@@ -1,0 +1,34 @@
+------------------------------------------------------------
+ACTUALIZACION EN SU SOLICITUD DE SERVICIO No.<%= @folio %>
+------------------------------------------------------------
+
+SU SOLICITUD SE ENCUENTRA: <%= @status %>
+
+<%=
+   unless @ideal_time.nil?
+    FECHA ESTIMADA DE ENTREGA: @ideal_time.strftime("%d/%m/%Y")
+   end
+%>
+
+<%=
+   unless @technicians.nil?
+    TRABAJO ASIGNADO A: @technicians
+   end
+%>
+
+OBSERVACIONES POR PARTE DEL RESPONSABLE: 
+<%= @revision %>
+
+----------------------------------------
+SOLICITUD ORIGINAL:
+----------------------------------------
+CATEGORIA: <%= @category.name %>
+
+SOLICITANTE: <%= @user.firstname %> <%= @user.lastname %> (<%= @user.email %>) 
+
+SOLICITUD No.<%= @folio %>:
+<%= @description %>
+
+
+**ESTE CORREO SE GENERA DE MANERA AUTOMÁTICA NO HAGA REPLY**
+

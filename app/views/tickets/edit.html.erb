@@ -1,6 +1,13 @@
-<h1>Editar Ticket</h1>
+<h1>Administrar Solicitud de Servicio</h1>
 
-<%= render 'form' %>
+<%= if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO"
+       render 'form2'
+    elsif current_user.category == "Admin TALLER" 
+       render 'form3'
+    elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA"
+       render 'form4' 
+    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
+       render 'form5' 
+end %>
 
-<%= link_to 'Mostrar', @ticket %> |
-<%= link_to 'Regresar', tickets_path %>
+

@@ -1,9 +1,9 @@
 /*
-Theme Name: SuperHELPDESK Layout 
-Theme URI: add your proyect's url  
-Description: add your proyect's description
+Theme Name: ASIF's Layout 
+Theme URI: https://asif.fisica.unam.mx  
+Description: Administrator for Services Requests at IFUNAM
 Version: 1.0
-Authors: GOZ and GAFELECTRO
+Author: GOZ 
 */
 
 /* Website Structure */
@@ -12,8 +12,8 @@ $page-width: 1024px;
 
 body {
   background: {
-    color: #FFF;
-    image: url("/assets/bg.png");
+    color: #FFFFFF;
+    image: url("../assets/bg.png");
     repeat: repeat-x;    
   }
   margin: 0px;
@@ -29,38 +29,79 @@ body {
     height: 88px; 
     float: left;
 }
-
+/*
 #logo {
 	width: 94px;
 	height: 80px;
-	background-image: url("/assets/logo.png");
+	background-image: url("../assets/logo.png");
    	float: left;
         margin: {
 	  left: 20px;
 	  top: 3px;
 	}
 }
-
+*/
 #title {
-	width: 294px;
-	height: 80px;
+	width: 130px;
+	height: 70px;
    	float: left;
 	margin: {
 	  left: 10px;
-	  top: 25px;
+	  top: 0px;
 	}
 	font: {
           family: 'Montserrat', sans-serif;
-	  size: 45px;
+	  size: 55px;
 	}
-   	color:  #195073;
-}
+   	color:  #ffa300;
+     }
 
+#title2 {
+	width: 500px;
+	height: 30px;
+   	float: left;
+	margin: {
+	  top: 27px;
+	}
+	font: {
+          family: 'Montserrat', sans-serif;
+	  size: 19px;
+          font-weight: bold;
+	}
+   	color:  #ffffff;
+     }
+
+/*
 #header2 {
     width: $page-width;
-    height: 111px; 
+    height: 85px; 
     float: left;
+    a {
+      font-size: 15px;
+      text-decoration: none;
+      color: #FFF;
+    }
+    a:hover {
+      font-size: 15px;
+      text-decoration: none;
+      color: #ffa300;
+    }
+    ul {
+      margin-top: 39px;
+    }
+    li {
+      text-align: left;
+      list-style-type: none;
+      margin-left: 10px;
+      background-color: #195073;
+      padding: 7px;
+      font-family: 'Montserrat', sans-serif;
+      border: solid 2px #ffa300;
+      text-align: center;
+      display: inline;
+    }
 }
+*/
 
 #main_content {
     padding: 10px 10px;
@@ -70,7 +111,7 @@ body {
 }
 
 #left_menu {
-    padding: 0px 10px;
+    padding: 19px 10px;
     width: 150px;
     float: left;
     text-align: justify;
@@ -100,12 +141,13 @@ body {
 }
 
 #content {
+    margin-top: 3px;
     margin-left: 10px;
-    padding: 10px 10px;
+    padding: 10px 10px; 
     width: 795px;
     float: left;
     text-align: justify;
-    background-color: #FFF;
+    background-color: transparent;
     font: {
       family: verdana, sans-serif;
       size: 15px;
@@ -114,7 +156,8 @@ body {
     .username {
       font: {
         family: verdana, sans-serif;
-        size: 21px;
+	font-weight: bold;
+        size: 25px;
       }
       margin-top: 20px;
       color: #333333;
@@ -147,7 +190,155 @@ body {
 
 /* Other styles*/
 
+.mylink {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 11px;
+      weight: bold;
+    }
+    color: #195073;
+}
+
+.mylink2 {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 15px;
+      weight: bold;
+    }
+    color: #1384ae;
+}
+
+.mylink3 {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 21px;
+      weight: bold;
+    }
+    color: #1384ae;
+}
+
+.mylink4 {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 15px;
+      weight: bold;
+    }
+    color: #195073;
+}
+
+.pagination {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 15px;
+      weight: bold;
+    }
+    color: #1384ae;
+}
+
+.pagination a:visited {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 15px;
+      weight: bold;
+    }
+    color: #195073;    
+}
+
+.pagination a {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 15px;
+      weight: bold;
+    }
+    color: #195073;    
+}
+
 .clear {
 	clear: both;
 }
 
+.ticket_title {
+        background-color: #195073;
+        padding: 5px;
+	width: 790px;
+}
+
+.ticket_content {
+        background-color: #d4d4d4;
+        padding: 5px;
+	width: 790px;
+	margin-bottom:19px;
+}
+
+.ticket_status {
+        background-color: #ffffe0;
+        border: dashed 1.5px  #ffa300;
+        padding: 5px;
+	width: 788px;
+}
+
+.ticket_revision {
+        background-color: #a9dbed;
+        border: dashed 1.5px  #004e80;
+        padding: 5px;
+	width: 350px;
+}
+
+.ticket_number {
+	color: #FFF;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+.ticket_category {
+	color: #FFF;
+        float: right;
+}
+
+.ticket_responsible {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 15px;
+      weight: bold;
+    }
+    color: #195073;
+}
+
+.ticket_responsible2 {
+    font: {
+      family: 'Montserrat', sans-serif;
+      size: 11px;
+      weight: bold;
+    }
+    color: #195073;
+}
+
+.ticket_status2 {
+        float: right;
+}
+
+h1 {
+   family: 'Montserrat', sans-serif;
+   color: #195073;
+   font-size: 25px;
+}
+
+h3 {
+   family: 'Montserrat', sans-serif;
+   font-weight: bold;
+   color: green;
+   font-size: 19px;
+}
+
+.button {
+   padding:3;
+   float: left;
+}
+
+.stats {
+        background-color: #ffffff;
+        border: dashed 2.5px  #ffa300;
+        padding: 5px;
+	width: 790px;
+	margin-top: 35px;
+}

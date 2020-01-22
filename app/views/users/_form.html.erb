@@ -29,8 +29,14 @@
 			['Administrador del Sistema ','Chuck Norris'],
 			['Administrador de Cómputo','Admin COMPUTO'],
 			['Administrador de Electrónica','Admin ELECTRONICA'],
+			['Administrador de Unidad de Comunicación','Admin COMUNICACION'],
 			['Personal de cómputo', 'Personal COMPUTO'],
-			['Personal de electrónica', 'Personal ELECTRONICA']
+			['Personal de electrónica', 'Personal ELECTRONICA'],
+			['Personal de Unidad de Comunicación', 'Personal COMUNICACION'],
+			['Investigador', 'Investigador'],
+			['Tec. Académico', 'Tec. Académico'],
+			['Administrativo', 'Administrativo'],
+			['Personal de taller', 'Personal TALLER']
 	]) %>
   </div>
 
@@ -42,6 +48,16 @@
   <div class="field">
   <%= f.label 'Confirmación de Password' %><br />
   <%= f.password_field :password_confirmation %>
+  </div>
+
+  <div class="field">
+    Login:<br />
+    <%= f.text_field :login %>
+  </div>
+
+  <div class="field">
+    Tech number<br />
+    <%= f.text_field :tech %>
   </div>
 
   <div class="actions">

@@ -1,17 +1,19 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.5'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.20'
 gem 'authlogic'
 gem 'rb-readline'
 gem 'haml'
 gem 'sass'
 gem 'cancan'
-
+gem 'kaminari'
+gem 'net-ldap'
+gem 'test-unit'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
