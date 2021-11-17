@@ -30,7 +30,7 @@ class Notifier < ActionMailer::Base
     # Don't forget to change the email address to gleason@fisica.unam.mx and jperez@fisica.unam.mx
 
     if @category.id == 15
-        mail(:to => "jperez@fisica.unam.mx, stea-if@fisica.unam.mx, hesiquio@fisica.unam.mx",
+        mail(:to => "jperez@fisica.unam.mx, hesiquio@fisica.unam.mx",
              :subject => "Tiene una nueva solicitud en ASIF - TALLER",
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
@@ -38,7 +38,7 @@ class Notifier < ActionMailer::Base
           format.text
         end
     else
-        mail(:to => "jperez@fisica.unam.mx, stea-if@fisica.unam.mx",
+        mail(:to => "jperez@fisica.unam.mx",
              :subject => "Tiene una nueva solicitud en ASIF - TALLER",
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
@@ -55,8 +55,8 @@ class Notifier < ActionMailer::Base
     @id = ticket.id
     @folio = ticket.folio
     @link = "electronica"
-    # Don't forget to change the email address to gleason@fisica.unam.mx and mcuautle@fisica.unam.mx
-    mail(:to => "sac-if@fisica.unam.mx , mcuautle@fisica.unam.mx, stea-if@fisica.unam.mx",
+    #mail(:to => "sac-if@fisica.unam.mx , mcuautle@fisica.unam.mx, jicruzm@fisica.unam.mx, jicruz@fisica.unam.mx",
+    mail(:to => "jicruzm@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - ELECTRONICA",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
@@ -72,8 +72,7 @@ class Notifier < ActionMailer::Base
     @id = ticket.id
     @folio = ticket.folio
     @link = "comunicacion"
-    # Don't forget to change the email address to gleason@fisica.unam.mx and mcuautle@fisica.unam.mx
-    mail(:to => "aleidarueda@fisica.unam.mx, lnovoa@fisica.unam.mx",
+    mail(:to => "lnovoa@fisica.unam.mx, sofia@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - UNIDAD DE COMUNICACION",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
@@ -89,8 +88,7 @@ class Notifier < ActionMailer::Base
     @id = ticket.id
     @folio = ticket.folio
     @link = "mantenimiento"
-    # Don't forget to change the email address to gleason@fisica.unam.mx and mcuautle@fisica.unam.mx
-    mail(:to => "rlazard@fisica.unam.mx",
+    mail(:to => "erika@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - MANTENIMIENTO",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
@@ -120,17 +118,16 @@ def send_reply_to_user(ticket)
     elsif ticket.department == "comunicacion"
       @email = ticket.user.email
     elsif ticket.department == "mantenimiento"
-      @email = ticket.user.email
+      @email = ticket.user.email + "," + " " + "rlazard@fisica.unam.mx, erika@fisica.unam.mx"
     elsif ticket.department == "taller"
-    # Don't forget to change the webmaster email address to gleason@fisica.unam.mx
-      @email = ticket.user.email + "," + " " + "jperez@fisica.unam.mx, stea-if@fisica.unam.mx"
+      @email = ticket.user.email + "," + " " + "jperez@fisica.unam.mx"
     elsif ticket.department == "electronica"
       @email = Array.new
       ticket.technicians.each do |tech|
-        @email << tech.email + "," + " "
+        @email << tech.email + "," + " " + "jicruzm@fisica.unam.mx"
       end
-    # Don't forget to change the webmaster email address to gleason@fisica.unam.mx
-      @email << ticket.user.email + "," + " " + "jperez@fisica.unam.mx, stea-if@fisica.unam.mx"
+      #@email << ticket.user.email + "," + " " + "jperez@fisica.unam.mx, stea-if@fisica.unam.mx"
+      @email << ticket.user.email + "," + " "
     end
     # @technician = User.find(ticket.technician)
     # @technician_complete_name = @technician.firstname + " " + @technician.lastname
