@@ -7,7 +7,7 @@ class ReportsController < ApplicationController
     @my_electronic = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "electronica"], :order => "created_at DESC")
     @my_computer = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "computo"], :order => "created_at DESC")
     @my_communication = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "comunicacion"], :order => "created_at DESC")
-    @my_communication = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "mantenimiento"], :order => "created_at DESC")
+    @my_maintenance = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "mantenimiento"], :order => "created_at DESC")
   end
 
   def my_workshop_reports
