@@ -30,3 +30,4 @@ config/ldap.yml
 Gemfile.lock
 config/initializers/mail.rb
 config/initializers/mail.rb~
+config/initializers/mail.rb*
