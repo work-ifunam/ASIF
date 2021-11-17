@@ -272,7 +272,7 @@ class TicketsController < ApplicationController
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "taller"
           @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
-          @ticket.folio = @workshop_tickets.count
+          @ticket.folio = @workshop_tickets.count + 3
           @ticket.save
           Notifier.send_to_workshop(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
