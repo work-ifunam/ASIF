@@ -31,7 +31,7 @@
   
   <p>
     <strong>Asignar a:</strong><br />
-    <% for technician in Technician.find(:all, :conditions => ['category = ?', "Admin Mantenimiento"], :order => "lastname") %>    
+    <% for technician in Technician.find(:all, :conditions => ['category = ?', "Personal Mantenimiento"], :order => "lastname") %>    
        <%= check_box_tag "ticket[technician_ids][]", technician.id, @ticket.technicians.include?(technician) %>  
        <%= technician.lastname %> <%= technician.firstname %> |  
      <% end %>  
