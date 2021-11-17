@@ -24,15 +24,26 @@
    });
    });
   %script{"type" => "text/javascript"}
-   gvChartInit();
-   jQuery(document).ready(function(){
-   jQuery('#mystats1').gvChart({
+   //gvChartInit();
+   //jQuery(document).ready(function(){
+   //jQuery('#mystats1').gvChart({
+   //chartType: 'PieChart',
+   //gvSettings: {
+   //vAxis: {title: 'Mis solicitudes de Servicio'},
+   //hAxis: {title: ' '},
+   //width: 700,
+   //height: 300
+   //}
+   //});
+   //});
+   googleLoaded.done( function(){
+   $('#mystats1').gvChart({
    chartType: 'PieChart',
    gvSettings: {
    vAxis: {title: 'Mis solicitudes de Servicio'},
    hAxis: {title: ' '},
-   width: 700,
-   height: 300
+   width: 720,
+   height: 300,
    }
    });
    });

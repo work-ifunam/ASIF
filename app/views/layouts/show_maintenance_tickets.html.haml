@@ -24,15 +24,14 @@
    });
    });
   %script{"type" => "text/javascript"}
-   gvChartInit();
-   jQuery(document).ready(function(){
-   jQuery('#mystats1').gvChart({
+   googleLoaded.done( function(){
+   $('#mystats1').gvChart({
    chartType: 'PieChart',
    gvSettings: {
    vAxis: {title: 'Mis solicitudes de Servicio'},
    hAxis: {title: ' '},
-   width: 770,
-   height: 290
+   width: 720,
+   height: 300,
    }
    });
    });
