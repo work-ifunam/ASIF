@@ -5,7 +5,7 @@ development:
   database: helpdesk
   pool: 5
   username: root
-  password: 4s1F2013$#%
+  password: A5iFF$2020#$
   socket: /var/run/mysqld/mysqld.sock
 
 test:
@@ -25,5 +25,5 @@ production:
   database: helpdesk
   pool: 5
   username: root
-  password: 4s1F2013$#%
+  password: A5iFF$2020#$
   socket: /var/run/mysqld/mysqld.sock
