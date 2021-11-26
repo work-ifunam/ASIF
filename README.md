@@ -1,4 +1,5 @@
 # [ASIF(Administrador de Solicitudes del Instituto de Física)](https://github.com/work-ifunam/ASIF)
+[![wakatime](https://wakatime.com/badge/user/bbd1ffab-8ecd-4925-89f8-871387792d21/project/c6e798b6-6d93-4123-b347-abe263d505e8.svg)](https://wakatime.com/badge/user/bbd1ffab-8ecd-4925-89f8-871387792d21/project/c6e798b6-6d93-4123-b347-abe263d505e8)
 
 Helpdesk system created to improve user attention in the Support Department.
 
