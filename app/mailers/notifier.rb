@@ -88,7 +88,7 @@ class Notifier < ActionMailer::Base
     @id = ticket.id
     @folio = ticket.folio
     @link = "mantenimiento"
-    mail(:to => "erika@fisica.unam.mx",
+    mail(:to => "mantenimiento@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - MANTENIMIENTO",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
