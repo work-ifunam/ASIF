@@ -5,11 +5,11 @@ Helpdesk system created to improve user attention in the Support Department.
 
 <!--START_SECTION:waka-->
 ```text
-Other        3 hrs 30 mins   ████████▓░░░░░░░░░░░░░░░░   34.50 % 
-C            2 hrs 51 mins   ███████░░░░░░░░░░░░░░░░░░   28.03 % 
-PHP          1 hr 45 mins    ████▒░░░░░░░░░░░░░░░░░░░░   17.29 % 
-Python       46 mins         ██░░░░░░░░░░░░░░░░░░░░░░░   07.58 % 
-JavaScript   36 mins         █▓░░░░░░░░░░░░░░░░░░░░░░░   06.03 % 
+Other        3 hrs 30 mins   ████████▒░░░░░░░░░░░░░░░░   33.56 % 
+C            2 hrs 51 mins   ██████▓░░░░░░░░░░░░░░░░░░   27.26 % 
+PHP          1 hr 53 mins    ████▓░░░░░░░░░░░░░░░░░░░░   18.03 % 
+Python       46 mins         ██░░░░░░░░░░░░░░░░░░░░░░░   07.38 % 
+JavaScript   36 mins         █▒░░░░░░░░░░░░░░░░░░░░░░░   05.87 % 
 ```
 <!--END_SECTION:waka-->
 
