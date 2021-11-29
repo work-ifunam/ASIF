@@ -27,6 +27,8 @@ home.png: home-4649d288492d42be252285f9a2754573.png
 home/index.png: home-4649d288492d42be252285f9a2754573.png
 logo.png: logo-b09c85673e9da5cfbea9bcd1fcf25e28.png
 logo/index.png: logo-b09c85673e9da5cfbea9bcd1fcf25e28.png
+micro.png: micro-c769efa3a62c06037d7daf559ec3bdee.png
+micro/index.png: micro-c769efa3a62c06037d7daf559ec3bdee.png
 noaprobado.jpg: noaprobado-5ced842a082370b3fb5295741fe0434d.jpg
 noaprobado/index.jpg: noaprobado-5ced842a082370b3fb5295741fe0434d.jpg
 noatendido.png: noatendido-eae228424a8eb76ec15f053b71621f54.png
@@ -35,10 +37,10 @@ rails.png: rails-a3386665c05a2d82f711a4aaa72d247c.png
 rails/index.png: rails-a3386665c05a2d82f711a4aaa72d247c.png
 workshopdep.png: workshopdep-210aa12bb00058557a0a875c08ff4ab6.png
 workshopdep/index.png: workshopdep-210aa12bb00058557a0a875c08ff4ab6.png
-application.js: application-45a0c5d4711ed798a9751434b6fd83cd.js
-application/index.js: application-45a0c5d4711ed798a9751434b6fd83cd.js
-application.css: application-1008948dcb445ca9df25480edd284242.css
-application/index.css: application-1008948dcb445ca9df25480edd284242.css
+application.js: application-3450242564c4f0dc9d5315b42e04a935.js
+application/index.js: application-3450242564c4f0dc9d5315b42e04a935.js
+application.css: application-11ea68d96a7cc2328c91d143e96d893e.css
+application/index.css: application-11ea68d96a7cc2328c91d143e96d893e.css
 images/ui-bg_flat_0_aaaaaa_40x100.png: images/ui-bg_flat_0_aaaaaa_40x100-7d1197a52442bc56fcad60d0390f4b32.png
 images/ui-bg_flat_0_aaaaaa_40x100/index.png: images/ui-bg_flat_0_aaaaaa_40x100-7d1197a52442bc56fcad60d0390f4b32.png
 images/ui-bg_flat_75_ffffff_40x100.png: images/ui-bg_flat_75_ffffff_40x100-3c4b974defa5e8bdaf8a603034c4435e.png
