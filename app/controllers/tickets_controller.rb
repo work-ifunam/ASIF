@@ -1,7 +1,7 @@
 class TicketsController < ApplicationController
 
   before_filter :require_user
-
+  
   def index
     tickets = Ticket.user(current_user.category)
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
@@ -27,6 +27,7 @@ class TicketsController < ApplicationController
       @workshop_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "taller"])
       @workshop_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "taller"])
     elsif current_user.category == "Admin Mantenimiento" || current_user.category == "Personal Mantenimiento"
+      current_year = Time.new.year
       @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"])
       @maintenance_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "mantenimiento"])
       @maintenance_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "mantenimiento"])
@@ -59,13 +60,15 @@ class TicketsController < ApplicationController
   end  
   
   def show_maintenance_tickets
+    current_year = Time.new.year
     tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"], :order => "created_at DESC")
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
-    @maintenance_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "mantenimiento"])
-    @maintenance_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "mantenimiento"])
-    @maintenance_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "mantenimiento"])
-    @maintenance_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "mantenimiento"])
-    @maintenance_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "mantenimiento"])
+     @maintenance_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","mantenimiento", current_year])
+     @maintenance_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","mantenimiento", current_year])
+     @maintenance_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","mantenimiento", current_year])
+     @maintenance_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","mantenimiento", current_year])
+     @maintenance_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ESPERA","mantenimiento", current_year])
+     @maintenance_canceled= Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","mantenimiento", current_year])
     render :layout => 'show_maintenance_tickets'
   end  
 
@@ -263,9 +266,14 @@ class TicketsController < ApplicationController
           format.html { redirect_to show_communication_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "mantenimiento"
-          @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"])
-          @ticket.folio = @maintenance_tickets.count
-          @ticket.save
+         current_year = Time.new.year
+         @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?', "mantenimiento", current_year])
+	  if @maintenance_tickets.count > 1
+		@ticket.folio = @maintenance_tickets.count.to_s 
+          else
+		@ticket.folio = "1"
+          end
+	  @ticket.save
           Notifier.send_to_maintenance(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
           format.html { redirect_to show_maintenance_tickets_path }

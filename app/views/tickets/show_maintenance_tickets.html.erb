@@ -16,6 +16,7 @@
       <th>NO ATENDIDOS</th>
       <th>EN PROCESO</th>
       <th>EN ESPERA</th>
+      <th>CANCELADOS</th>
     </tr>
   </thead>
   <tbody>
@@ -25,6 +26,7 @@
       <td><%= @maintenance_notattended.count.to_s %></td>
       <td><%= @maintenance_inprocess.count.to_s %></td>
       <td><%= @maintenance_waiting.count.to_s %></td>
+      <td><%= @maintenance_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table>
