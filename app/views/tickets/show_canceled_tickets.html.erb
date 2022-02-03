@@ -1,0 +1,10 @@
+<%= if params[:department] == "computo" && current_user.category == "Admin COMPUTO"
+       render 'computercan'
+    elsif params[:department] == "electronica" && current_user.category == "Admin ELECTRONICA"
+       render 'electroniccan'
+    elsif params[:department] == "taller" && current_user.category == "Admin TALLER"
+       render 'workshopcan'
+    elsif params[:department] == "comunicacion" && current_user.category == "Admin COMUNICACION"
+    elsif params[:department] == "mantenimiento" && current_user.category == "Admin Mantenimiento"
+       render 'communicationcan'
+end %>

@@ -33,6 +33,7 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'show_attended_tickets' => "tickets#show_attended_tickets", :as => :show_attended_tickets
   match 'show_froze_tickets' => "tickets#show_froze_tickets", :as => :show_froze_tickets
   match 'show_inrevision_tickets' => "tickets#show_inrevision_tickets", :as => :show_inrevision_tickets
+  match 'show_canceled_tickets' => "tickets#show_canceled_tickets", :as => :show_canceled_tickets
 
   get 'tickets/take_ticket/:id' => 'tickets#take_ticket', :via => :get
   get 'tickets/close_ticket/:id' => 'tickets#close_ticket', :via => :get

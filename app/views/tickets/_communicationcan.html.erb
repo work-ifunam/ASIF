@@ -1,46 +1,6 @@
-<h1>Solicitudes de Servicio en Taller (<%= @workshop_tickets.count.to_s %>)</h1>
 
-<p>
-<%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "taller"), :class => "mylink2" %>
-</p>
+<h1>Solicitudes en Proceso (<%= @tickets.count.to_s %>)</h1>
 
-<div class="stats">
-<table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN TALLER (<%= p @current_year %>)</caption>
-  <thead>
-    <tr>
-      <th></th>
-      <th>ENTREGADOS</th>
-      <th>EN REVISION</th>
-      <th>NO ATENDIDOS</th>
-      <th>EN PROCESO</th>
-      <th>EN ESPERA</th>
-      <th>CANCELADOS</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th></th>
-      <td><%= @workshop_finished.count.to_s %></td>
-      <td><%= @workshop_revision.count.to_s %></td>
-      <td><%= @workshop_notattended.count.to_s %></td>
-      <td><%= @workshop_inprocess.count.to_s %></td>
-      <td><%= @workshop_waiting.count.to_s %></td>
-      <td><%= @workshop_canceled.count.to_s %></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-<table width="790px">
-  <tr>
-    <td><center><a href="https://asif.fisica.unam.mx/show_unattended_tickets?department=taller" class="mylink2">NO ATENDIDOS</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_inprocess_tickets?department=taller" class="mylink2">EN PROCESO</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_inrevision_tickets?department=taller" class="mylink2">EN REVISI&Oacute;N</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_froze_tickets?department=taller" class="mylink2">EN ESPERA</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_attended_tickets?department=taller" class="mylink2">ATENDIDOS</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_canceled_tickets?department=taller" class="mylink2">CANCELADOS</a></center></td>
-  </tr>
-</table>
 <br />
 <% @tickets.each do |ticket| %>
   <div class="ticket_title">
@@ -68,6 +28,15 @@
 	      <%= tech.firstname %> <%= tech.lastname %><br />
 	    <% end %>
           <% end %>
+	<% if ticket.technicians.count == 0 %>
+	      <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
+        <% end %>  
+
+	<% if ticket.technicians.count > 0 %>
+   	  <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
+	      <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
+	  <% end %>    
+        <% end %>  
       </td>
       <td width="50%">
       <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
@@ -92,9 +61,9 @@
           elsif ticket.status == "EN_REVISION" 
             image_tag("/assets/enrevision.png", :alt => "en revision")
           elsif ticket.status == "ENTREGADO" 
-            image_tag("/assets/entregado.png", :alt => "entregado")
+            image_tag("/assets/entregado.png", :alt => "atendido")
           elsif ticket.status == "CANCELADO" 
-            image_tag("/assets/cancelado.png", :alt => "entregado")
+            image_tag("/assets/cancelado.png", :alt => "cancelado")
          end %>
          <br />
       <%= if ticket.client_status == "APROBADO" 
@@ -113,4 +82,3 @@
     </div>
   </div>
 <% end %>
-<%= paginate @tickets %>
