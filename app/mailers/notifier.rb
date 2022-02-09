@@ -4,7 +4,9 @@ class Notifier < ActionMailer::Base
     @user = User.find(ticket.user_id)        
     @category = Category.find(ticket.category)    
     @description = ticket.description
+    @ext = ticket.ext
     @id = ticket.id
+    @location = ticket.location
     @folio = ticket.folio
     @link = "computo"
     emails = Array.new
@@ -24,7 +26,9 @@ class Notifier < ActionMailer::Base
     @user = User.find(ticket.user_id)        
     @category = Category.find(ticket.category)    
     @description = ticket.description
+    @ext = ticket.ext
     @id = ticket.id
+    @location = ticket.location
     @folio = ticket.folio
     @link = "taller"
     # Don't forget to change the email address to gleason@fisica.unam.mx and jperez@fisica.unam.mx
@@ -52,7 +56,9 @@ class Notifier < ActionMailer::Base
     @user = User.find(ticket.user_id)        
     @category = Category.find(ticket.category)    
     @description = ticket.description
+    @ext = ticket.ext
     @id = ticket.id
+    @location = ticket.location
     @folio = ticket.folio
     @link = "electronica"
     #mail(:to => "sac-if@fisica.unam.mx , mcuautle@fisica.unam.mx, jicruzm@fisica.unam.mx, jicruz@fisica.unam.mx",
@@ -69,7 +75,9 @@ class Notifier < ActionMailer::Base
     @user = User.find(ticket.user_id)        
     @category = Category.find(ticket.category)    
     @description = ticket.description
+    @ext = ticket.ext
     @id = ticket.id
+    @location = ticket.location
     @folio = ticket.folio
     @link = "comunicacion"
     mail(:to => "lnovoa@fisica.unam.mx, sofia@fisica.unam.mx",
@@ -85,7 +93,9 @@ class Notifier < ActionMailer::Base
     @user = User.find(ticket.user_id)        
     @category = Category.find(ticket.category)    
     @description = ticket.description
+    @ext = ticket.ext
     @id = ticket.id
+    @location = ticket.location
     @folio = ticket.folio
     @link = "mantenimiento"
     mail(:to => "mantenimiento@fisica.unam.mx",
@@ -103,7 +113,9 @@ def send_reply_to_user(ticket)
     @category = Category.find(ticket.category)    
     @description = ticket.description
     @id = ticket.id
+    @ext = ticket.ext
     @folio = ticket.folio
+    @location = ticket.location
     @revision = ticket.revision
     @message1 = "NO DEFINIDA"
     @message2 = "NO DEFINIDO"
@@ -150,6 +162,8 @@ def send_reply_to_user(ticket)
     @user = User.find(ticket.user_id)    
     @category = Category.find(ticket.category)    
     @description = ticket.description
+    @ext = ticket.ext
+    @location = ticket.location
 
     mail(:to => "daniel@fisica.unam.mx",
          :subject => "Solicitud de Servicio",

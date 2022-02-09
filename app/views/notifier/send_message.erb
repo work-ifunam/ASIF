@@ -2,7 +2,15 @@ Tiene una nueva solictiud en ASIF
 
 CATEGORIA: <%= @category.name %>
 
-SOLICITANTE: <%= @user.name %> <%= @user.lastname %> (<%= @user.email %>) 
+SOLICITANTE: <%= @user.name %> <%= @user.lastname %> 
+
+UBICACION: <%= @location%>
+
+CONTACTO
+- ubicacion: <%= @location%>
+- email: <%= @user.email %>
+- ext: <%= @ext %>
 
 SOLICITUD:
+
 <%= @description %>

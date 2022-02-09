@@ -11,7 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130218212444) do
+ActiveRecord::Schema.define(:version => 20220209210144) do
+
+  create_table "Reportetotal", :id => false, :force => true do |t|
+    t.integer  "id",                               :default => 0, :null => false
+    t.integer  "folio"
+    t.string   "department"
+    t.string   "Solicitante",       :limit => 511
+    t.string   "Email_Solicitante"
+    t.string   "Tecnico",           :limit => 511
+    t.string   "Email_Tecnico"
+    t.text     "description"
+    t.string   "status"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.datetime "taked_at"
+    t.datetime "ended_at"
+    t.text     "revision"
+    t.datetime "ideal_time"
+    t.string   "client_status"
+    t.text     "revision_old"
+  end
 
   create_table "assignations", :force => true do |t|
     t.integer  "user_id"
@@ -34,6 +54,22 @@ ActiveRecord::Schema.define(:version => 20130218212444) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "department"
+  end
+
+  create_table "reporteASIF", :id => false, :force => true do |t|
+    t.integer  "id",          :default => 0, :null => false
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "email"
+    t.text     "description"
+    t.string   "category"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.string   "status"
+    t.string   "department"
+    t.datetime "taked_at"
+    t.datetime "ended_at"
+    t.text     "revision"
   end
 
   create_table "sessions", :force => true do |t|
@@ -73,6 +109,8 @@ ActiveRecord::Schema.define(:version => 20130218212444) do
     t.text     "tech_team"
     t.text     "revision_old"
     t.integer  "folio"
+    t.string   "ext"
+    t.string   "location"
   end
 
   create_table "users", :force => true do |t|

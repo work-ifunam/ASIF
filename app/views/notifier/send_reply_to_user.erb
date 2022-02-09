@@ -31,7 +31,14 @@ SOLICITUD ORIGINAL:
 --------------------------------------------------------------
 CATEGORIA: <%= @category.name %>
 
-SOLICITANTE: <%= @user.firstname %> <%= @user.lastname %> (<%= @user.email %>) 
+SOLICITANTE: <%= @user.firstname %> <%= @user.lastname %> 
+
+UBICACION: <%= @location%>
+
+CONTACTO
+- ubicacion: <%= @location%>
+- email: <%= @user.email %>
+- ext: <%= @ext %>
 
 SOLICITUD No.<%= @folio %>:
 <%= @description %>

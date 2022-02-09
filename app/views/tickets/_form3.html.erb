@@ -25,7 +25,12 @@
   </table>
   <br />
   <div class="ticket_status">
-    <strong>Solicitud de <%=@ticket.user.firstname %> <%=@ticket.user.lastname %> <small>(<%=@ticket.user.email %>)</small></strong><br />
+    <strong>Solicitud de <%=@ticket.user.firstname %> <%=@ticket.user.lastname %></strong>
+    </br></br>
+    <b>ubicaci&oacute;n:</b> <small><%=@ticket.location %></small>
+    </br><b>email:</b> <small><%=@ticket.user.email %></small>
+    </br><b>ext:</b> <small><%=@ticket.ext %></small></br><br />
+    <b>Descripci&oacute;n:</b> 
     <p><%= @ticket.description %></p>
   </div>
   
