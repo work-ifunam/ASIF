@@ -6,13 +6,16 @@ class TicketsController < ApplicationController
   def index
     tickets = Ticket.user(current_user.category)
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
+    @current_year = Time.new.year
     if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO"
-      @computer_tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"])
-      @computer_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "computo"])
-      @computer_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "computo"])
-      @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "computo"])
-      @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "computo"])
-      @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "computo"])
+      #@computer_tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"])
+      @computer_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"computo", @current_year])
+      @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
+      @computer_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","computo", @current_year])
+      @computer_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","computo", @current_year])
+      @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","computo", @current_year])
+      @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","computo", @current_year])
+      @computer_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","computo", @current_year])
     elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA"
       @electronic_tickets = Ticket.find(:all, :conditions => ['department = ?', "electronica"])
       @electronic_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "electronica"])
@@ -21,7 +24,6 @@ class TicketsController < ApplicationController
       @electronic_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "electronica"])
       @electronic_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "electronica"])
     elsif current_user.category == "Admin TALLER" || current_user.category == "Personal TALLER"
-      @current_year = Time.new.year
       @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
       @workshop_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","taller", @current_year])
       @workshop_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","taller", @current_year])
@@ -30,7 +32,6 @@ class TicketsController < ApplicationController
       @workshop_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","taller", @current_year])
       @workshop_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","taller", @current_year])
     elsif current_user.category == "Admin Mantenimiento" || current_user.category == "Personal Mantenimiento"
-      @current_year = Time.new.year
       @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"])
       @maintenance_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","mantenimiento", @current_year])
       @maintenance_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","mantenimiento", @current_year])
@@ -53,13 +54,15 @@ class TicketsController < ApplicationController
   end
 
   def show_computer_tickets
+    @current_year = Time.new.year
     tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"], :order => "created_at DESC")
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
-    @computer_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "computo"])
-    @computer_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "computo"])
-    @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "computo"])
-    @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "computo"])
-    @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "computo"])
+     @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
+     @computer_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","computo", @current_year])
+     @computer_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","computo", @current_year])
+     @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","computo", @current_year])
+     @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","computo", @current_year])
+     @computer_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","computo", @current_year])
     render :layout => 'show_computer_tickets'
   end  
   
@@ -290,18 +293,24 @@ class TicketsController < ApplicationController
         elsif @ticket.department == "mantenimiento"
          @current_year = Time.new.year
          @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?', "mantenimiento", @current_year])
-	  if @maintenance_tickets.count > 1
-		@ticket.folio = @maintenance_tickets.count.to_s 
+	        if @maintenance_tickets.count > 1
+		        @ticket.folio = @maintenance_tickets.count.to_s 
           else
-		@ticket.folio = "1"
+		        @ticket.folio = "1"
           end
-	  @ticket.save
+	        @ticket.save
           Notifier.send_to_maintenance(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
           format.html { redirect_to show_maintenance_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "taller"
-          @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
+          @current_year = Time.new.year
+          @workshop_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?', "taller", @current_year])
+            if @workshop_tickets.count > 1
+              @ticket.folio = @workshop_tickets.count.to_s 
+            else
+              @ticket.folio = "1"
+            end
           @ticket.save
           Notifier.send_to_workshop(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
