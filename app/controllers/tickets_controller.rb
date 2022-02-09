@@ -259,6 +259,7 @@ class TicketsController < ApplicationController
   end
 
   def create
+    @current_year = Time.new.year
     @ticket = Ticket.new(params[:ticket])
     unless current_user.login == "salma"
       @ticket.user_id = current_user.id
@@ -291,26 +292,26 @@ class TicketsController < ApplicationController
           format.html { redirect_to show_communication_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "mantenimiento"
-         @current_year = Time.new.year
          @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?', "mantenimiento", @current_year])
-	        if @maintenance_tickets.count > 1
-		        @ticket.folio = @maintenance_tickets.count.to_s 
+	  if @maintenance_tickets.count > 1
+	    @ticket.folio = @maintenance_tickets.count.to_s 
           else
-		        @ticket.folio = "1"
+            @ticket.folio = "1"
           end
-	        @ticket.save
+	  @ticket.save
           Notifier.send_to_maintenance(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
           format.html { redirect_to show_maintenance_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "taller"
-          @current_year = Time.new.year
-          @workshop_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?', "taller", @current_year])
-            if @workshop_tickets.count > 1
-              @ticket.folio = @workshop_tickets.count.to_s 
-            else
-              @ticket.folio = "1"
-            end
+          @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
+          @ticket.folio = @workshop_tickets.count + 4
+          #@workshop_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?', "taller", @current_year])
+            #if @workshop_tickets.count > 1
+             # @ticket.folio = @workshop_tickets.count.to_s 
+            #else
+              #@ticket.folio = "1"
+            #end
           @ticket.save
           Notifier.send_to_workshop(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
