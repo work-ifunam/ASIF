@@ -39,4 +39,4 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+gem 'byebug', '~> 2.1.0'

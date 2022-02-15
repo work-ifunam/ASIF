@@ -61,6 +61,8 @@
             image_tag("/assets/enrevision.png", :alt => "en revision")
           elsif ticket.status == "ENTREGADO" 
             image_tag("/assets/entregado.png", :alt => "entregado")
+          elsif ticket.status == "CANCELADO" 
+            image_tag("/assets/cancelado.png", :alt => "cancelado")
          end %>
          <br />
       <%= if ticket.client_status == "APROBADO" 

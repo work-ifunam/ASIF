@@ -15,6 +15,7 @@
       <th>NO ATENDIDOS</th>
       <th>EN PROCESO</th>
       <th>EN ESPERA</th>
+      <th>CANCELADOS</th>
     </tr>
   </thead>
   <tbody>
@@ -24,6 +25,7 @@
       <td><%= @electronic_notattended.count.to_s %></td>
       <td><%= @electronic_inprocess.count.to_s %></td>
       <td><%= @electronic_waiting.count.to_s %></td>
+      <td><%= @electronic_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table>
@@ -35,6 +37,7 @@
     <td><center><a href="https://asif.fisica.unam.mx/show_inrevision_tickets?department=electronica" class="mylink2">EN REVISI&Oacute;N</a></center></td>
     <td><center><a href="https://asif.fisica.unam.mx/show_froze_tickets?department=electronica" class="mylink2">EN ESPERA</a></center></td>
     <td><center><a href="https://asif.fisica.unam.mx/show_attended_tickets?department=electronica" class="mylink2">ATENDIDOS</a></center></td>
+    <td><center><a href="https://asif.fisica.unam.mx/show_canceled_tickets?department=electronica" class="mylink2">CANCELADOS</a></center></td>
   </tr>
 </table>
 <br />
@@ -98,6 +101,8 @@
             image_tag("/assets/enrevision.png", :alt => "en revision")
           elsif ticket.status == "ENTREGADO" 
             image_tag("/assets/entregado.png", :alt => "entregado")
+          elsif ticket.status == "CANCELADO" 
+            image_tag("/assets/cancelado.png", :alt => "cancelado")
          end %>
          <br />
       <%= if ticket.client_status == "APROBADO" 

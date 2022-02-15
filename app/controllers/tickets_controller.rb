@@ -23,6 +23,7 @@ class TicketsController < ApplicationController
       @electronic_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "electronica"])
       @electronic_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "electronica"])
       @electronic_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "electronica"])
+      @electronic_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "CANCELADO", "electronica"])
     elsif current_user.category == "Admin TALLER" || current_user.category == "Personal TALLER"
       @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
       @workshop_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","taller", @current_year])
@@ -188,6 +189,7 @@ class TicketsController < ApplicationController
     @electronic_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "electronica"])
     @electronic_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "electronica"])
     @electronic_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "electronica"])
+    @electronic_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "CANCELADO", "electronica"])
     render :layout => 'show_electronic_tickets'
   end
 

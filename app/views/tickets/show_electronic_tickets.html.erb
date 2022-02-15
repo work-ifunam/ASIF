@@ -16,6 +16,7 @@
       <th>NO ATENDIDOS</th>
       <th>EN PROCESO</th>
       <th>EN ESPERA</th>
+      <th>CANCELADOS</th>
     </tr>
   </thead>
   <tbody>
@@ -25,6 +26,7 @@
       <td><%= @electronic_notattended.count.to_s %></td>
       <td><%= @electronic_inprocess.count.to_s %></td>
       <td><%= @electronic_waiting.count.to_s %></td>
+      <td><%= @electronic_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table>
@@ -82,6 +84,8 @@
             image_tag("/assets/enrevision.png", :alt => "en revision")
           elsif ticket.status == "ENTREGADO" 
             image_tag("/assets/entregado.png", :alt => "entregado")
+          elsif ticket.status == "CANCELADO" 
+            image_tag("/assets/cancelado.png", :alt => "cancelado")
          end %>
          <br/>
       <%= if ticket.client_status == "APROBADO" 
