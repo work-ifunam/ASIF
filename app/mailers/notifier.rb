@@ -126,7 +126,8 @@ def send_reply_to_user(ticket)
     end
     @technicians = @techs.join(",")
     if ticket.department == "computo"
-      @email = ticket.user.email 
+      @email = ticket.user.email + "," + " " + "maricelabarrera@fisica.unam.mx"
+      #@email = ticket.user.email 
     elsif ticket.department == "comunicacion"
       @email = ticket.user.email
     elsif ticket.department == "mantenimiento"
