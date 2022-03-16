@@ -56,7 +56,7 @@ class UserSessionsController < ApplicationController
     @ldap = ldap
     @ldap.auth(dn(login), password)
     @ldap.bind
-  end    
+  end     
 
   def send_students_message 
   end

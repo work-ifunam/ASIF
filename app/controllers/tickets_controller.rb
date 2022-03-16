@@ -128,7 +128,8 @@ class TicketsController < ApplicationController
   end
 
   def show_attended_tickets
-    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", params[:department]], :order => "created_at DESC")
+    @current_year = Time.new.year
+    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "ENTREGADO", params[:department], @current_year], :order => "created_at DESC")
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
     elsif params[:department] == "taller"

@@ -33,6 +33,9 @@ GEM
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
     builder (3.0.4)
+    byebug (2.1.1)
+      columnize (~> 0.3.6)
+      debugger-linecache (~> 1.2.0)
     cancan (1.6.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -41,6 +44,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.5.0)
+    columnize (0.3.6)
+    debugger-linecache (1.2.0)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -124,6 +129,7 @@ PLATFORMS
 
 DEPENDENCIES
   authlogic
+  byebug (~> 2.1.0)
   cancan
   coffee-rails (~> 3.2.1)
   haml
