@@ -5,11 +5,12 @@ Bienvenido/a a trav&eacute;s de este panel usted podr&aacute; llevar un seguimie
 una de las siguientes opciones para comenzar:
 </p>
 
-<p><%= link_to "Ver mis Solicitudes de Servicio en Cómputo", my_computer_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Servicio en Taller", my_workshop_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Servicio en Electrónica", my_electronic_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Servicio en Comunicación", my_communication_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Servicio en Mantenimiento", my_maintenance_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Cómputo", my_computer_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Taller", my_workshop_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Electrónica", my_electronic_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Comunicación", my_communication_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Mantenimiento", my_maintenance_reports_path, :class => "mylink3" %></p>
+<p><%= link_to "Ver mis Solicitudes de Servicio", my_service_reports_path, :class => "mylink3" %></p>
 
 <div class="stats">
 <table id="mystats1">
@@ -22,6 +23,7 @@ una de las siguientes opciones para comenzar:
       <th>ELECTRONICA</th>
       <th>COMUNICACI&Oacute;N</th>
       <th>MANTENIMIENTO</th>
+      <th>SERVICIO</th>
     </tr>
   </thead>
   <tbody>
@@ -32,6 +34,7 @@ una de las siguientes opciones para comenzar:
       <td><%= @my_electronic.count.to_s %></td>
       <td><%= @my_communication.count.to_s %></td>
       <td><%= @my_maintenance.count.to_s %></td>
+      <td><%= @my_service.count.to_s %></td>
     </tr>
   </tbody>
 </table>

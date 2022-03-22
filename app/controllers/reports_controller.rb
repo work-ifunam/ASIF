@@ -8,6 +8,7 @@ class ReportsController < ApplicationController
     @my_computer = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "computo"], :order => "created_at DESC")
     @my_communication = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "comunicacion"], :order => "created_at DESC")
     @my_maintenance = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "mantenimiento"], :order => "created_at DESC")
+    @my_service = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "servicio"], :order => "created_at DESC")
   end
 
   def my_workshop_reports
@@ -35,6 +36,11 @@ class ReportsController < ApplicationController
     @maintenance_tickets = Kaminari.paginate_array(@my_maintenance).page(params[:page])
   end
 
+  def my_service_reports
+    @my_service = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "servicio"], :order => "created_at DESC")
+    @service_tickets = Kaminari.paginate_array(@my_service).page(params[:page])
+  end
+
   def approve_ticket
    @ticket = Ticket.find(params[:id])
    @ticket.client_status = "APROBADO"
@@ -54,5 +60,4 @@ class ReportsController < ApplicationController
   def generate_report
    @tickets = Ticket.all
   end
-
 end
