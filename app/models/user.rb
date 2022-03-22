@@ -14,8 +14,10 @@ class User < ActiveRecord::Base
        return User.find(:all,:conditions => 'category LIKE "%taller%"')
     elsif department.eql?("Admin COMUNICACION")
        return User.find(:all,:conditions => 'category LIKE "%comunicacion%"')
-    elsif department.eql?("Admin Mantenimiento")
+    elsif department.eql?("Admin MANTENIMIENTO")
        return User.find(:all,:conditions => 'category LIKE "%mantenimiento%"')
+    elsif department.eql?("Admin SERVICIOS")
+       return User.find(:all,:conditions => 'category LIKE "%servicios%"')
     else
        return User.find(:all,:condition => 'department = "null"')
     end
