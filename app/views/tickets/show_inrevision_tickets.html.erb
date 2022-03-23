@@ -5,7 +5,8 @@
     elsif params[:department] == "taller" && current_user.category == "Admin TALLER"
        render 'workshopir'
     elsif params[:department] == "comunicacion" && current_user.category == "Admin COMUNICACION"
-    elsif params[:department] == "mantenimiento" && current_user.category == "Admin Mantenimiento"
        render 'communicationir'
+    elsif params[:department] == "mantenimiento" && current_user.category == "Admin MANTENIMIENTO"
+       render 'maintenancesir'
 end %>
 

@@ -1,8 +1,8 @@
 class ReportsController < ApplicationController
 
-  before_filter :require_user
+  before_filter :require_user, :current_year
 
-  def index
+ def index
     @my_workshop = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "taller"], :order => "created_at DESC")
     @my_electronic = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "electronica"], :order => "created_at DESC")
     @my_computer = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "computo"], :order => "created_at DESC")

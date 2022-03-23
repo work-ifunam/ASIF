@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery  
   #filter_parameter_logging :password, :password_confirmation 
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :current_year
 
   private
     def current_user_session
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     def current_user
       return @current_user if defined?(@current_user)
       @current_user = current_user_session && current_user_session.user
+    end
+
+    def current_year
+	@current_year ||= Time.now.year.to_s
     end
     
     def require_user

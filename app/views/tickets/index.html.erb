@@ -4,7 +4,7 @@
        render 'electronics' 
     elsif current_user.category == "Admin TALLER" || current_user.category == "Personal TALLER"
        render 'workshop'
-    elsif current_user.category == "Admin Mantenimiento" || current_user.category == "Personal Mantenimiento"
+    elsif current_user.category == "Admin MANTENIMIENTO" || current_user.category == "Personal MANTENIMIENTO"
        render 'maintenances' 
     elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
        render 'communications' 
