@@ -54,12 +54,13 @@ class TicketsController < ApplicationController
       @servicio_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","servicio", @current_year])
       @servicio_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","servicio", @current_year])
     elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
-      @communication_tickets = Ticket.find(:all, :conditions => ['department = ?', "comunicacion"])
-      @communication_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "comunicacion"])
-      @communication_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "comunicacion"])
-      @communication_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "comunicacion"])
-      @communication_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "comunicacion"])
-      @communication_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "comunicacion"])
+      @communication_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"comunicacion", @current_year])
+      @communication_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","comunicacion", @current_year])
+      @communication_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","comunicacion", @current_year])
+      @communication_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","comunicacion", @current_year])
+      @communication_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","comunicacion", @current_year])
+      @communication_waiting= Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","comunicacion", @current_year])
+      @communication_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","comunicacion", @current_year])
     end  
    respond_to do |format|
       format.html 
@@ -107,11 +108,12 @@ class TicketsController < ApplicationController
   def show_communication_tickets
     tickets = Ticket.find(:all, :conditions => ['department = ?', "comunicacion"], :order => "created_at DESC")
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
-    @communication_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "comunicacion"])
-    @communication_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "comunicacion"])
-    @communication_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "comunicacion"])
-    @communication_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "comunicacion"])
-    @communication_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "comunicacion"])
+     @communication_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","comunicacion", @current_year])
+     @communication_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","comunicacion", @current_year])
+     @communication_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","comunicacion", @current_year])
+     @communication_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","comunicacion", @current_year])
+     @communication_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","comunicacion", @current_year])
+     @communication_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","comunicacion", @current_year])
     render :layout => 'show_communication_tickets'
   end  
 
@@ -226,7 +228,7 @@ class TicketsController < ApplicationController
   end
 
   def show_canceled_tickets
-    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "CANCELADO", params[:department]], :order => "created_at DESC")
+    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "CANCELADO", params[:department], @current_year], :order => "created_at DESC")
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
     elsif params[:department] == "taller"

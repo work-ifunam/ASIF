@@ -2,4 +2,9 @@
 <% if params[:department] == "mantenimiento" %>
    <p class="mAdvise">Indicar edificio, número de cubículo o laboratorio. En caso de hacer una solicitud de <strong>"ADECUACI&Oacute;N"</strong>, es necesario tener carta de autorización de jefe de departamento que indique partida del presupuesto del que se tomará el recurso.</p>	
 <% end %>
-<%= render 'form' %>
+<%= if params[:department] == "servicio" 
+	render 'serviceform' 
+   else
+	render 'form' 
+   end
+%>

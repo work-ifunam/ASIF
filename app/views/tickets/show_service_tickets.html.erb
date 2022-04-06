@@ -1,34 +1,34 @@
-<h1>Solicitudes de Servicio en Unidad de Comunicaci&oacute;n</h1>
+<h1>Solicitudes en Servicio</h1>
 
 <p>
-<%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "comunicacion"), :class => "mylink2" %>
+<%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "servicio"), :class => "mylink2" %>
 </p>
 
 <h3><%= flash[:notice] if flash[:notice] %></h3>
 
 <div class="stats">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN UNIDAD DE COMUNICACION (<%= p @current_year %>)</caption>
+  <caption>SOLICITUDES ACTIVAS EN SERVICIO</caption>
   <thead>
     <tr>
       <th></th>
-      <th>ENTREGADOS (<%= @communication_finished.count.to_s %>)</th>
-      <th>EN REVISION (<%= @communication_revision.count.to_s %>)</th>
-      <th>NO ATENDIDOS (<%= @communication_notattended.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @communication_inprocess.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @communication_waiting.count.to_s %>)</th>
-      <th>CANCELADOS (<%= @communication_canceled.count.to_s %>)</th>
+      <th>ENTREGADOS</th>
+      <th>EN REVISION</th>
+      <th>NO ATENDIDOS</th>
+      <th>EN PROCESO</th>
+      <th>EN ESPERA</th>
+      <th>CANCELADOS</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
-      <td><%= @communication_finished.count.to_s %></td>
-      <td><%= @communication_revision.count.to_s %></td>
-      <td><%= @communication_notattended.count.to_s %></td>
-      <td><%= @communication_inprocess.count.to_s %></td>
-      <td><%= @communication_waiting.count.to_s %></td>
-      <td><%= @communication_canceled.count.to_s %></td>
+      <td><%= @service_finished.count.to_s %></td>
+      <td><%= @service_revision.count.to_s %></td>
+      <td><%= @service_notattended.count.to_s %></td>
+      <td><%= @service_inprocess.count.to_s %></td>
+      <td><%= @service_waiting.count.to_s %></td>
+      <td><%= @service_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table>
@@ -85,6 +85,8 @@
             image_tag("/assets/enrevision.png", :alt => "en revision")
           elsif ticket.status == "ENTREGADO" 
             image_tag("/assets/entregado.png", :alt => "entregado")
+          elsif ticket.status == "CANCELADO" 
+            image_tag("/assets/cancelado.png", :alt => "cancelado")
          end %>
          <br/>
       <%= if ticket.client_status == "APROBADO" 

@@ -40,8 +40,9 @@
    $('#mystats1').gvChart({
    chartType: 'PieChart',
    gvSettings: {
-   vAxis: {title: 'Mis solicitudes de Servicio'},
+   vAxis: {title: 'Mis solicitudes'},
    hAxis: {title: ' '},
+   pieHole: 0.4,
    width: 720,
    height: 300,
    }
@@ -81,7 +82,7 @@
        - else
         = link_to 'Solicitudes en Unidad de Comunicación', show_communication_tickets_path 
       %li
-       - if current_user.category == "Admin Mantenimiento"
+       - if current_user.category == "Admin MANTENIMIENTO"
         = link_to 'Solicitudes en Mantenimiento', tickets_path
        - else
         = link_to 'Solicitudes en Mantenimiento', show_maintenance_tickets_path 
@@ -90,5 +91,6 @@
     %div#content
      = yield      
    %div#footer
-    Instituto de F&iacute;sica UNAM - 2022
+    Instituto de F&iacute;sica UNAM -
+    = @current_year
    %div.clear

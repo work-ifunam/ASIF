@@ -12,12 +12,12 @@
   <thead>
     <tr>
       <th></th>
-      <th>ENTREGADOS</th>
-      <th>EN REVISION</th>
-      <th>NO ATENDIDOS</th>
-      <th>EN PROCESO</th>
-      <th>EN ESPERA</th>
-      <th>CANCELADOS</th>
+      <th>ENTREGADOS (<%= @computer_finished.count.to_s %>)</th>
+      <th>EN REVISION (<%= @computer_revision.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @computer_notattended.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @computer_inprocess.count.to_s %>)</th>
+      <th>EN ESPERA (<%= @computer_waiting.count.to_s %>)</th>
+      <th>CANCELADOS (<%= @computer_canceled.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
