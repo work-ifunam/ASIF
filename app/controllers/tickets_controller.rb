@@ -183,7 +183,11 @@ class TicketsController < ApplicationController
   end
 
   def show_attended_tickets
-    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "ENTREGADO", params[:department], @current_year], :order => "created_at DESC")
+    if params[:department] == "electronica"
+    	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", params[:department]], :order => "created_at DESC")
+    else
+    	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "ENTREGADO", params[:department], @current_year], :order => "created_at DESC")
+    end
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
     elsif params[:department] == "taller"
@@ -228,7 +232,11 @@ class TicketsController < ApplicationController
   end
 
   def show_canceled_tickets
-    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "CANCELADO", params[:department], @current_year], :order => "created_at DESC")
+    if params[:department] == "electronica"
+    	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "CANCELADO", params[:department]], :order => "created_at DESC")
+    else
+	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "CANCELADO", params[:department], @current_year], :order => "created_at DESC")
+    end
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
     elsif params[:department] == "taller"

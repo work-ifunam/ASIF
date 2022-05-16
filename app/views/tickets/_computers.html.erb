@@ -37,6 +37,7 @@
   <tr>
     <td><center><%= link_to "NO ATENDIDOS", { :controller => "tickets", :action => "show_unattended_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
     <td><center><%= link_to "EN PROCESO", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
     <td><center><%= link_to "EN ESPERA", { :controller => "tickets", :action => "show_froze_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
     <td><center><%= link_to "ATENDIDOS", { :controller => "tickets", :action => "show_attended_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
     <td><center><%= link_to "CANCELADOS", { :controller => "tickets", :action => "show_canceled_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
