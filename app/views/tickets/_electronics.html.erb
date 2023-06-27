@@ -7,25 +7,27 @@
 
 <div class="stats">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN ELECTRONICA</caption>
+  <caption>SOLICITUDES ACTIVAS EN ELECTRONICA (<%= p @current_year %>)</caption>
   <thead>
     <tr>
       <th></th>
-      <th>EN REVISION</th>
-      <th>NO ATENDIDOS</th>
-      <th>EN PROCESO</th>
-      <th>EN ESPERA</th>
-      <th>CANCELADOS</th>
+      <th>ENTREGADOS (<%= @electronic_finished.count.to_s %>)</th>
+      <th>EN REVISION (<%= @electronic_revision.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @electronic_notattended.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @electronic_inprocess.count.to_s %>)</th>
+      <th>EN ESPERA (<%= @electronic_waiting.count.to_s %>)</th>
+      <!--<th>CANCELADOS (<%#= @electronic_canceled.count.to_s %>)</th>-->
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
+      <td><%= @electronic_finished.count.to_s %></td>
       <td><%= @electronic_revision.count.to_s %></td>
       <td><%= @electronic_notattended.count.to_s %></td>
       <td><%= @electronic_inprocess.count.to_s %></td>
       <td><%= @electronic_waiting.count.to_s %></td>
-      <td><%= @electronic_canceled.count.to_s %></td>
+      <!--<td><%#= @electronic_canceled.count.to_s %></td>-->
     </tr>
   </tbody>
 </table>
