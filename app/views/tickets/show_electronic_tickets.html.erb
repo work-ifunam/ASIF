@@ -8,14 +8,13 @@
 
 <div class="stats">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN ELECTRONICA (<%= p @current_year %>)</caption>
+  <caption>SOLICITUDES ACTIVAS EN ELECTRONICA (<%= @last_year + '-' + @current_year %>)</caption>
   <thead>
     <tr>
       <th></th>
       <th>ENTREGADOS (<%= @electronic_finished.count.to_s %>)</th>
-      <th>EN REVISION (<%= @electronic_revision.count.to_s %>)</th>
-      <th>NO ATENDIDOS (<%= @electronic_notattended.count.to_s %>)</th>
       <th>EN PROCESO (<%= @electronic_inprocess.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @electronic_notattended.count.to_s %>)</th>
       <th>EN ESPERA (<%= @electronic_waiting.count.to_s %>)</th>
     </tr>
   </thead>
@@ -23,9 +22,8 @@
     <tr>
       <th></th>
       <td><%= @electronic_finished.count.to_s %></td>
-      <td><%= @electronic_revision.count.to_s %></td>
-      <td><%= @electronic_notattended.count.to_s %></td>
       <td><%= @electronic_inprocess.count.to_s %></td>
+      <td><%= @electronic_notattended.count.to_s %></td>
       <td><%= @electronic_waiting.count.to_s %></td>
     </tr>
   </tbody>
@@ -81,7 +79,8 @@
           elsif ticket.status == "EN_ESPERA" 
             image_tag("/assets/enespera.png", :alt => "en espera") 
           elsif ticket.status == "EN_REVISION" 
-            image_tag("/assets/enrevision.png", :alt => "en revision")
+            image_tag("/assets/enproceso.png", :alt => "en proceso") 
+            #image_tag("/assets/enrevision.png", :alt => "en revision")
           elsif ticket.status == "ENTREGADO" 
             image_tag("/assets/entregado.png", :alt => "entregado")
           elsif ticket.status == "CANCELADO" 
