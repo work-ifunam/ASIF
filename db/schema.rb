@@ -18,9 +18,10 @@ ActiveRecord::Schema.define(:version => 20221201154843) do
     t.integer  "folio"
     t.string   "department"
     t.string   "Solicitante",       :limit => 511
-    t.string   "Email_Solicitante"
+    t.string   "email_solicitante"
     t.string   "Tecnico",           :limit => 511
-    t.string   "Email_Tecnico"
+    t.string   "email_tecnico"
+    t.string   "category"
     t.text     "description"
     t.string   "status"
     t.datetime "created_at",                                      :null => false

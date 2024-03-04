@@ -1,8 +1,9 @@
 SuperSimpleHELPDESK::Application.routes.draw do
-
-  resources :scores
-
-
+   
+  namespace :api, defaults: { format: :json } do
+   resources :info, only: [:index, :create, :show, :update]
+  end
+  #resources :scores
   resources :assignments
   resources :technicians
   resources :assignations
