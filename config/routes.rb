@@ -1,5 +1,8 @@
 SuperSimpleHELPDESK::Application.routes.draw do
 
+  resources :scores
+
+
   resources :assignments
   resources :technicians
   resources :assignations

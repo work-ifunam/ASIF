@@ -63,6 +63,9 @@
           <% end %>
       </td>
       <td width="50%">
+      <% if current_user.category == "SAC" %>
+	<%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
+      <% end %>
 	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
 	<small><%= unless ticket.ideal_time.nil?
 	    ticket.ideal_time.strftime("%d/%m/%Y") 

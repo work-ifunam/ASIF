@@ -3,6 +3,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :user
   has_many :assignments
   has_many :technicians, :through => :assignments
+  has_one :score
   
   attr_accessible :technician_ids
 
@@ -18,11 +19,11 @@ class Ticket < ActiveRecord::Base
           return Ticket.all       
        elsif department.eql?("Admin COMPUTO")  || department.eql?("Personal COMPUTO")
           return Ticket.find(:all, :conditions => 'department = "computo"', :order => "created_at DESC")
-       elsif department.eql?("Admin ELECTRONICA") || department.eql?("Personal ELECTRONICA") 
+       elsif department.eql?("Admin ELECTRONICA") || department.eql?("Personal ELECTRONICA") || department.eql?("SAC") 
           return Ticket.find(:all, :conditions => 'department = "electronica"', :order => "created_at DESC")
        elsif department.eql?("Admin TALLER") || department.eql?("Personal TALLER") 
           return Ticket.find(:all, :conditions => 'department = "taller"', :order => "created_at DESC")
-       elsif department.eql?("Admin COMUNICACION") || department.eql?("Personal COMUNICACION") 
+       elsif department.eql?("Admin COMUNICACION") || department.eql?("Personal COMUNICACION") || department.eql?("SAC") 
           return Ticket.find(:all, :conditions => 'department = "comunicacion"', :order => "created_at DESC")
        elsif department.eql?("Admin MANTENIMIENTO") || department.eql?("Personal MANTENIMIENTO") 
           return Ticket.find(:all, :conditions => 'department = "mantenimiento"', :order => "created_at DESC")

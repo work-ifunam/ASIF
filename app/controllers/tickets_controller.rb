@@ -14,7 +14,7 @@ def index
       @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","computo", @current_year])
       @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","computo", @current_year])
       @computer_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","computo", @current_year])
-    elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA"
+    elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA" || current_user.category == "SAC"
       @electronic_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"electronica", @current_year])
       @electronic_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_REVISION","electronica", @last_year])
       @electronic_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "ENTREGADO","electronica", @last_year])
@@ -52,7 +52,7 @@ def index
       @servicio_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","servicio", @current_year])
       @servicio_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","servicio", @current_year])
       @servicio_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","servicio", @current_year])
-    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
+    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION" || current_user.category == "SAC"
       @communication_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"comunicacion", @current_year])
       @communication_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","comunicacion", @current_year])
       @communication_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","comunicacion", @current_year])
@@ -305,8 +305,13 @@ def index
     @ticket = Ticket.find(params[:id])
     @ticket.revision_old = ""
     @ticket.save
+    @depto = params[:department]
     @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
-    @user = User.assignation(current_user.category);
+    if current_user.category == "SAC"
+	@user = User.assignation(params[:department]);
+    else
+	@user = User.assignation(current_user.category);
+    end
   end
 
   def create

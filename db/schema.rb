@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20220209210144) do
+ActiveRecord::Schema.define(:version => 20221201154843) do
 
   create_table "Reportetotal", :id => false, :force => true do |t|
     t.integer  "id",                               :default => 0, :null => false
@@ -70,6 +70,15 @@ ActiveRecord::Schema.define(:version => 20220209210144) do
     t.datetime "taked_at"
     t.datetime "ended_at"
     t.text     "revision"
+  end
+
+  create_table "scores", :force => true do |t|
+    t.text     "content"
+    t.integer  "score"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "ticket_id"
+    t.integer  "user_id"
   end
 
   create_table "sessions", :force => true do |t|
