@@ -13,19 +13,19 @@
   <thead>
     <tr>
       <th></th>
+      <th>ENTREGADOS</th>
       <th>NO ATENDIDOS</th>
       <th>EN PROCESO</th>
       <th>EN REVISION</th>
-      <th>EN ESPERA</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
+      <td><%= @workshop_finished.count.to_s %></td>
       <td><%= @workshop_notattended.count.to_s %></td>
       <td><%= @workshop_inprocess.count.to_s %></td>
       <td><%= @workshop_revision.count.to_s %></td>
-      <td><%= @workshop_waiting.count.to_s %></td>
     </tr>
   </tbody>
 </table>
