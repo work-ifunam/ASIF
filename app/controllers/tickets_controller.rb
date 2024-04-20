@@ -4,8 +4,7 @@ class TicketsController < ApplicationController
 def index
     tickets = Ticket.user(current_user.category)
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
-
-    if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO" || current_user.category == "Chuck Norris"
+    if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris"
       #@computer_tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"])
       @computer_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"computo", @current_year])
       @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
@@ -69,14 +68,19 @@ def index
 
 #Show Department Tickets
   def show_computer_tickets
-    tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"], :order => "created_at DESC")
+    tickets =  Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech ', department: 'computo', tech: current_user.tech)
+       @computer_tickets_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech', department: 'computo', tech: current_user.tech).where('extract(year from tickets.created_at) = ?', @current_year)
+       @computer_revision_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_REVISION').where('extract(year from tickets.created_at) = ?', @current_year)
+      @computer_notattended_tech = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
+       @computer_finished_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'ENTREGADO').where('extract(year from tickets.created_at) = ?', @current_year)
+       @computer_inprocess_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_PROCESO').where('extract(year from tickets.created_at) = ?', @current_year)
+       @computer_waiting_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_ESPERA').where('extract(year from tickets.created_at) = ?', @current_year)
+       @computer_canceled_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'CANCELADOS').where('extract(year from tickets.created_at) = ?', @current_year)
+    #tickets =  Ticket.joins(:technicians).where(:all, :conditions => ['department = ? AND assignments.technician_id =?', 'computo', current_user.tech], :order => "created_at DESC")
+    #tickets =  Ticket.joins(:technicians).where('department = "computo" and current_user.tech = assignments.technician_id', :order => "created_at DESC")
+    #tickets = Ticket.find(:all, :conditions => ['department = ? AND technicians = ?',"computo", current_user.tech])
+    #tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"], :order => "created_at DESC")
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
-     @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
-     @computer_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","computo", @current_year])
-     @computer_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","computo", @current_year])
-     @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","computo", @current_year])
-     @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","computo", @current_year])
-     @computer_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","computo", @current_year])
     render :layout => 'show_computer_tickets'
   end  
 
@@ -158,7 +162,11 @@ def index
 #Show Status Tickets
 
   def show_inprocess_tickets
-    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", params[:department]], :order => "created_at DESC")
+    if params[:tech] 
+        @tickets = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_PROCESO').where('extract(year from tickets.created_at) = ?', @current_year)
+    else
+	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", params[:department]], :order => "created_at DESC")
+    end
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
     elsif params[:department] == "taller"
@@ -191,7 +199,13 @@ def index
     if params[:department] == "electronica"
     	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", params[:department]], :order => "created_at DESC")
     else
+	#
+    	if params[:tech] 
+        	@tickets = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'ENTREGADO').where('extract(year from tickets.created_at) = ?', @current_year)
+    	else
     	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "ENTREGADO", params[:department], @current_year], :order => "created_at DESC")
+    	end
+	#
     end
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
@@ -207,7 +221,11 @@ def index
   end
 
   def show_froze_tickets
-    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", params[:department]], :order => "created_at DESC")
+    if params[:tech] 
+        @tickets = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_ESPERA').where('extract(year from tickets.created_at) = ?', @current_year)
+    else
+    	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", params[:department]], :order => "created_at DESC")
+    end
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
     elsif params[:department] == "taller"
@@ -222,7 +240,11 @@ def index
   end
 
   def show_inrevision_tickets
-    @tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", params[:department]], :order => "created_at DESC")
+    if params[:tech] 
+        @tickets = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_REVISION').where('extract(year from tickets.created_at) = ?', @current_year)
+    else
+    	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", params[:department]], :order => "created_at DESC")
+    end
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'
     elsif params[:department] == "taller"
@@ -240,7 +262,11 @@ def index
     if params[:department] == "electronica"
     	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "CANCELADO", params[:department]], :order => "created_at DESC")
     else
-	@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "CANCELADO", params[:department], @current_year], :order => "created_at DESC")
+    	if params[:tech] 
+        	@tickets = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'CANCELADO').where('extract(year from tickets.created_at) = ?', @current_year)
+    	else
+		@tickets = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year from created_at) = ?', "CANCELADO", params[:department], @current_year], :order => "created_at DESC")
+    	end
     end
     if params[:department] == "computo"
       render :layout => 'show_computer_tickets'

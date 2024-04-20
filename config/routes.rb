@@ -1,9 +1,8 @@
 SuperSimpleHELPDESK::Application.routes.draw do
-   
-  namespace :api, defaults: { format: :json } do
-   resources :info, only: [:index, :create, :show, :update]
-  end
-  #resources :scores
+
+  resources :scores
+
+
   resources :assignments
   resources :technicians
   resources :assignations
@@ -29,11 +28,11 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'generate_report' => "reports#generate_report",           :as => :generate_report
 
   match 'show_computer_tickets' => "tickets#show_computer_tickets", :as => :show_computer_tickets
-  match 'show_electronic_tickets' => "tickets#show_electronic_tickets", :as => :show_electronic_tickets
-  match 'show_workshop_tickets' => "tickets#show_workshop_tickets", :as => :show_workshop_tickets
-  match 'show_communication_tickets' => "tickets#show_communication_tickets", :as => :show_communication_tickets
-  match 'show_maintenance_tickets' => "tickets#show_maintenance_tickets", :as => :show_maintenance_tickets
-  match 'show_service_tickets' => "tickets#show_service_tickets", :as => :show_service_tickets
+  #match 'show_electronic_tickets' => "tickets#show_electronic_tickets", :as => :show_electronic_tickets
+  #match 'show_workshop_tickets' => "tickets#show_workshop_tickets", :as => :show_workshop_tickets
+  #match 'show_communication_tickets' => "tickets#show_communication_tickets", :as => :show_communication_tickets
+  #match 'show_maintenance_tickets' => "tickets#show_maintenance_tickets", :as => :show_maintenance_tickets
+  #match 'show_service_tickets' => "tickets#show_service_tickets", :as => :show_service_tickets
   match 'show_inprocess_tickets' => "tickets#show_inprocess_tickets", :as => :show_inprocess_tickets
   match 'show_unattended_tickets' => "tickets#show_unattended_tickets", :as => :show_unattended_tickets
   match 'show_attended_tickets' => "tickets#show_attended_tickets", :as => :show_attended_tickets
@@ -45,5 +44,9 @@ SuperSimpleHELPDESK::Application.routes.draw do
   get 'tickets/close_ticket/:id' => 'tickets#close_ticket', :via => :get
   get 'reports/approve_ticket/:id' => 'reports#approve_ticket', :via => :get
   get 'reports/not_approve_ticket/:id' => 'reports#not_approve_ticket', :via => :get
+ 
+  namespace :api, defaults: { format: :json } do
+   resources :info, only: [:index, :create, :show, :update]
+  end
 
  end
