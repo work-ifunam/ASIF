@@ -6,7 +6,7 @@
        render 'workshop'
     elsif current_user.category == "Admin MANTENIMIENTO" || current_user.category == "Personal MANTENIMIENTO"
        render 'maintenances' 
-    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION" || current_user.category == "SAC"
+    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION"
        render 'communications' 
 end %>
 

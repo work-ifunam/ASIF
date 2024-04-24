@@ -65,19 +65,17 @@
         end %>
 
         <br />
-	<!-- Uncomment to add ticket's approval
-            <% if ticket.status == "ENTREGADO" && ticket.client_status != "APROBADO"
+            <%= if ticket.status == "ENTREGADO" && ticket.client_status != "APROBADO"
 	        button_to "SI APRUEBO", { :controller => "reports", :action => "approve_ticket", :id => ticket.id }, :method => :get, :class => "button"
 	    end %>
 
-	    <% if ticket.status == "EN_REVISION" && ticket.client_status == "NO_APROBADO"
+	    <%= if ticket.status == "EN_REVISION" && ticket.client_status == "NO_APROBADO"
 	        button_to "SI APRUEBO", { :controller => "reports", :action => "approve_ticket", :id => ticket.id }, :method => :get, :class => "button"
 	    end %>
 
-            <% if ticket.status == "ENTREGADO" && ticket.client_status != "APROBADO" && ticket.client_status != "NO_APROBADO"
+            <%= if ticket.status == "ENTREGADO" && ticket.client_status != "APROBADO" && ticket.client_status != "NO_APROBADO"
 	        button_to "NO APRUEBO", { :controller => "reports", :action => "not_approve_ticket", :id => ticket.id }, :method => :get, :class => "button"     
 	    end %>
-	-->    
       </td>
       </tr>
       </table>
@@ -86,6 +84,11 @@
       <div>
 	<%= simple_format h ticket.revision %>
       </div>
+<!--
+      <h3>Calificaci&oacute;n</h3>
+      <div>
+      </div>
+-->
     </div>
   </div>
 <% end %>

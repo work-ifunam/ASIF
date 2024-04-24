@@ -13,12 +13,15 @@ class Ticket < ActiveRecord::Base
     end  
   end  
 
-
     def self.user(department)
        if department.eql?("Chuck Norris")
           return Ticket.all       
-       elsif department.eql?("Admin COMPUTO")  || department.eql?("Personal COMPUTO")
+       elsif department.eql?("Admin COMPUTO")  
           return Ticket.find(:all, :conditions => 'department = "computo"', :order => "created_at DESC")
+       elsif department.eql?("Personal COMPUTO")
+          return Ticket.find(:all, :conditions => 'department = "comunicacion"', :order => "created_at DESC")
+          #return Ticket.joins(:technicians).where('department = "computo" and current_user.tech == assignments.technician_id', :order => "created_at DESC")
+          #return Ticket.find(:all, :conditions => 'department = "computo"', :order => "created_at DESC")
        elsif department.eql?("Admin ELECTRONICA") || department.eql?("Personal ELECTRONICA") || department.eql?("SAC") 
           return Ticket.find(:all, :conditions => 'department = "electronica"', :order => "created_at DESC")
        elsif department.eql?("Admin TALLER") || department.eql?("Personal TALLER") 

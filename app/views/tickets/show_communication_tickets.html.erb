@@ -1,4 +1,4 @@
-<h1>Solicitudes de Servicio en Unidad de Comunicaci&oacute;n</h1>
+<h1>Solicitudes de Soporte en Unidad de Comunicaci&oacute;n (<%= @communication_tickets.count.to_s %>)</h1>
 
 <p>
 <%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "comunicacion"), :class => "mylink2" %>
@@ -33,7 +33,16 @@
   </tbody>
 </table>
 </div>
-
+<% if current_user.category == "SAC" %>
+<table width="790px">
+  <tr>
+    <td><center><%= link_to "NO ATENDIDOS", { :controller => "tickets", :action => "show_unattended_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN PROCESO", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN ESPERA", { :controller => "tickets", :action => "show_froze_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "ATENDIDOS", { :controller => "tickets", :action => "show_attended_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
+  </tr>
+</table>
+<% end %>
 <br />
 <% @tickets.each do |ticket| %>
   <div class="ticket_title">
@@ -110,7 +119,4 @@
 
   </div>
 <% end %>
-
 <%= paginate @tickets %>
-
-

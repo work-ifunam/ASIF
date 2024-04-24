@@ -7,7 +7,7 @@ una de las siguientes opciones para comenzar:
 <% if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO" %>
 <h3>Asignadas</h3>
  <ul>
-   <li><%= link_to 'Mis solicitudes', show_computer_tickets_path, :class => "mylink3" %></li>
+   <li><%= link_to 'Mis solicitudes', show_personal_tickets_path, :class => "mylink3" %></li>
  </ul>
 <% end %>
 <h3>Solicitadas</h3>
@@ -31,7 +31,7 @@ una de las siguientes opciones para comenzar:
       <th>ELECTRONICA</th>
       <th>COMUNICACI&Oacute;N</th>
       <th>MANTENIMIENTO</th>
-      <th>SERVICIO</th>
+      <!--<th>SERVICIO</th>-->
     </tr>
   </thead>
   <tbody>
@@ -42,7 +42,7 @@ una de las siguientes opciones para comenzar:
       <td><%= @my_electronic.count.to_s %></td>
       <td><%= @my_communication.count.to_s %></td>
       <td><%= @my_maintenance.count.to_s %></td>
-      <td><%= @my_service.count.to_s %></td>
+      <!--<td><%#= @my_service.count.to_s %></td>-->
     </tr>
   </tbody>
 </table>

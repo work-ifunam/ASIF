@@ -15,6 +15,7 @@
       <th>EN PROCESO (<%= @electronic_inprocess.count.to_s %>)</th>
       <th>NO ATENDIDOS (<%= @electronic_notattended.count.to_s %>)</th>
       <th>EN ESPERA (<%= @electronic_waiting.count.to_s %>)</th>
+      <th>CANCELADO (<%= @electronic_canceled.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
@@ -24,6 +25,7 @@
       <td><%= @electronic_inprocess.count.to_s %></td>
       <td><%= @electronic_notattended.count.to_s %></td>
       <td><%= @electronic_waiting.count.to_s %></td>
+      <td><%= @electronic_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table>

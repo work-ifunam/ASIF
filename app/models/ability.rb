@@ -3,8 +3,8 @@ class Ability
   
   def initialize(user)
     user ||= User.new 
-    if user.category == "Chuck Norris"
-    #if user.category == "Chuck Norris" || user.id == 169
+    #if user.category == "Chuck Norris"
+    if user.category == "Chuck Norris" || user.id == 169
       can :manage, User
       can :manage, Technician
       can :manage, Category
@@ -20,7 +20,7 @@ class Ability
       can :manage, Category
     else
       can :read, :all
-      can :create, Score
+      #can :create, Score
     end
   end
   

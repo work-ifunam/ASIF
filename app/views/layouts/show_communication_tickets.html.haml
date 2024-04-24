@@ -64,7 +64,7 @@
        - else
         = link_to 'Solicitudes en Electrónica', show_electronic_tickets_path 
       %li
-       - if current_user.category == "Admin COMUNICACION"
+       - if current_user.category == "Admin COMUNICACION" 
         = link_to 'Solicitudes en Unidad de Comunicación', tickets_path
        - else
         = link_to 'Solicitudes en Unidad de Comunicación', show_communication_tickets_path 

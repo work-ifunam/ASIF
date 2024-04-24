@@ -1,4 +1,5 @@
-<h1>Solicitudes de C&oacute;mputo (<%= @computer_tickets.count.to_s %>)</h1>
+<h2><%= @current_user.firstname %> <%= @current_user.lastname %></span> - <span class="category"><%= @current_user.category %></span></h2>
+<h1>Solicitudes Individuales de C&oacute;mputo (<%= @computer_tickets_tech.count.to_s %>)</h1>
 <p>
 <%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "computo"), :class => "mylink2" %>
 </p>
@@ -8,36 +9,35 @@
   <thead>
     <tr>
       <th></th>
-      <th>ENTREGADOS (<%= @computer_finished.count.to_s %>)</th>
-      <th>EN REVISION (<%= @computer_revision.count.to_s %>)</th>
+      <th>ENTREGADOS (<%= @computer_finished_tech.count.to_s %>)</th>
+      <th>EN REVISION (<%= @computer_revision_tech.count.to_s %>)</th>
       <!--<th>NO ATENDIDOS (<%#= @computer_notattended.count.to_s %>)</th>-->
-      <th>EN PROCESO (<%= @computer_inprocess.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @computer_waiting.count.to_s %>)</th>
-      <th>CANCELADOS (<%= @computer_canceled.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @computer_inprocess_tech.count.to_s %>)</th>
+      <th>EN ESPERA (<%= @computer_waiting_tech.count.to_s %>)</th>
+      <th>CANCELADOS (<%= @computer_canceled_tech.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
-      <td><%= @computer_finished.count.to_s %></td>
-      <td><%= @computer_revision.count.to_s %></td>
+      <td><%= @computer_finished_tech.count.to_s %></td>
+      <td><%= @computer_revision_tech.count.to_s %></td>
       <!--<td><%#= @computer_notattended.count.to_s %></td>-->
-      <td><%= @computer_inprocess.count.to_s %></td>
-      <td><%= @computer_waiting.count.to_s %></td>
-      <td><%= @computer_canceled.count.to_s %></td>
+      <td><%= @computer_inprocess_tech.count.to_s %></td>
+      <td><%= @computer_waiting_tech.count.to_s %></td>
+      <td><%= @computer_canceled_tech.count.to_s %></td>
     </tr>
   </tbody>
 </table>
 </div>
 <table width="790px">
   <tr>
-    <!--<td><center><%#= link_to "NO ATENDIDOS", { :controller => "tickets", :action => "show_unattended_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "EN PROCESO", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "EN ESPERA", { :controller => "tickets", :action => "show_froze_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "ATENDIDOS", { :controller => "tickets", :action => "show_attended_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "CANCELADOS", { :controller => "tickets", :action => "show_canceled_tickets", :department => "computo", :tech => current_user.tech}, :class => "mylink2" %></center></td>
--->
+    <!--<td><center><%#= link_to "NO ATENDIDOS", { :controller => "tickets", :action => "show_unattended_tickets", :department => "computo" }, :class => "mylink2" %></center></td>-->
+    <td><center><%= link_to "EN PROCESO", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN ESPERA", { :controller => "tickets", :action => "show_froze_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "ATENDIDOS", { :controller => "tickets", :action => "show_attended_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "CANCELADOS", { :controller => "tickets", :action => "show_canceled_tickets", :department => "computo", :tech => current_user.tech}, :class => "mylink2" %></center></td>
   </tr>
 </table>
 <br />
@@ -67,25 +67,23 @@
 	      <%= tech.firstname %> <%= tech.lastname %><br />
 	    <% end %>
           <% end %>
-<!--
-	<%# if ticket.technicians.count == 0 %>
-	      <%#= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
-        <%# end %>  
+	<% if ticket.technicians.count == 0 %>
+	      <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
+        <% end %>  
 
-	<%# if ticket.technicians.count > 0 %>
-   	  <%# if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
-	      <%#=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
-	  <%# end %>    
-        <%# end %>  
+	<% if ticket.technicians.count > 0 %>
+   	  <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
+	      <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
+	  <% end %>    
+        <% end %>  
       </td>
       <td width="50%">
-      <%#= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
+      <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
 	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
-	<small><%#= unless ticket.ideal_time.nil?
+	<small><%= unless ticket.ideal_time.nil?
 	    ticket.ideal_time.strftime("%d/%m/%Y") 
 	    end
 	    %></small>
--->
         <br/><span class="ticket_responsible2">Fecha de entrega:</span> 
 	<small><%= unless ticket.ended_at.nil?
 	    ticket.ended_at.strftime("%d/%m/%Y") 
