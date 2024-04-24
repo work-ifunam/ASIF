@@ -4,7 +4,6 @@ SuperSimpleHELPDESK::Application.configure do
 #  config.action_mailer.delivery_method = :smtp
 #  config.action_mailer.default_options = {from: "asif@fisica.unam.mx"}
 #  config.action_mailer.smtp_settings = {address: "132.248.7.40", port: 25}
-  config.middleware.use ActionDispatch::Flash
 
   # Code is not reloaded between requests
   config.cache_classes = true
