@@ -1,3 +1,5 @@
+<% if current_user.category == "Admin TALLER" || current_user.category == "SAC"%>
+
 <h1>Solicitudes de Servicio en Taller</h1>
 
 <p>
@@ -107,3 +109,4 @@
   </div>
 <% end %>
 <%= paginate @tickets %>
+<% end %>

@@ -1,3 +1,4 @@
+<% if current_user.category == "Admin COMPUTO" || current_user.category == "SAC"%>
 <h1>Solicitudes de C&oacute;mputo (<%= @computer_tickets.count.to_s %>)</h1>
 <p>
 <%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "computo"), :class => "mylink2" %>
@@ -124,3 +125,5 @@
   </div>
 <% end %>
 <%= paginate @tickets %>
+<% end %>
+
