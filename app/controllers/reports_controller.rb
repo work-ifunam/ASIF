@@ -14,6 +14,12 @@ class ReportsController < ApplicationController
   def my_workshop_reports
     @my_workshop = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "taller"], :order => "created_at DESC")
     @workshop_tickets = Kaminari.paginate_array(@my_workshop).page(params[:page])
+      @workshop_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "taller"])
+      @workshop_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "taller"])
+      @workshop_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "taller"])
+      @workshop_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "taller"])
+      @workshop_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "taller"])
+      @workshop_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "CANCELADO", "taller"])
   end
 
   def my_electronic_reports
