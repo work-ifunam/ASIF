@@ -17,9 +17,9 @@ class Ticket < ActiveRecord::Base
        if department.eql?("Chuck Norris")
           return Ticket.all       
        elsif department.eql?("Admin COMPUTO")  
-          return Ticket.find(:all, :conditions => 'department = "computo"', :order => "created_at DESC")
+          return Ticket.find(:all, :conditions => 'department = "computo"', :order => "folio DESC")
        elsif department.eql?("Personal COMPUTO")
-          return Ticket.find(:all, :conditions => 'department = "comunicacion"', :order => "created_at DESC")
+          return Ticket.find(:all, :conditions => 'department = "comunicacion"', :order => "folio DESC")
           #return Ticket.joins(:technicians).where('department = "computo" and current_user.tech == assignments.technician_id', :order => "created_at DESC")
           #return Ticket.find(:all, :conditions => 'department = "computo"', :order => "created_at DESC")
        elsif department.eql?("Admin ELECTRONICA") || department.eql?("Personal ELECTRONICA") || department.eql?("SAC") 
