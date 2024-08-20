@@ -87,9 +87,6 @@ GEM
       activesupport (= 3.2.12)
       bundler (~> 1.0)
       railties (= 3.2.12)
-    rails-api (0.4.1)
-      actionpack (>= 3.2.11)
-      railties (>= 3.2.11)
     railties (3.2.12)
       actionpack (= 3.2.12)
       activesupport (= 3.2.12)
@@ -141,7 +138,6 @@ DEPENDENCIES
   mysql2 (~> 0.3.20)
   net-ldap
   rails (= 3.2.12)
-  rails-api
   rb-readline
   sass
   sass-rails (~> 3.2.3)

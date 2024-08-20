@@ -346,3 +346,14 @@ h3 {
 .mAdvise {
    font-size: 16px;
 }
+@media print {
+  /* All your print styles go here */
+  #header,
+  #left_menu,
+  #footer,
+  .stats,
+  left_menu,
+  #nav {
+    display: none !important;
+  }
+}

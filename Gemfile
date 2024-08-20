@@ -14,8 +14,6 @@ gem 'cancan'
 gem 'kaminari'
 gem 'net-ldap'
 gem 'test-unit'
-gem 'rails-api'
-#gem 'grape'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
