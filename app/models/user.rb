@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_one :score
 
   def self.assignation(department)
-    if department.eql?("Admin COMPUTO")
+    if department.eql?("Admin COMPUTO") || department.eql?("Sec COMPUTO")
        return User.find(:all,:conditions => 'category LIKE "%computo%"')
     elsif department.eql?("Admin ELECTRONICA")
        return User.find(:all,:conditions => 'category LIKE "%electronica%"')

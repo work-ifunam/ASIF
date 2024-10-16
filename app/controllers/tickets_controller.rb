@@ -4,7 +4,7 @@ class TicketsController < ApplicationController
 def index
     tickets = Ticket.user(current_user.category)
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
-    if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris"
+    if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "Sec COMPUTO"
       #@computer_tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"])
       @computer_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"computo", @current_year])
       @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
@@ -13,7 +13,7 @@ def index
       @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","computo", @current_year])
       @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","computo", @current_year])
       @computer_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","computo", @current_year])
-    elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA" || current_user.category == "SAC"
+    elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO"
       @electronic_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) >= ?',"electronica", @last_year])
       @electronic_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_REVISION","electronica", @last_year])
       @electronic_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "ENTREGADO","electronica", @last_year])
@@ -21,7 +21,7 @@ def index
     @electronic_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "NO_ATENDIDO","electronica", @last_year])
     @electronic_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_ESPERA","electronica", @last_year])
     @electronic_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "CANCELADO","electronica", @last_year])
-    elsif current_user.category == "Admin TALLER" || current_user.category == "Personal TALLER"
+    elsif current_user.category == "Admin TALLER" || current_user.category == "Personal TALLER" || current_user.category == "Sec COMPUTO"
       @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
       @workshop_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "taller"])
       @workshop_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "taller"])
@@ -35,7 +35,7 @@ def index
       #@workshop_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","taller", @current_year])
       #@workshop_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","taller", @current_year])
       #@workshop_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","taller", @current_year])
-    elsif current_user.category == "Admin MANTENIMIENTO" || current_user.category == "Personal MANTENIMIENTO"
+    elsif current_user.category == "Admin MANTENIMIENTO" || current_user.category == "Personal MANTENIMIENTO" || current_user.category == "Sec COMPUTO"
       @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ?', "mantenimiento"])
       @maintenance_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","mantenimiento", @current_year])
       @maintenance_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","mantenimiento", @current_year])
@@ -43,7 +43,7 @@ def index
       @maintenance_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","mantenimiento", @current_year])
       @maintenance_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","mantenimiento", @current_year])
       @maintenance_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","mantenimiento", @current_year])
-    elsif current_user.category == "Admin SERVICIO" || current_user.category == "Personal SERVICIO"
+    elsif current_user.category == "Admin SERVICIO" || current_user.category == "Personal SERVICIO" || current_user.category == "Sec COMPUTO"
       @servicio_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"servicio", @current_year])
       @servicio_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","servicio", @current_year])
       @servicio_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","servicio", @current_year])
@@ -51,7 +51,7 @@ def index
       @servicio_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","servicio", @current_year])
       @servicio_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","servicio", @current_year])
       @servicio_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","servicio", @current_year])
-    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION" || current_user.category == "SAC"
+    elsif current_user.category == "Admin COMUNICACION" || current_user.category == "Personal COMUNICACION" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO"
       @communication_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"comunicacion", @current_year])
       @communication_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","comunicacion", @current_year])
       @communication_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","comunicacion", @current_year])
@@ -222,6 +222,7 @@ def index
     	end
 	#
     end
+    @tickets_count = @tickets
     @tickets = Kaminari.paginate_array(@tickets).page(params[:page])
     #if params[:department] == "computo"
       #render :layout => 'show_computer_tickets'

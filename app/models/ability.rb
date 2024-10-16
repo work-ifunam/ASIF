@@ -12,16 +12,16 @@ class Ability
       can :manage, Assignment          
       can :manage, Score
       can :manage, Ticket
-    elsif user.category == "Admin COMPUTO" || user.category == "SAC"
+    elsif user.category == "Admin COMPUTO" || user.category == "SAC" || user.category == "Sec COMPUTO"
       can :read, :show_computer_tickets
-      cannot :read, :show_workshop_tickets
-    elsif user.category == "Admin TALLER"  || user.category == "SAC"
+      #cannot :read, :show_workshop_tickets
+    elsif user.category == "Admin TALLER"  || user.category == "SAC" || user.category == "Sec COMPUTO"
       can :read, :show_workshop_tickets
-    elsif user.category == "Admin MANTENIMIENTO"  || user.category == "SAC"
+    elsif user.category == "Admin MANTENIMIENTO"  || user.category == "SAC" || user.category == "Sec COMPUTO"
       can :read, :show_maintenance_tickets
-    elsif user.category == "Admin COMUNICACION"  || user.category == "SAC"
+    elsif user.category == "Admin COMUNICACION"  || user.category == "SAC" || user.category == "Sec COMPUTO"
       can :read, :show_communication_tickets
-    elsif user.category == "Admin COMPUTO" || user.category == "Admin ELECTRONICA" || user.category == "Admin TALLER"  || user.category == "Admin COMUNICACION" || user.category == "Admin MANTENIMIENTO" || user.category == "Admin SERVICIOS" || user.category == "SAC"
+    elsif user.category == "Admin COMPUTO" || user.category == "Admin ELECTRONICA" || user.category == "Admin TALLER"  || user.category == "Admin COMUNICACION" || user.category == "Admin MANTENIMIENTO" || user.category == "Admin SERVICIOS" || user.category == "SAC" || user.category == "Sec COMPUTO"
       can :manage, Category
       can :manage, Assignation          
       can :manage, Assignment          
@@ -32,5 +32,4 @@ class Ability
       #can :create, Score
     end
   end
-  
 end

@@ -4,7 +4,7 @@
 Bienvenido/a a trav&eacute;s de este panel usted podr&aacute; llevar un seguimiento de sus solicitudes de servicio. Por favor seleccione
 una de las siguientes opciones para comenzar:
 </p>
-<% if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO" %>
+<% if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO" || current_user.category == "Sec COMPUTO" %>
 <h3>Asignadas</h3>
  <ul>
    <li><%= link_to 'Mis solicitudes', show_personal_tickets_path, :class => "mylink3" %></li>

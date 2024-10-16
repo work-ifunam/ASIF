@@ -1,5 +1,7 @@
 <%= if params[:department] == "computo" && current_user.category == "Admin COMPUTO"
        render 'computerip'
+    elsif params[:department] == "computo" && current_user.category == "Sec COMPUTO"
+       render 'computerip'
     elsif params[:department] == "electronica" && current_user.category == "Admin ELECTRONICA"
        render 'electronicip'	
     elsif params[:department] == "electronica" && current_user.category == "SAC"
