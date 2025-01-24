@@ -9,35 +9,38 @@
 <table id="mystats1">
   <caption>SOLICITUDES ACTIVAS EN ELECTRONICA (<%= @last_year + '-' + @current_year %>)</caption>
   <thead>
-    <tr>
-      <th></th>
-      <th>ENTREGADOS (<%= @electronic_finished.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @electronic_inprocess.count.to_s %>)</th>
-      <th>NO ATENDIDOS (<%= @electronic_notattended.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @electronic_waiting.count.to_s %>)</th>
-      <th>CANCELADO (<%= @electronic_canceled.count.to_s %>)</th>
-    </tr>
+  <tr>
+    <th></th>
+    <th>NO ATENDIDOS (<%= @electronic_notattended.count.to_s %>)</th>
+    <th>EN ESPERA (<%= @electronic_waiting.count.to_s %>)</th>
+    <th>EN PROCESO (<%= @electronic_inprocess.count.to_s %>)</th>
+    <th>EN REVISION (<%= @electronic_revision.count.to_s %>)</th>
+    <th>ATENDIDOS (<%= @electronic_finished.count.to_s %>)</th>
+    <th>CANCELADO (<%= @electronic_canceled.count.to_s %>)</th>
+  </tr>
   </thead>
   <tbody>
-    <tr>
-      <th></th>
-      <td><%= @electronic_finished.count.to_s %></td>
-      <td><%= @electronic_inprocess.count.to_s %></td>
-      <td><%= @electronic_notattended.count.to_s %></td>
-      <td><%= @electronic_waiting.count.to_s %></td>
-      <td><%= @electronic_canceled.count.to_s %></td>
-    </tr>
+  <tr>
+    <th></th>
+    <td><%= @electronic_notattended.count.to_s %></td>
+    <td><%= @electronic_waiting.count.to_s %></td>
+    <td><%= @electronic_inprocess.count.to_s %></td>
+    <td><%= @electronic_revision.count.to_s %></td>
+    <td><%= @electronic_finished.count.to_s %></td>
+    <td><%= @electronic_canceled.count.to_s %></td>
+  </tr>
   </tbody>
 </table>
 </div>
 <table width="790px">
   <tr>
-    <td><center><a href="https://asif.fisica.unam.mx/show_unattended_tickets?department=electronica" class="mylink2">NO ATENDIDOS</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_inprocess_tickets?department=electronica" class="mylink2">EN PROCESO</a></center></td>
-    <!--<td><center><a href="https://asif.fisica.unam.mx/show_inrevision_tickets?department=electronica" class="mylink2">EN REVISI&Oacute;N</a></center></td>-->
-    <td><center><a href="https://asif.fisica.unam.mx/show_froze_tickets?department=electronica" class="mylink2">EN ESPERA</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_attended_tickets?department=electronica" class="mylink2">ATENDIDOS</a></center></td>
-    <td><center><a href="https://asif.fisica.unam.mx/show_canceled_tickets?department=electronica" class="mylink2">CANCELADOS</a></center></td>
+  <td><center><%= link_to "NO ATENDIDOS (#{@electronic_notattended.count.to_s})", { :controller => "tickets", :action => "show_unattended_tickets", :department => "electronica" }, :class => "mylink2" %></center></td>
+  <td><center><%= link_to "EN ESPERA (#{@electronic_waiting.count.to_s})", { :controller => "tickets", :action => "show_froze_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
+  <td><center><%= link_to "EN PROCESO (#{@electronic_inprocess.count.to_s})", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
+  <!--<td><center><%= link_to "EN REVISION (#{@electronic_revision.count.to_s})", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>-->
+  <!--<td><center><%#= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "electronica" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>-->
+  <td><center><%= link_to "ATENDIDOS (#{@electronic_finished.count.to_s})", { :controller => "tickets", :action => "show_attended_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
+  <td><center><%= link_to "CANCELADOS (#{@electronic_canceled.count.to_s})", { :controller => "tickets", :action => "show_canceled_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
   </tr>
 </table>
 <br />
@@ -67,6 +70,7 @@
 	      <%= tech.firstname %> <%= tech.lastname %><br />
 	    <% end %>
           <% end %>
+<% if current_user.category != "SAC" %>
 	<% if ticket.technicians.count == 0 %>
 	      <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
         <% end %>  
@@ -75,7 +79,8 @@
    	  <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
 	      <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
 	  <% end %>    
-        <% end %>  
+        <% end %> 
+<% end %>
       </td>
       <td width="50%">
       <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />

@@ -8,38 +8,40 @@
 
 <div class="stats">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN UNIDAD DE COMUNICACION (<%= p @current_year %>)</caption>
+  <caption>SOLICITUDES ACTIVAS EN UNIDAD DE COMUNICACION (<%= @last_year + '-' + @current_year %>)</caption>
   <thead>
-    <tr>
-      <th></th>
-      <th>ENTREGADOS (<%= @communication_finished.count.to_s %>)</th>
-      <th>EN REVISION (<%= @communication_revision.count.to_s %>)</th>
-      <th>NO ATENDIDOS (<%= @communication_notattended.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @communication_inprocess.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @communication_waiting.count.to_s %>)</th>
-      <th>CANCELADOS (<%= @communication_canceled.count.to_s %>)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th></th>
-      <td><%= @communication_finished.count.to_s %></td>
-      <td><%= @communication_revision.count.to_s %></td>
-      <td><%= @communication_notattended.count.to_s %></td>
-      <td><%= @communication_inprocess.count.to_s %></td>
-      <td><%= @communication_waiting.count.to_s %></td>
-      <td><%= @communication_canceled.count.to_s %></td>
-    </tr>
+  <tr>
+  <th></th>
+  <th>NO ATENDIDOS (<%= @communication_notattended.count.to_s %>)</th>
+  <th>EN ESPERA (<%= @communication_waiting.count.to_s %>)</th>
+  <th>EN PROCESO (<%= @communication_inprocess.count.to_s %>)</th>
+  <th>EN REVISION (<%= @communication_revision.count.to_s %>)</th>
+  <th>ATENDIDOS (<%= @communication_finished.count.to_s %>)</th>
+  <th>CANCELADOS (<%= @communication_canceled.count.to_s %>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <th></th>
+  <td><%= @communication_notattended.count.to_s %></td>
+  <td><%= @communication_waiting.count.to_s %></td>
+  <td><%= @communication_inprocess.count.to_s %></td>
+  <td><%= @communication_revision.count.to_s %></td>
+  <td><%= @communication_finished.count.to_s %></td>
+  <td><%= @communication_canceled.count.to_s %></td>
+</tr>
   </tbody>
 </table>
 </div>
 <table width="790px">
-  <tr>
-    <td><center><%= link_to "NO ATENDIDOS", { :controller => "tickets", :action => "show_unattended_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "EN PROCESO", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "EN ESPERA", { :controller => "tickets", :action => "show_froze_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "ATENDIDOS", { :controller => "tickets", :action => "show_attended_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
-  </tr>
+<tr>
+<td><center><%= link_to "NO ATENDIDOS (#{@communication_notattended.count.to_s})", { :controller => "tickets", :action => "show_unattended_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
+<td><center><%= link_to "EN ESPERA (#{@communication_waiting.count.to_s})", { :controller => "tickets", :action => "show_froze_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+<td><center><%= link_to "EN PROCESO (#{@communication_inprocess.count.to_s})", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+<!--<td><center><%= link_to "EN REVISION (#{@communication_revision.count.to_s})", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>-->
+<td><center><%= link_to "ATENDIDOS (#{@communication_finished.count.to_s})", { :controller => "tickets", :action => "show_attended_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+<td><center><%= link_to "CANCELADOS (#{@communication_canceled.count.to_s})", { :controller => "tickets", :action => "show_canceled_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+</tr>
 </table>
 <br />
 <% @tickets.each do |ticket| %>
