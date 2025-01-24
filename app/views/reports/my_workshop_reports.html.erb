@@ -4,7 +4,7 @@
 <%= link_to "CREAR NUEVA SOLICITUD DE SERVICIO", new_ticket_path(:department => "taller"), :class => "mylink2" %>
 </p>
 
-<div class="stats">
+<!--<div class="stats">
 <table id="mystats1">
   <caption>SOLICITUDES ACTIVAS EN TALLER</caption>
   <thead>
@@ -19,15 +19,15 @@
   <tbody>
     <tr>
       <th></th>
-      <td><%= @workshop_finished.count %></td>
-      <td><%= @workshop_notattended.count.to_s %></td>
-      <td><%= @workshop_inprocess.count.to_s %></td>
-      <td><%= @workshop_revision.count.to_s %></td>
+      <td><#%= @workshop_finished.count %></td>
+      <td><#%= @workshop_notattended.count.to_s %></td>
+      <td><#%= @workshop_inprocess.count.to_s %></td>
+      <td><#%= @workshop_revision.count.to_s %></td>
     </tr>
   </tbody>
 </table>
 </div>
-
+-->
 <% @workshop_tickets.each do |ticket| %>
   <div class="ticket_title">
       <span class="ticket_number">No. <%= ticket.folio %> - <%= ticket.created_at.strftime("%d/%m/%Y - %H:%M:%S") %></span>

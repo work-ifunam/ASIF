@@ -38,7 +38,7 @@
 <table width="790px">
   <tr>
     <td><center><%= link_to "NO ATENDIDOS (#{@electronic_notattended.count.to_s})", { :controller => "tickets", :action => "show_unattended_tickets", :department => "electronica" }, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "EN ESPERA (#{@electronic_waiting.count.to_s})", { :controller => "tickets", :action => "show_froze_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN ESPERA (#{@electronic_waiting.count.to_s})", { :controller => "tickets", :action => "show_froze_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
     <td><center><%= link_to "EN PROCESO (#{@electronic_inprocess.count.to_s})", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
     <!--<td><center><%= link_to "EN REVISION (#{@electronic_revision.count.to_s})", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>-->
     <!--<td><center><%#= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "electronica" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>-->
