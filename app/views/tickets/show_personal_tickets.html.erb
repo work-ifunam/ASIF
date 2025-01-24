@@ -9,22 +9,22 @@
   <thead>
     <tr>
       <th></th>
-      <th>ENTREGADOS (<%= @computer_finished_tech.count.to_s %>)</th>
-      <th>EN REVISION (<%= @computer_revision_tech.count.to_s %>)</th>
-      <!--<th>NO ATENDIDOS (<%#= @computer_notattended.count.to_s %>)</th>-->
-      <th>EN PROCESO (<%= @computer_inprocess_tech.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @computer_notattended_tech.count.to_s %>)</th>
       <th>EN ESPERA (<%= @computer_waiting_tech.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @computer_inprocess_tech.count.to_s %>)</th>
+      <th>ATENDIDOS (<%= @computer_finished_tech.count.to_s %>)</th>
+      <th>EN REVISION (<%= @computer_revision_tech.count.to_s %>)</th>
       <th>CANCELADOS (<%= @computer_canceled_tech.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
+      <td><%= @computer_notattended_tech.count.to_s %></td>
+      <td><%= @computer_waiting_tech.count.to_s %></td>
+      <td><%= @computer_inprocess_tech.count.to_s %></td>
       <td><%= @computer_finished_tech.count.to_s %></td>
       <td><%= @computer_revision_tech.count.to_s %></td>
-      <!--<td><%#= @computer_notattended.count.to_s %></td>-->
-      <td><%= @computer_inprocess_tech.count.to_s %></td>
-      <td><%= @computer_waiting_tech.count.to_s %></td>
       <td><%= @computer_canceled_tech.count.to_s %></td>
     </tr>
   </tbody>

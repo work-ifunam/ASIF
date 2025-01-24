@@ -1,30 +1,32 @@
-<% if current_user.category == "Admin COMPUTO" || current_user.category == "SAC"%>
+<% if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Dirección"%>
 <h1>Solicitudes de C&oacute;mputo (<%= @computer_tickets.count.to_s %>)</h1>
+<h2>Periodo: <%= 1.year.ago.strftime("%d/%m/%Y") + ' - ' + Date.current.strftime("%d/%m/%Y") %></h2>
 <p>
 <%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "computo"), :class => "mylink2" %>
 </p>
 <div class="stats">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN COMPUTO (<%= p @current_year %>)</caption>
+  <!--<caption>SOLICITUDES ACTIVAS EN COMPUTO (<%#= @last_year + '-' + @current_year %>)</caption>-->
+  <caption>SOLICITUDES ACTIVAS EN COMPUTO</caption>
   <thead>
     <tr>
       <th></th>
-      <th>ENTREGADOS (<%= @computer_finished.count.to_s %>)</th>
-      <th>EN REVISION (<%= @computer_revision.count.to_s %>)</th>
-      <!--<th>NO ATENDIDOS (<%#= @computer_notattended.count.to_s %>)</th>-->
-      <th>EN PROCESO (<%= @computer_inprocess.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @computer_notattended.count.to_s %>)</th>
       <th>EN ESPERA (<%= @computer_waiting.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @computer_inprocess.count.to_s %>)</th>
+      <th>EN REVISION (<%= @computer_revision.count.to_s %>)</th>
+      <th>ATENDIDOS (<%= @computer_finished.count.to_s %>)</th>
       <th>CANCELADOS (<%= @computer_canceled.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
-      <td><%= @computer_finished.count.to_s %></td>
-      <td><%= @computer_revision.count.to_s %></td>
-      <!--<td><%#= @computer_notattended.count.to_s %></td>-->
-      <td><%= @computer_inprocess.count.to_s %></td>
+      <td><%= @computer_notattended.count.to_s %></td>
       <td><%= @computer_waiting.count.to_s %></td>
+      <td><%= @computer_inprocess.count.to_s %></td>
+      <td><%= @computer_revision.count.to_s %></td>
+      <td><%= @computer_finished.count.to_s %></td>
       <td><%= @computer_canceled.count.to_s %></td>
     </tr>
   </tbody>
@@ -32,13 +34,13 @@
 </div>
 <table width="790px">
   <tr>
-    <!--<td><center><%#= link_to "NO ATENDIDOS", { :controller => "tickets", :action => "show_unattended_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "EN PROCESO", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "EN ESPERA", { :controller => "tickets", :action => "show_froze_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "ATENDIDOS", { :controller => "tickets", :action => "show_attended_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%#= link_to "CANCELADOS", { :controller => "tickets", :action => "show_canceled_tickets", :department => "computo", :tech => current_user.tech}, :class => "mylink2" %></center></td>
--->
+    <td><center><%= link_to "NO ATENDIDOS (#{@computer_notattended.count.to_s})", { :controller => "tickets", :action => "show_unattended_tickets", :department => "computo" }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN ESPERA (#{@computer_waiting.count.to_s})", { :controller => "tickets", :action => "show_froze_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN PROCESO (#{@computer_inprocess.count.to_s})", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN REVISION (#{@computer_revision.count.to_s})", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
+    <!--<td><center><%#= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>-->
+    <td><center><%= link_to "ATENDIDOS (#{@computer_finished.count.to_s})", { :controller => "tickets", :action => "show_attended_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "CANCELADOS (#{@computer_canceled.count.to_s})", { :controller => "tickets", :action => "show_canceled_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
   </tr>
 </table>
 <br />
