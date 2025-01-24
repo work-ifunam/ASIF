@@ -1,4 +1,4 @@
-<% if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Dirección"%>
+<% if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
 <h1>Solicitudes de C&oacute;mputo (<%= @computer_tickets.count.to_s %>)</h1>
 <h2>Periodo: <%= 1.year.ago.strftime("%d/%m/%Y") + ' - ' + Date.current.strftime("%d/%m/%Y") %></h2>
 <p>
