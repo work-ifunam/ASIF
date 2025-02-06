@@ -70,25 +70,25 @@
 	      <%= tech.firstname %> <%= tech.lastname %><br />
 	    <% end %>
           <% end %>
-<!--
-	<%# if ticket.technicians.count == 0 %>
-	      <%#= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
-        <%# end %>  
+<% if current_user.category == "Sec COMPUTO" %>
+	<% if ticket.technicians.count == 0 %>
+	      <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
+        <%end %>  
 
-	<%# if ticket.technicians.count > 0 %>
-   	  <%# if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
-	      <%#=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
-	  <%# end %>    
-        <%# end %>  
+	<% if ticket.technicians.count > 0 %>
+   	  <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
+	      <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
+	  <% end %>    
+        <% end %>  
       </td>
       <td width="50%">
-      <%#= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
+      <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
+<% end %>
 	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
 	<small><%#= unless ticket.ideal_time.nil?
 	    ticket.ideal_time.strftime("%d/%m/%Y") 
 	    end
 	    %></small>
--->
         <br/><span class="ticket_responsible2">Fecha de entrega:</span> 
 	<small><%= unless ticket.ended_at.nil?
 	    ticket.ended_at.strftime("%d/%m/%Y") 

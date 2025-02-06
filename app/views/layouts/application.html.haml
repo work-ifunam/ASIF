@@ -65,9 +65,9 @@
       %li 
        = link_to 'Mis Solicitudes', home_path
       %li 
-       - if current_user.category == "Admin COMPUTO" || current_user.category == 'Sec COMPUTO'
+       - if current_user.category == "Admin COMPUTO"
         = link_to 'Solicitudes en Cómputo', tickets_path
-       - elsif current_user.category == 'SAC' || current_user.category == "Dirección"
+       - elsif current_user.category == 'SAC' || current_user.category == "Dirección" || current_user.category == 'Sec COMPUTO'
         = link_to 'Solicitudes en Cómputo', show_computer_tickets_path
        - else
         = link_to 'Solicitudes en Cómputo',my_computer_reports_path
