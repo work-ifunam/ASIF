@@ -1,15 +1,15 @@
 <% if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
 <h1 class="maintitle"><%= @search.department.upcase%> </h1>
-<h1 class="subtitle text-center"><%= @search.category_name%> (<%= @tickets.count.to_s %>)</h1>
-<h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
+<h1 class="subtitle text-center"><%= @search.category_name%> (<%= @computer_tickets.count.to_s %>)</h1>
+<h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => "computo"), :class => "btn btn-primary" %>
 <%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s , :format=>"xls"), :class=> "btn btn-secondary" %>
 </h4>
 <div class="row search-box">
   <div class="pull-right range-query">
-    <%= form_tag show_workshop_tickets_with_search_path, method: :get do %>
+    <%= form_tag show_computer_tickets_with_search_path, method: :get do %>
       Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s %>
       Fin: <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s %>   
-      <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', @ticket_type), :id, :name),  :prompt => "Todas las categorías" %>
+      <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', 'computo'), :id, :name),  :prompt => "Todas las categorías" %>
       <%= hidden_field_tag 'search[department]', @search.department.to_s %>
       <%= hidden_field_tag 'search[category_name]', @search.category_name.to_s %>
       <%= submit_tag 'Buscar', class: 'btn search-button' %>
@@ -25,35 +25,35 @@
   <thead>
     <tr>
       <th></th>
-      <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
-      <th>EN REVISION (<%= @revision.count.to_s %>)</th>
-      <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
-      <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @computer_notattended.count.to_s %>)</th>
+      <th>EN ESPERA (<%= @computer_waiting.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @computer_inprocess.count.to_s %>)</th>
+      <th>EN REVISION (<%= @computer_revision.count.to_s %>)</th>
+      <th>ATENDIDOS (<%= @computer_finished.count.to_s %>)</th>
+      <th>CANCELADOS (<%= @computer_canceled.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
-      <td><%= @notattended.count.to_s %></td>
-      <td><%= @waiting.count.to_s %></td>
-      <td><%= @inprocess.count.to_s %></td>
-      <td><%= @revision.count.to_s %></td>
-      <td><%= @finished.count.to_s %></td>
-      <td><%= @canceled.count.to_s %></td>
+      <td><%= @computer_notattended.count.to_s %></td>
+      <td><%= @computer_waiting.count.to_s %></td>
+      <td><%= @computer_inprocess.count.to_s %></td>
+      <td><%= @computer_revision.count.to_s %></td>
+      <td><%= @computer_finished.count.to_s %></td>
+      <td><%= @computer_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table></div>
 </div>
 <!---->
 <div class="status-bar">
-  <button class="btn btn-primary btn-notattended" <%= disabled = @notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
-  <button class="btn btn-primary btn-waiting" <%= disabled = @waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
-  <button class="btn btn-primary btn-inprocess" <%= disabled = @inprocess.count == 0 ? 'disabled':''%> onclick="openStatus('inprocess')">EN PROCESO (<%=@inprocess.count.to_s%>)</button>
-  <button class="btn btn-primary btn-revision" <%= disabled = @revision.count == 0 ? 'disabled':''%> onclick="openStatus('revision')">EN REVISION (<%=@revision.count.to_s%>)</button>
-  <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
-  <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
+  <button class="btn btn-primary btn-notattended" <%= disabled = @computer_notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@computer_notattended.count.to_s%>)</button>
+  <button class="btn btn-primary btn-waiting" <%= disabled = @computer_waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@computer_waiting.count.to_s%>)</button>
+  <button class="btn btn-primary btn-inprocess" <%= disabled = @computer_inprocess.count == 0 ? 'disabled':''%> onclick="openStatus('inprocess')">EN PROCESO (<%=@computer_inprocess.count.to_s%>)</button>
+  <button class="btn btn-primary btn-revision"  <%= disabled = @computer_revision.count == 0 ? 'disabled':''%>  onclick="openStatus('revision')">EN REVISION (<%=@computer_revision.count.to_s%>)</button>
+  <button class="btn btn-primary btn-finished" <%= disabled = @computer_finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@computer_finished.count.to_s%>)</button>
+  <button class="btn btn-primary btn-canceled" <%= disabled = @computer_canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@computer_canceled.count.to_s%>)</button>
 </div>
 
 <div id="notattended" class="w3-container status" style="display:none">

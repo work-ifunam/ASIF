@@ -502,6 +502,14 @@ h3 {
   border-color: #008080;
   color: #008080;
 }
+button:disabled,
+button[disabled], button[disabled]:hover {
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
+}
+
+
 .btn-inprocess, .lbl-inprocess{
   background-color: #D4AA01;
   border-color: #D4AA01;

@@ -48,12 +48,12 @@
 </div>
 <!---->
 <div class="status-bar">
-  <button class="btn btn-primary btn-notattended" onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
-  <button class="btn btn-primary btn-waiting" onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
-  <button class="btn btn-primary btn-inprocess" onclick="openStatus('inprocess')">EN PROCESO (<%=@inprocess.count.to_s%>)</button>
-  <button class="btn btn-primary btn-revision" onclick="openStatus('revision')">EN REVISION (<%=@revision.count.to_s%>)</button>
-  <button class="btn btn-primary btn-finished" onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
-  <button class="btn btn-primary btn-canceled" onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
+  <button class="btn btn-primary btn-notattended" <%= disabled = @notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
+  <button class="btn btn-primary btn-waiting" <%= disabled = @waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
+  <button class="btn btn-primary btn-inprocess" <%= disabled = @inprocess.count == 0 ? 'disabled':''%> onclick="openStatus('inprocess')">EN PROCESO (<%=@inprocess.count.to_s%>)</button>
+  <button class="btn btn-primary btn-revision" <%= disabled = @revision.count == 0 ? 'disabled':''%> onclick="openStatus('revision')">EN REVISION (<%=@revision.count.to_s%>)</button>
+  <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
+  <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
 </div>
 
 <div id="notattended" class="w3-container status" style="display:none">
