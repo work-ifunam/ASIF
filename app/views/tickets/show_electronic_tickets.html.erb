@@ -1,5 +1,6 @@
-<h1>Solicitudes de Servicio en Electr&oacute;nica</h1>
-
+<% if current_user.category == "Admin ELECTRONICA" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección"%>
+<h1>Solicitudes de Servicio en Electr&oacute;nica (<%= @electronic_tickets.count.to_s %>)</h1>
+<h2>Periodo: <%= 1.year.ago.strftime("%d/%m/%Y") + ' - ' + Date.current.strftime("%d/%m/%Y") %></h2>
 <p>
 <%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "electronica"), :class => "mylink2" %>
 </p>
@@ -8,29 +9,43 @@
 
 <div class="stats">
 <table id="mystats1">
+<!--  <caption>SOLICITUDES ACTIVAS EN ELECTRONICA (<%#= @last_year + '-' + @current_year %>)</caption>-->
   <caption>SOLICITUDES ACTIVAS EN ELECTRONICA</caption>
   <thead>
     <tr>
       <th></th>
-      <th>EN REVISION</th>
-      <th>NO ATENDIDOS</th>
-      <th>EN PROCESO</th>
-      <th>EN ESPERA</th>
-      <th>CANCELADOS</th>
+      <th>NO ATENDIDOS (<%= @electronic_notattended.count.to_s %>)</th>
+      <th>EN ESPERA (<%= @electronic_waiting.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @electronic_inprocess.count.to_s %>)</th>
+      <th>EN REVISION (<%= @electronic_revision.count.to_s %>)</th>
+      <th>ATENDIDOS (<%= @electronic_finished.count.to_s %>)</th>
+      <th>CANCELADO (<%= @electronic_canceled.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
-      <td><%= @electronic_revision.count.to_s %></td>
       <td><%= @electronic_notattended.count.to_s %></td>
-      <td><%= @electronic_inprocess.count.to_s %></td>
       <td><%= @electronic_waiting.count.to_s %></td>
+      <td><%= @electronic_inprocess.count.to_s %></td>
+      <td><%= @electronic_revision.count.to_s %></td>
+      <td><%= @electronic_finished.count.to_s %></td>
       <td><%= @electronic_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table>
 </div>
+<table width="790px">
+  <tr>
+    <td><center><%= link_to "NO ATENDIDOS (#{@electronic_notattended.count.to_s})", { :controller => "tickets", :action => "show_unattended_tickets", :department => "electronica" }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN ESPERA (#{@electronic_waiting.count.to_s})", { :controller => "tickets", :action => "show_froze_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN PROCESO (#{@electronic_inprocess.count.to_s})", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
+    <!--<td><center><%= link_to "EN REVISION (#{@electronic_revision.count.to_s})", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>-->
+    <!--<td><center><%#= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "electronica" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>-->
+    <td><center><%= link_to "ATENDIDOS (#{@electronic_finished.count.to_s})", { :controller => "tickets", :action => "show_attended_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "CANCELADOS (#{@electronic_canceled.count.to_s})", { :controller => "tickets", :action => "show_canceled_tickets", :department => "electronica"}, :class => "mylink2" %></center></td>
+  </tr>
+</table>
 
 
 <br />
@@ -62,6 +77,9 @@
           <% end %>
       </td>
       <td width="50%">
+      <% if current_user.category == "SAC" %>
+	<%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
+      <% end %>
 	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
 	<small><%= unless ticket.ideal_time.nil?
 	    ticket.ideal_time.strftime("%d/%m/%Y") 
@@ -81,7 +99,8 @@
           elsif ticket.status == "EN_ESPERA" 
             image_tag("/assets/enespera.png", :alt => "en espera") 
           elsif ticket.status == "EN_REVISION" 
-            image_tag("/assets/enrevision.png", :alt => "en revision")
+            image_tag("/assets/enproceso.png", :alt => "en proceso") 
+            #image_tag("/assets/enrevision.png", :alt => "en revision")
           elsif ticket.status == "ENTREGADO" 
             image_tag("/assets/entregado.png", :alt => "entregado")
           elsif ticket.status == "CANCELADO" 
@@ -108,5 +127,5 @@
 
   </div>
 <% end %>
-
 <%= paginate @tickets %>
+<% end %>

@@ -2,11 +2,11 @@
 
   <p>
    Estimado usuario el acceso a esta secci&oacute;n es exclusivo para el personal del IFUNAM.<br />
-   Por favor ingrese su login y contrase&ntilde;a de su cuenta de correo.
+   Por favor ingrese su login y contrase&ntilde;a de SALVA.
   </p>
 
 <%= form_for @user_session, :as => :user_session, :url => { :action => "create" } do |f| %>
-  <%= render "shared/error_messages", :target => @user_session %>
+  <%= render 'shared/error_messages', :target => @user_session %>
   Usuario:<br />
   <%= f.text_field :login, :size => "9" %>@fisica.unam.mx<br />
   <br />

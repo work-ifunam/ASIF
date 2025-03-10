@@ -34,7 +34,16 @@ class Notifier < ActionMailer::Base
     # Don't forget to change the email address to gleason@fisica.unam.mx and jperez@fisica.unam.mx
 
     if @category.id == 15
-        mail(:to => "jperez@fisica.unam.mx, hesiquio@fisica.unam.mx",
+        #mail(:to => "jperez@fisica.unam.mx, hesiquio@fisica.unam.mx",
+        mail(:to => "taller@fisica.unam.mx, hesiquio@fisica.unam.mx",
+             :subject => "Tiene una nueva solicitud en ASIF - TALLER",
+             :from => "asif@fisica.unam.mx",
+             :fail_to => "asif@fisica.unam.mx"
+             ) do |format|
+          format.text
+        end
+    elsif @category.id == 19
+        mail(:to => "taller@fisica.unam.mx",
              :subject => "Tiene una nueva solicitud en ASIF - TALLER",
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
@@ -42,7 +51,7 @@ class Notifier < ActionMailer::Base
           format.text
         end
     else
-        mail(:to => "jperez@fisica.unam.mx",
+        mail(:to => "taller@fisica.unam.mx, fmarquez@fisica.unam.mx",
              :subject => "Tiene una nueva solicitud en ASIF - TALLER",
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
@@ -62,7 +71,9 @@ class Notifier < ActionMailer::Base
     @folio = ticket.folio
     @link = "electronica"
     #mail(:to => "sac-if@fisica.unam.mx , mcuautle@fisica.unam.mx, jicruzm@fisica.unam.mx, jicruz@fisica.unam.mx",
-    mail(:to => "jicruzm@fisica.unam.mx",
+    #mail(:to => "sac-if@fisica.unam.mx",
+    #mail(:to => "jicruzm@fisica.unam.mx",
+    mail(:to => "sac-ifm@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - ELECTRONICA",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
@@ -80,7 +91,13 @@ class Notifier < ActionMailer::Base
     @location = ticket.location
     @folio = ticket.folio
     @link = "comunicacion"
-    mail(:to => "lnovoa@fisica.unam.mx, sofia@fisica.unam.mx",
+    emails = Array.new
+    @category.technicians.each do |tech|
+      emails << tech.email + "," + " "
+    end
+    mail(:to => emails,
+    #mail(:to => emails, "sac-if@fisica.unam.mx",
+    #mail(:to => "lnovoa@fisica.unam.mx, sofia@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - UNIDAD DE COMUNICACION",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
@@ -126,14 +143,14 @@ def send_reply_to_user(ticket)
     end
     @technicians = @techs.join(",")
     if ticket.department == "computo"
-      @email = ticket.user.email + "," + " " + "maricelabarrera@fisica.unam.mx, angelica@fisica.unam.mx"
+      @email = ticket.user.email + "," + " " + "angelica@fisica.unam.mx"
       #@email = ticket.user.email 
     elsif ticket.department == "comunicacion"
       @email = ticket.user.email
     elsif ticket.department == "mantenimiento"
-      @email = ticket.user.email + "," + " " + "rlazard@fisica.unam.mx, erika@fisica.unam.mx"
+      @email = ticket.user.email + "," + " " + "erika@fisica.unam.mx"
     elsif ticket.department == "taller"
-      @email = ticket.user.email + "," + " " + "jperez@fisica.unam.mx"
+      @email = ticket.user.email + "," + " " + "taller@fisica.unam.mx"
     elsif ticket.department == "electronica"
       @email = Array.new
       ticket.technicians.each do |tech|

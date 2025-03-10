@@ -18,6 +18,10 @@ class Technician < ActiveRecord::Base
        return Technician.find(:all,:conditions => 'category LIKE "%mantenimiento%"')
     elsif department.eql?("Admin SERVICIOS")
        return Technician.find(:all,:conditions => 'category LIKE "%servicios%"')
+    elsif department.eql?("comunicacion")
+       return Technician.find(:all,:conditions => 'category LIKE "%comunicacion%"')
+    elsif department.eql?("electronica")
+       return Technician.find(:all,:conditions => 'category LIKE "%electronica%"')
     else
        return Technician.find(:all,:condition => 'department = "null"')
     end

@@ -4,13 +4,21 @@
 Bienvenido/a a trav&eacute;s de este panel usted podr&aacute; llevar un seguimiento de sus solicitudes de servicio. Por favor seleccione
 una de las siguientes opciones para comenzar:
 </p>
-
-<p><%= link_to "Ver mis Solicitudes de Cómputo", my_computer_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Taller", my_workshop_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Electrónica", my_electronic_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Comunicación", my_communication_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Mantenimiento", my_maintenance_reports_path, :class => "mylink3" %></p>
-<p><%= link_to "Ver mis Solicitudes de Servicio", my_service_reports_path, :class => "mylink3" %></p>
+<% if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO" || current_user.category == "Sec COMPUTO" %>
+<h3>Asignadas</h3>
+ <ul>
+   <li><%= link_to 'Mis solicitudes', show_personal_tickets_path, :class => "mylink3" %></li>
+ </ul>
+<% end %>
+<h3>Solicitadas</h3>
+ <ul>
+   <li><%= link_to 'Cómputo', my_computer_reports_path, :class => "mylink3" %></li>
+   <li><%= link_to "Taller", my_workshop_reports_path, :class => "mylink3" %></li>
+   <li><%= link_to "Electrónica", my_electronic_reports_path, :class => "mylink3" %></li>
+   <li><%= link_to "Comunicación", my_communication_reports_path, :class => "mylink3" %></li>
+   <li><%= link_to "Mantenimiento", my_maintenance_reports_path, :class => "mylink3" %></li>
+ </ul>
+<p><%#= link_to "Ver mis Solicitudes de Servicio", my_service_reports_path, :class => "mylink3" %></p>
 
 <div class="stats">
 <table id="mystats1">
@@ -23,7 +31,7 @@ una de las siguientes opciones para comenzar:
       <th>ELECTRONICA</th>
       <th>COMUNICACI&Oacute;N</th>
       <th>MANTENIMIENTO</th>
-      <th>SERVICIO</th>
+      <!--<th>SERVICIO</th>-->
     </tr>
   </thead>
   <tbody>
@@ -34,7 +42,7 @@ una de las siguientes opciones para comenzar:
       <td><%= @my_electronic.count.to_s %></td>
       <td><%= @my_communication.count.to_s %></td>
       <td><%= @my_maintenance.count.to_s %></td>
-      <td><%= @my_service.count.to_s %></td>
+      <!--<td><%#= @my_service.count.to_s %></td>-->
     </tr>
   </tbody>
 </table>

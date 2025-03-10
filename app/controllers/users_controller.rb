@@ -4,7 +4,8 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def index
-    if current_user.category == "Chuck Norris"
+    #if current_user.category == "Chuck Norris"
+    if current_user.category == "Chuck Norris" || current_user.id == 169
       @users = User.find(:all, :order => "lastname")
       respond_to do |format|
         format.html 

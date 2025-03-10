@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+    <Alignment ss:Vertical="Center" ss:Horizontal="Center"/>
+    <Font/>
+    <Interior/>
+  </Style>
+  <Style ss:ID="s1">
+    <Font ss:Bold="1" ss:Color="#ffffff"/>
+    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+    <Interior ss:Color="#000000" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s2">
+    <Font ss:Bold="1"/>
+    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+    <Interior ss:Color="#AFAFAF" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s3">
+    <Font ss:Bold="1"/>
+    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+    <Interior ss:Color="#EEEEEE" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s4">
+  <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
+  <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
+</Style>
+</Styles>
+  <Worksheet ss:Name="Applicants">
+  <Table>
+    <Row ss:AutoFitHeight="0">
+      <Cell ss:MergeAcross="6" ss:StyleID="s1"><Data ss:Type="String">Datos Ticket</Data></Cell>
+      <Cell ss:MergeAcross="1" ss:StyleID="s1"><Data ss:Type="String">Datos Solicitante</Data></Cell>
+      <Cell ss:MergeAcross="7" ss:StyleID="s1"><Data ss:Type="String">Trabajo Asignado a:</Data></Cell>
+      <!--<Cell ss:MergeAcross="34"><Data ss:Type="String">Empty</Data></Cell>-->
+    </Row>
+    <Row>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Folio</Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Departamento</Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Categoría</Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Fecha de solicitud</Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Fecha de entrega</Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Estatus</Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Descripción</Data></Cell>
+      <!--Personal Data -->
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Nombre</Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Email</Data></Cell>
+      <!--Personal Data -->
+      <% for i in 1..4 %>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Nombre <%= i %></Data></Cell>
+      <Cell ss:StyleID="s3"><Data ss:Type="String">Email <%= i %></Data></Cell>
+      <% end %> 
+    </Row>
+    <% @download.each do |ticket| %>
+    <Row>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ticket.folio.to_s.rjust(4,'0') %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ticket.department.to_s %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= Category.where('id = ? ', ticket.category).pluck(:name)[0] %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ticket.created_at.strftime("%m/%d/%Y - %H:%M:%S").to_s %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ended = ticket.ended_at != nil ? "#{ticket.ended_at.strftime("%m/%d/%Y - %H:%M:%S").to_s}" : 'Sin terminar' %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ticket.status.to_s %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ticket.description.to_s %></Data></Cell>
+
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ticket.user.firstname + " " + ticket.user.lastname %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= ticket.user.email %></Data></Cell>
+
+      <% ticket.technicians.each do |f| %>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= f.firstname + " " + f.lastname %></Data></Cell>
+      <Cell ss:StyleID="s4"><Data ss:Type="String"><%= f.email %></Data></Cell>
+      <% end %>
+    </Row>
+  <% end %>
+  </Table>
+  </Worksheet>
+</Workbook>

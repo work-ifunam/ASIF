@@ -1,5 +1,5 @@
 
-<h1>Solicitudes en Espera (<%= @tickets.count.to_s %>)</h1>
+<h1>Solicitudes en Espera (<%= @ticket_waiting.count.to_s %>)</h1>
 
 <br />
 <% @tickets.each do |ticket| %>
@@ -28,6 +28,7 @@
 	      <%= tech.firstname %> <%= tech.lastname %><br />
 	    <% end %>
           <% end %>
+      <% if current_user.category == "Admin COMUNICACION" || current_user.category == "Chuck Norris" %>
 	<% if ticket.technicians.count == 0 %>
 	      <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
         <% end %>  
@@ -37,9 +38,12 @@
 	      <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
 	  <% end %>    
         <% end %>  
+        <% end %>  
       </td>
       <td width="50%">
+      <% if current_user.category == "Admin COMUNICACION" || current_user.category =="SAC" || current_user.category == "Chuck Norris" %>
       <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
+        <% end %>  
 	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
 	<small><%= unless ticket.ideal_time.nil?
 	    ticket.ideal_time.strftime("%d/%m/%Y") 

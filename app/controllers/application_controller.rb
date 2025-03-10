@@ -18,6 +18,11 @@ class ApplicationController < ActionController::Base
 	@current_year ||= Time.now.year.to_s
     end
     
+    def last_year
+	lastyear = Time.now.year - 1
+	@last_year ||= lastyear.to_s
+    end
+
     def require_user
       unless current_user
         store_location

@@ -1,5 +1,7 @@
-<h1>Solicitudes de Servicio en Unidad de Comunicaci&oacute;n</h1>
+<% if current_user.category == "Admin COMUNICACION" || current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
 
+<h1>Solicitudes de la Unidad de Comunicaci&oacute;n (<%= @communication_tickets.count.to_s %>)</h1>
+<h2>Periodo: <%= 1.year.ago.strftime("%d/%m/%Y") + ' - ' + Date.current.strftime("%d/%m/%Y") %></h2>
 <p>
 <%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "comunicacion"), :class => "mylink2" %>
 </p>
@@ -8,32 +10,41 @@
 
 <div class="stats">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN UNIDAD DE COMUNICACION (<%= p @current_year %>)</caption>
+  <caption>SOLICITUDES ACTIVAS EN UNIDAD DE COMUNICACION</caption>
   <thead>
     <tr>
       <th></th>
-      <th>ENTREGADOS (<%= @communication_finished.count.to_s %>)</th>
-      <th>EN REVISION (<%= @communication_revision.count.to_s %>)</th>
       <th>NO ATENDIDOS (<%= @communication_notattended.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @communication_inprocess.count.to_s %>)</th>
       <th>EN ESPERA (<%= @communication_waiting.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @communication_inprocess.count.to_s %>)</th>
+      <th>EN REVISION (<%= @communication_revision.count.to_s %>)</th>
+      <th>ATENDIDOS (<%= @communication_finished.count.to_s %>)</th>
       <th>CANCELADOS (<%= @communication_canceled.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
-      <td><%= @communication_finished.count.to_s %></td>
-      <td><%= @communication_revision.count.to_s %></td>
       <td><%= @communication_notattended.count.to_s %></td>
-      <td><%= @communication_inprocess.count.to_s %></td>
       <td><%= @communication_waiting.count.to_s %></td>
+      <td><%= @communication_inprocess.count.to_s %></td>
+      <td><%= @communication_revision.count.to_s %></td>
+      <td><%= @communication_finished.count.to_s %></td>
       <td><%= @communication_canceled.count.to_s %></td>
     </tr>
   </tbody>
 </table>
 </div>
-
+<table width="790px">
+  <tr>
+    <td><center><%= link_to "NO ATENDIDOS (#{@communication_notattended.count.to_s})", { :controller => "tickets", :action => "show_unattended_tickets", :department => "comunicacion" }, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN ESPERA (#{@communication_waiting.count.to_s})", { :controller => "tickets", :action => "show_froze_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "EN PROCESO (#{@communication_inprocess.count.to_s})", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+    <!--<td><center><%= link_to "EN REVISION (#{@communication_revision.count.to_s})", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>-->
+    <td><center><%= link_to "ATENDIDOS (#{@communication_finished.count.to_s})", { :controller => "tickets", :action => "show_attended_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+    <td><center><%= link_to "CANCELADOS (#{@communication_canceled.count.to_s})", { :controller => "tickets", :action => "show_canceled_tickets", :department => "comunicacion"}, :class => "mylink2" %></center></td>
+  </tr>
+</table>
 <br />
 <% @tickets.each do |ticket| %>
   <div class="ticket_title">
@@ -63,6 +74,9 @@
           <% end %>
       </td>
       <td width="50%">
+      <% if current_user.category == "SAC" %>
+	<%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
+      <% end %>
 	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
 	<small><%= unless ticket.ideal_time.nil?
 	    ticket.ideal_time.strftime("%d/%m/%Y") 
@@ -107,7 +121,5 @@
 
   </div>
 <% end %>
-
 <%= paginate @tickets %>
-
-
+<% end %>

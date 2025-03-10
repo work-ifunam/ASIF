@@ -6,23 +6,23 @@
 
 <div class="stats">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN TALLER</caption>
+  <caption>SOLICITUDES ACTIVAS EN TALLER (<%= @workshop_tickets.count.to_s %>)</caption>
   <thead>
     <tr>
       <th></th>
-      <th>NO ATENDIDOS</th>
-      <th>EN PROCESO</th>
-      <th>EN REVISION</th>
-      <th>EN ESPERA</th>
+      <th>ENTREGADOS (<%= @workshop_finished.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @workshop_notattended.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @workshop_inprocess.count.to_s %>)</th>
+      <th>EN REVISI&Oacute;N (<%= @workshop_revision.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
+      <td><%= @workshop_finished.count.to_s %></td>
       <td><%= @workshop_notattended.count.to_s %></td>
       <td><%= @workshop_inprocess.count.to_s %></td>
       <td><%= @workshop_revision.count.to_s %></td>
-      <td><%= @workshop_waiting.count.to_s %></td>
     </tr>
   </tbody>
 </table>
