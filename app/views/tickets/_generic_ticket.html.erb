@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-12 tickets-view">
+    <div class="ticket_title">
+        <span class="ticket_number">No. <%= ticket.folio %> - <%= ticket.created_at.strftime("%d/%m/%Y - %H:%M:%S") %></span>
+        <span class="ticket_category"><%= category = Category.find(ticket.category)
+                               category.name %></span>
+    </div>  
+    <div class="tickets-status-search">
+        <strong><%= ticket.user.firstname + " " + ticket.user.lastname %></strong> solicita: 
+        <%= ticket.description %><br />
+    </div>
+    <div class="tickets-content-search">
+      <div class="accordion">
+        <h3>Estado de la Solicitud</h3>
+        <div>
+      <table width="100%">
+        <tr>
+        <td width="45%">
+          <% if ticket.technicians.present? %>
+          <p class="ticket_responsible">Trabajo asignado a: </p>
+            <% @technicians = ticket.technicians %>
+              <% @technicians.each do |tech| %>
+                <p class="ticket_responsible_name"><%= tech.firstname %> <%= tech.lastname %></p>
+              <% end %>
+          <% else %>
+            <h3 class="lbl-status lbl-notattended lbl-fit-content">SIN ASIGNAR</h3>
+          <% end %>
+        </td>
+        <td width="45%">
+          <% if ticket.ideal_time %>
+          <p class="ticket_responsible2">Fecha estimada de entrega: 
+            <small>
+              <%= ticket.ideal_time.strftime("%d/%m/%Y") %>
+            </small></p>
+          <% end %>
+          <% unless ticket.ended_at.nil? %>
+            <p class="ticket_responsible2">Fecha de entrega: 
+              <small class="date">
+                <%= ticket.ended_at.strftime("%d/%m/%Y") %>
+              </small></p>
+          <% end %>
+            <% if (current_user.category == "Sec COMPUTO" && @ticket_type == 'computo') || (current_user.category == "SAC" && @ticket_type == 'electronica')%>
+              <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "btn action-button line-3" %><br />
+              <% if ticket.technicians.count == 0 && @ticket_type == 'computo'%>
+                <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "btn action-button-taken" %>
+              <%end %>  
+              <% if ticket.technicians.count > 0 && @ticket_type == 'computo' %>
+                <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
+                  <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "btn action-button-closed" %>
+                <% end %>    
+              <% end %>  
+            <% end %>
+        </td>
+        <td width="10%">
+          <% if ticket.status == "NO_ATENDIDO" %>
+            <h3 class="lbl-notattended lbl-status">NO ATENDIDO</h3>
+          <% elsif ticket.status == "EN_PROCESO" %>
+            <h3 class="lbl-inprocess lbl-status">EN PROCESO</h3>
+          <% elsif ticket.status == "EN_ESPERA" %>
+            <h3 class="lbl-waiting lbl-status">EN ESPERA</h3>
+          <% elsif ticket.status == "EN_REVISION" %>
+            <h3 class="lbl-revision lbl-status">EN REVISION</h3>
+          <% elsif ticket.status == "ENTREGADO" %>
+            <h3 class="lbl-finished lbl-status">ENTREGADO</h3>
+          <% elsif ticket.status == "CANCELADO" %>
+            <h3 class="lbl-canceled lbl-status">CANCELADO</h3>
+          <% end %>
+            <% if ticket.client_status == "APROBADO" %>
+              <h3 class="lbl-approved lbl-status">Aprobado</h3>
+            <% elsif ticket.client_status == "NO_APROBADO" %>
+              <h3 class="lbl-notapproved lbl-status">No Aprobado</h3>
+            <% end %>
+        </td>
+        </tr>
+        </table>
+        </div>
+        <% if ticket.revision %>
+        <h3>Bit&aacute;cora de Observaciones</h3>
+        <div>
+          <%= simple_format h ticket.revision %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

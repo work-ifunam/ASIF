@@ -8,7 +8,7 @@ Author: GOZ
 
 /* Website Structure */
 
-$page-width: 1024px;
+$page-width: 1200px;
 
 body {
   background: {
@@ -105,7 +105,7 @@ body {
 
 #main_content {
     padding: 10px 10px;
-    width: 1004px;
+    width: 1200px;
     float: left;
     text-align: justify;
 }
@@ -144,7 +144,7 @@ body {
     margin-top: 3px;
     margin-left: 10px;
     padding: 10px 10px; 
-    width: 795px;
+    width: 950px;
     float: left;
     text-align: justify;
     background-color: transparent;
@@ -258,15 +258,16 @@ body {
 }
 
 .ticket_title {
-        background-color: #195073;
-        padding: 5px;
-	width: 790px;
+  background-color: #195073;
+  border-radius: 10px 10px 0 0;
+  /* width: 100%; */
+  padding: 0.5rem;
 }
 
 .ticket_content {
         background-color: #d4d4d4;
         padding: 5px;
-	width: 790px;
+	//width: 790px;
 	margin-bottom:19px;
 }
 
@@ -274,7 +275,7 @@ body {
         background-color: #ffffe0;
         border: dashed 1.5px  #ffa300;
         padding: 5px;
-	width: 788px;
+	//width: 788px;
 }
 
 .ticket_revision {
@@ -337,10 +338,10 @@ h3 {
 
 .stats {
         background-color: #ffffff;
-        border: dashed 2.5px  #ffa300;
-        padding: 5px;
-	width: 790px;
-	margin-top: 35px;
+        //border: dashed 2.5px  #ffa300;
+        padding: 0.5rem;
+	      width: 800px;
+	     // margin-top: 0;
 }
 
 .mAdvise {
@@ -357,3 +358,278 @@ h3 {
     display: none !important;
   }
 }
+.search-box{
+  padding: 1em 0;
+  font-size: large;
+}
+
+.btn {
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 1rem 1rem;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0rem;
+  border: 0;
+  text-decoration: none;
+}
+.btn-primary {
+  background-color: #1484AE;
+  border-color: #1484AE;
+  color: white;
+  border: 2px solid;
+}
+
+.btn-primary:hover {
+  color: #1484AE;
+  background-color: transparent;
+  border-color: #1484AE;
+  border: 2px solid;
+}
+
+.btn-secondary {
+  background-color: rgb(29, 111, 66);
+  border-color: rgb(29, 111, 66);
+  color: white;
+  border: 2px solid;
+}
+
+.btn-secondary:hover {
+  color: rgb(29, 111, 66);
+  background-color: transparent;
+  border-color: rgb(29, 111, 66);
+  border: 2px solid;
+}
+
+.search-button{
+  padding: 0.5rem;
+  font-size: 14px;
+  text-decoration: none;
+  background-color: #bcb5b5;
+  border-color: #bcb5b5;
+  color: white;
+  position: absolute;
+  float: right;
+  margin: 0 2em;
+  border: 2px solid;
+}
+.search-button:hover{
+  color: white;
+  background-color: #7c7575;
+  border-color: #7c7575;
+  border: 2px solid;
+  position: absolute;
+  float: right;
+  margin: 0 2em;
+}
+
+.action-button{
+  padding: 0.5rem;
+  font-size: 14px !important;
+  text-decoration: none;
+  background-color: #bcb5b5;
+  border-color: #bcb5b5;
+  color: white !important;
+  border: 2px solid;
+  margin-top: 1em;
+}
+.action-button:hover{
+  padding: 0.5rem;
+  font-size: 14px !important;
+  color: white !important;
+  background-color: #7c7575;
+  border-color: #7c7575;
+  border: 2px solid;
+  margin-top: 1em;
+}
+.action-button-taken{
+  padding: 0.5rem;
+  font-size: 14px !important;
+  text-decoration: none;
+  background-color: #028001;
+  border-color: #028001;
+  opacity: 1;
+  color: white !important;
+  border: 2px solid;
+  margin-top: 1em;
+}
+.action-button-taken:hover{
+  padding: 0.5rem;
+  font-size: 14px !important;
+  color: white !important;
+  background-color: #028001;
+  border-color: #028001;
+  border: 2px solid;
+  margin-top: 1em;
+  opacity: 0.6;
+}
+.action-button-closed{
+  padding: 0.5rem;
+  font-size: 14px !important;
+  text-decoration: none;
+  background-color: #D45508;
+  border-color: #D45508;
+  opacity: 1;
+  color: white !important;
+  border: 2px solid;
+  margin-top: 1em;
+}
+.action-button-closed:hover{
+  padding: 0.5rem;
+  font-size: 14px !important;
+  color: white !important;
+  background-color: #D45508;
+  border-color: #D45508;
+  border: 2px solid;
+  margin-top: 1em;
+  opacity: 0.6;
+}
+
+.btn-notattended, .lbl-notattended{
+  background-color: #AA0001;
+  border-color: #AA0001;
+}
+.btn-notattended:hover{
+  background-color: transparent;
+  border-color: #AA0001;
+  color: #AA0001;
+}
+.btn-waiting, .lbl-waiting{
+  background-color: #008080;
+  border-color: #008080;
+}
+.btn-waiting:hover{
+  background-color: transparent;
+  border-color: #008080;
+  color: #008080;
+}
+.btn-inprocess, .lbl-inprocess{
+  background-color: #D4AA01;
+  border-color: #D4AA01;
+}
+.btn-inprocess:hover{
+  background-color: transparent;
+  border-color: #D4AA01;
+  color: #D4AA01;
+}
+.btn-revision, .lbl-revision{
+  background-color: #D45508;
+  border-color: #D45508;
+}
+.btn-revision:hover{
+  background-color: transparent;
+  border-color: #D45508;
+  color: #D45508;
+}
+.btn-finished, .lbl-finished{
+  background-color: #028001;
+  border-color: #028001;
+}
+.btn-finished:hover{
+  background-color: transparent;
+  border-color: #028001;
+  color: #028001;
+}
+.btn-canceled, .lbl-canceled{
+  background-color: #6D0202;
+  border-color: #6D0202;
+}
+.btn-canceled:hover{
+  background-color: transparent;
+  border-color: #6D0202;
+  color: #6D0202;
+}
+.lbl-approved{
+  background-color: transparent;
+  border-color: #028001;
+  color: #028001 !important;
+  border: 1px solid;
+}
+.notlbl-approved{
+  background-color: transparent;
+  border-color: #D45508;
+  color: #D45508 !important;
+  border: 1px solid;
+}
+.maintitle{
+  margin-bottom: 1em 0 0 0;
+  text-align:center;
+}
+.subtitle{
+  color:#1484AE;
+  font-size: 20px;
+}
+.text-center{
+  text-align:center;
+}
+.status-bar{
+  margin: 1.5em 0;
+  width: max-content;
+}
+.tickets-status-search{
+  background-color: rgba(212, 212, 212, 0.1);
+  border-left: solid 1.5px #195073;
+  border-right: solid 1.5px #195073;
+  padding: 1em 1em 0 1em;;
+}
+.tickets-content-search{
+  margin-bottom: 1em;
+  background-color: rgba(212, 212, 212, 0.1);
+  border-left: solid 1.5px #195073;
+  border-right: solid 1.5px #195073;
+  border-bottom: solid 1.5px #195073;
+  padding: 1em;
+  border-radius: 0 0 10px 10px;
+}
+.lbl-status{
+  padding: 1em;
+  border-radius: 50px;
+  color: white;
+  opacity: 0.8;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+}
+.line-3{
+  line-height: 3em !important;
+}
+.lbl-fit-content{
+  width: fit-content;
+}
+p.ticket_responsible {
+  font: {
+    family: 'Montserrat', sans-serif;
+    size: 17px;
+    weight: bold;
+  }
+  color: #195073;
+  margin: 0 !important;
+  padding: 0.5em 0 !important;
+}
+p.ticket_responsible_name {
+  font: {
+    family: 'Montserrat', sans-serif;
+    size: 16px;
+  }
+  color: #333333;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+p.ticket_responsible2 {
+  font: {
+    family: 'Montserrat', sans-serif;
+    size: 17px;
+    weight: bold;
+  }
+  color: #195073;
+  margin: 0 !important;
+  padding: 0.5em 0 !important;
+}
+small.date{
+  font: {
+    family: 'Montserrat', sans-serif;
+  }
+  color: #333333;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+

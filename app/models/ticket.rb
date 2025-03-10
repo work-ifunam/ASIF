@@ -7,6 +7,7 @@ class Ticket < ActiveRecord::Base
   
   attr_accessible :technician_ids
 
+
   def technicians_symbols  
     technicians.map do |technician|  
       Technician.firstname.underscore.to_sym  
@@ -36,5 +37,6 @@ class Ticket < ActiveRecord::Base
           return Category.find(:all,:conditions => 'department = "null"')
        end
     end
+
 
 end
