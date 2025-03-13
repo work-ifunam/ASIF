@@ -601,7 +601,15 @@ end
     @ticket = Ticket.new
     @user = User.find(:all, :order => "lastname")
    # @category = Category.assignation(current_user.category);
-    @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
+    if params[:department] == 'taller' 
+      if DateTime.now < Time.local(2025,04,01,23,55)
+        @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
+      else
+        @category = Category.find(:all, :conditions => ['department LIKE ? AND id != ? ', params[:department], 91])
+      end
+    else
+      @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
+    end
     respond_to do |format|
       format.html 
       format.json { render json: @ticket }
