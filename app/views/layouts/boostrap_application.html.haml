@@ -1,0 +1,133 @@
+!!!
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+ %head
+  %title ASIF
+  %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
+  %meta{"http-equiv" => "viewport", "content" => "width=device-width, initial-scale=1"}
+  %meta{"http-equiv" => "content-language", "content" => "es"}
+  %meta{"http-equiv" => "description", "content" => " "}
+  %meta{"http-equiv" => "keywords", "content" => " "}
+  %meta{"http-equiv" => "author", "content" => "Daniel de J Rosales Mendoza"}
+  %meta{"http-equiv" => "copyright", "content" => " "}
+  %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
+  %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
+  = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+  = stylesheet_link_tag "application"
+  = stylesheet_link_tag "jquery-ui"
+  = javascript_include_tag "https://www.google.com/jsapi"
+  = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
+  = javascript_include_tag "application"
+  =javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+  = javascript_include_tag "jquery-ui"
+  = javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+  %script{"type" => "text/javascript"}
+   $(function() {
+   $( ".accordion" ).accordion({
+   heightStyle: "content"
+   });
+   });
+  %script{"type" => "text/javascript"}
+   //gvChartInit();
+   //jQuery(document).ready(function(){
+   //jQuery('#mystats1').gvChart({
+   //chartType: 'PieChart',
+   //gvSettings: {
+   //vAxis: {title: 'Mis solicitudes de Servicio'},
+   //hAxis: {title: ' '},
+   //width: 700,
+   //height: 300
+   //}
+   //});
+   //});
+   //googleLoaded.done( function(){
+   //$('#mystats1').gvChart({
+   //chartType: 'PieChart',
+   //gvSettings: {
+   //vAxis: {title: 'Mis solicitudes'},
+   //hAxis: {title: ' '},
+   //tooltip: {text: 'percentage'},
+   //colors: ['#AA0001','#008080', '#D4AA01', '#D45508', '#028001', '#6d0202'],
+   //pieHole: 0.4,
+   //width: 720,
+   //height: 300,
+   //}
+   //});
+   //});
+   // Load the Visualization API and the corechart package.
+   google.charts.load('current', {'packages':['corechart']});
+   // Set a callback to run when the Google Visualization API is loaded.
+   google.charts.setOnLoadCallback(drawChart);
+   
+   // Callback that creates and populates a data table,
+   // instantiates the pie chart, passes in the data and
+   // draws it.
+   function drawChart() {
+   // Create the data table.
+   var data = new google.visualization.DataTable();
+   data.addColumn('string', 'Topping');
+   data.addColumn('number', 'Slices');
+   data.addRows([['Mushrooms', 3],['Onions', 1],['Olives', 1],['Zucchini', 1],['Pepperoni', 2]]);
+   // Set chart options
+   var options = {'title':'How Much Pizza I Ate Last Night','width':720,'height':300, colors: ['#AA0001','#008080', '#D4AA01', '#D45508', '#028001', '#6d0202'], pieHole: 0.4 };
+   // Instantiate and draw our chart, passing in some options.
+   var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+   chart.draw(data, options);
+   }
+ %body
+  %div#wrapper
+   %div#header1
+    %div#title
+     ASIF  
+    %div#title2
+     Administrador de Solicitudes del Instituto de F&iacute;sica
+   %div#main_content
+    %div#left_menu
+     =image_tag("icono_computo.png")
+     %ul
+      %li 
+       = link_to 'Mis Solicitudes', home_path
+      %li 
+       - if current_user.category == "Admin COMPUTO"
+        = link_to 'Solicitudes en Cómputo', tickets_path
+       - elsif current_user.category == 'SAC' || current_user.category == "Dirección" || current_user.category == 'Sec COMPUTO'
+        = link_to 'Solicitudes en Cómputo', show_computer_tickets_path
+       - else
+        = link_to 'Solicitudes en Cómputo',my_computer_reports_path
+      %li
+       - if current_user.category == "Admin TALLER"
+        = link_to 'Solicitudes en Taller', tickets_path
+       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
+        = link_to 'Solicitudes en Taller', show_workshop_tickets_path
+       - else
+        = link_to 'Solicitudes en Taller', my_workshop_reports_path
+        =# link_to 'Solicitudes en Taller', show_workshop_tickets_path
+      %li
+       - if current_user.category == "Admin ELECTRONICA" || current_user.category == 'SAC' 
+        = link_to 'Solicitudes en Electrónica', tickets_path
+       - elsif current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
+        = link_to 'Solicitudes en Electrónica', show_electronic_tickets_path 
+       - else
+        = link_to 'Solicitudes en Electrónica',my_electronic_reports_path
+      %li
+       - if current_user.category == "Admin COMUNICACION" 
+        = link_to 'Solicitudes en Unidad de Comunicación', tickets_path
+       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
+        = link_to 'Solicitudes en Unidad de Comunicación', show_communication_tickets_path 
+       - else
+        = link_to 'Solicitudes en Unidad de Comunicación',my_communication_reports_path
+      %li
+       - if current_user.category == "Admin MANTENIMIENTO"
+        = link_to 'Solicitudes en Mantenimiento', tickets_path
+       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
+        = link_to 'Solicitudes en Mantenimiento', show_maintenance_tickets_path 
+       - else
+        = link_to 'Solicitudes en Mantenimiento', my_maintenance_reports_path
+      %li
+       = link_to 'Salir', logout_path 
+    %div#content
+     = yield  
+   %div#footer
+    Instituto de F&iacute;sica UNAM -
+    = @current_year
+   %div.clear
