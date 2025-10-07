@@ -1,0 +1,144 @@
+<% if current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
+<h1 class="maintitle"><%= @search.department.upcase%> (<%= @tickets.count.to_s %>)</h1>
+<%# if @search.technician_name != 'Todos' %>
+  <h1 class="subtitle text-left">Personal: <%= @search.technician_name%></h1>
+<%# else %>
+  <h1 class="subtitle text-left">Categor&iacute;a: <%= @search.category_name%></h1>
+<%# end %>
+<h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
+<%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, :tech_id => @search.technicians.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+</h4>
+<div class="row search-box">
+  <div class="pull-right range-query">
+  <hr></hr>
+    <%= form_tag show_electronic_tickets_with_advanced_search_path, method: :get do %>
+      <div class="row">
+      	<div class="col-xs-6 col-md-4">
+      	  Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s %>
+      	</div>
+      	<div class="col-xs-6 col-md-4">
+      	  Fin: <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s %>   
+      	</div>
+      	<div class="col-xs-6 col-md-4">
+      	  <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', @ticket_type), :id, :name),  :prompt => "Todas las categorías" %>
+      	</div>
+      </div>
+      <div class="row">
+      	<div class="col-xs-6 col-md-4">
+      	   Atendio: <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname),  :prompt => "Todos" %>
+      	<div class="col-xs-6 col-md-4">
+      	   <%= hidden_field_tag 'search[department]', @search.department.to_s %>
+      	   <%= hidden_field_tag 'search[category_name]', @search.category_name.to_s %>
+      	   <%= submit_tag 'Buscar', class: 'btn search-button' %>
+      	</div>
+      	</div>
+      </div>
+    <% end %>
+  <hr></hr>
+  </div>
+</div>
+<div class="stats text-center">
+<div id="chart_div">
+<table id="mystats1">
+  <!--<caption>SOLICITUDES ACTIVAS EN <%= @search.department.upcase%> (<%#= @last_year + '-' + @current_year %>)</caption>-->
+  <caption>PERIODO: </caption>
+  <caption><%= @search.date_from.to_s + ' - ' + @search.date_to.to_s %></caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
+      <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
+      <th>EN REVISION (<%= @revision.count.to_s %>)</th>
+      <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
+      <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th></th>
+      <td><%= @notattended.count.to_s %></td>
+      <td><%= @waiting.count.to_s %></td>
+      <td><%= @inprocess.count.to_s %></td>
+      <td><%= @revision.count.to_s %></td>
+      <td><%= @finished.count.to_s %></td>
+      <td><%= @canceled.count.to_s %></td>
+    </tr>
+  </tbody>
+</table></div>
+</div>
+<!---->
+<div class="status-bar">
+  <button class="btn btn-primary btn-notattended" <%= disabled = @notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
+  <button class="btn btn-primary btn-waiting" <%= disabled = @waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
+  <button class="btn btn-primary btn-inprocess" <%= disabled = @inprocess.count == 0 ? 'disabled':''%> onclick="openStatus('inprocess')">EN PROCESO (<%=@inprocess.count.to_s%>)</button>
+  <button class="btn btn-primary btn-revision" <%= disabled = @revision.count == 0 ? 'disabled':''%> onclick="openStatus('revision')">EN REVISION (<%=@revision.count.to_s%>)</button>
+  <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
+  <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
+</div>
+
+<div id="notattended" class="w3-container status" style="display:none">
+  <h4 class="subtitle">NO ATENDIDOS</h4>
+  <% @tickets_notattended.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_notattended%>
+</div>
+
+<div id="waiting" class="w3-container status" style="display:none">
+  <h4 class="subtitle">EN ESPERA</h4>
+  <% @tickets_waiting.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_waiting%>
+</div>
+
+<div id="inprocess" class="w3-container status" style="display:none">
+  <h4 class="subtitle">EN PROCESO</h4>
+  <% @tickets_inprocess.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_inprocess %>
+</div>
+
+<div id="revision" class="w3-container status" style="display:none">
+  <h4 class="subtitle">EN REVISION</h4>
+  <% @tickets_revision.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_revision %>
+</div>
+
+<div id="finished" class="w3-container status">
+  <h4 class="subtitle">ATENDIDOS</h4>
+  <% @tickets_finished.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_finished %>
+</div>
+
+<div id="canceled" class="w3-container status" style="display:none">
+  <h4 class="subtitle">CANCELADOS</h4>
+  <% @tickets_canceled.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_canceled %>
+</div>
+<!---->
+
+<br />
+
+
+
+<script>
+
+function openStatus(status) {
+  var i;
+  var x = document.getElementsByClassName("status");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(status).style.display = "block";  
+}
+</script>
+  <% end %>
