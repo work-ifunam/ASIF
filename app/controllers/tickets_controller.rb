@@ -5,23 +5,71 @@ def index
     tickets = Ticket.user(current_user.category)
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
     if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "Sec COMPUTO"
+      #if current_user.email == 'daniel@fisica.unam.mx'
+        @search = TicketSearch.new(params[:search])
+        @ticket_type = 'computo'
+        @tickets = @search.scope(@ticket_type)
+        if params[:date_from] && params[:date_to]  
+          @download = @search.full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to])
+        else
+          @download = @tickets
+        end
+        #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
+        @notattended = @search.scope_status('NO_ATENDIDO', @ticket_type)
+        @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
+        @revision = @search.scope_status('EN_REVISION', @ticket_type)
+        @tickets_revision = Kaminari.paginate_array(@revision).page(params[:page])
+        @finished = @search.scope_status('ENTREGADO', @ticket_type)
+        @tickets_finished = Kaminari.paginate_array(@finished).page(params[:page])
+        @inprocess = @search.scope_status('EN_PROCESO', @ticket_type)
+        @tickets_inprocess = Kaminari.paginate_array(@inprocess).page(params[:page])
+        @waiting = @search.scope_status('EN_ESPERA', @ticket_type)
+        @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
+        @canceled = @search.scope_status('CANCELADO', @ticket_type)
+        @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
+      #else
       #@computer_tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"])
-      @computer_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"computo", @current_year])
-      @computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
+      
+      #@computer_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?',"computo", @current_year])
       #@computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
-      @computer_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","computo", @current_year])
-      @computer_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","computo", @current_year])
-      @computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","computo", @current_year])
-      @computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","computo", @current_year])
-      @computer_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","computo", @current_year])
+      #@computer_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
+      
+      #@computer_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_REVISION","computo", @current_year])
+      #@computer_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "ENTREGADO","computo", @current_year])
+      #@computer_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_PROCESO","computo", @current_year])
+      #@computer_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "EN_ESPERA","computo", @current_year])
+      #@computer_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "CANCELADO","computo", @current_year])
+      #end
     elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO"
-      @electronic_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) >= ?',"electronica", @last_year])
-      @electronic_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_REVISION","electronica", @last_year])
-      @electronic_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "ENTREGADO","electronica", @last_year])
-      @electronic_inprocess = Ticket.find(:all, :conditions => ['(status = ? OR status = ?) AND department = ? AND extract(year  from created_at) >= ?', "EN_PROCESO", "EN_REVISION", "electronica", @last_year])
-    @electronic_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "NO_ATENDIDO","electronica", @last_year])
-    @electronic_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_ESPERA","electronica", @last_year])
-    @electronic_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "CANCELADO","electronica", @last_year])
+        @search = TicketSearch.new(params[:search])
+        @ticket_type = 'electronica'
+        @tickets = @search.scope(@ticket_type)
+        if params[:date_from] && params[:date_to]  
+          @download = @search.full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to])
+        else
+          @download = @tickets
+        end
+        #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
+        @notattended = @search.scope_status('NO_ATENDIDO', @ticket_type)
+        @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
+        @revision = @search.scope_status('EN_REVISION', @ticket_type)
+        @tickets_revision = Kaminari.paginate_array(@revision).page(params[:page])
+        @finished = @search.scope_status('ENTREGADO', @ticket_type)
+        @tickets_finished = Kaminari.paginate_array(@finished).page(params[:page])
+        @inprocess = @search.scope_status('EN_PROCESO', @ticket_type)
+        @tickets_inprocess = Kaminari.paginate_array(@inprocess).page(params[:page])
+        @waiting = @search.scope_status('EN_ESPERA', @ticket_type)
+        @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
+        @canceled = @search.scope_status('CANCELADO', @ticket_type)
+        @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
+      #@ticket_type = 'electronica'
+      #@electronic_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) >= ?',"electronica", @last_year])
+      #@electronic_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_REVISION","electronica", @last_year])
+      #@electronic_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "ENTREGADO","electronica", @last_year])
+      #@electronic_inprocess = Ticket.find(:all, :conditions => ['(status = ? OR status = ?) AND department = ? AND extract(year  from created_at) >= ?', "EN_PROCESO", "EN_REVISION", "electronica", @last_year])
+    #@electronic_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "NO_ATENDIDO","electronica", @last_year])
+    #@electronic_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_ESPERA","electronica", @last_year])
+    #@electronic_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "CANCELADO","electronica", @last_year])
     elsif current_user.category == "Admin TALLER" || current_user.category == "Personal TALLER" || current_user.category == "Sec COMPUTO"
       @workshop_tickets = Ticket.find(:all, :conditions => ['department = ?', "taller"])
       @workshop_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "taller"])
@@ -61,27 +109,47 @@ def index
       @communication_waiting= Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "EN_ESPERA","comunicacion", @last_year])
       @communication_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) >= ?', "CANCELADO","comunicacion", @last_year])
     end  
-   respond_to do |format|
+
+    respond_to do |format|
       format.html 
       format.json { render json: @tickets }
+      format.xls { 
+        render xls: @download
+      }
     end
   end
 #Personal Tickets
   def show_personal_tickets
-    tickets =  Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech ', department: 'computo', tech: current_user.tech).order('tickets.created_at DESC')
-       @computer_tickets_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech', department: 'computo', tech: current_user.tech).where('extract(year from tickets.created_at) = ?', @current_year)
-       @computer_revision_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_REVISION').where('extract(year from tickets.created_at) = ?', @current_year)
-       @computer_notattended_tech = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year])
-       @computer_finished_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'ENTREGADO').where('extract(year from tickets.created_at) = ?', @current_year)
-       @computer_inprocess_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_PROCESO').where('extract(year from tickets.created_at) = ?', @current_year)
-       @computer_waiting_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_ESPERA').where('extract(year from tickets.created_at) = ?', @current_year)
-       @computer_canceled_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'CANCELADOS').where('extract(year from tickets.created_at) = ?', @current_year)
+    @ticket_type = 'computo'
+       tickets =  Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech ', department: 'computo', tech: current_user.tech).order('tickets.created_at DESC')
+       @computer_tickets_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech', department: 'computo', tech: current_user.tech).where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @revision = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_REVISION').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year], :order => "created_at DESC")
+       @finished = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'ENTREGADO').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @inprocess = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_PROCESO').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @waiting = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_ESPERA').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @canceled = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'CANCELADOS').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
+       @tickets_revision = Kaminari.paginate_array(@revision).page(params[:page])
+       @tickets_finished = Kaminari.paginate_array(@finished).page(params[:page])
+       @tickets_inprocess = Kaminari.paginate_array(@inprocess).page(params[:page])
+       @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
+       @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
+       @tickets_notattended_count = @notattended.count 
+       @download = @computer_tickets_tech
     #tickets =  Ticket.joins(:technicians).where(:all, :conditions => ['department = ? AND assignments.technician_id =?', 'computo', current_user.tech], :order => "created_at DESC")
     #tickets =  Ticket.joins(:technicians).where('department = "computo" and current_user.tech = assignments.technician_id', :order => "created_at DESC")
     #tickets = Ticket.find(:all, :conditions => ['department = ? AND technicians = ?',"computo", current_user.tech])
     #tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"], :order => "created_at DESC")
     @tickets = Kaminari.paginate_array(tickets).page(params[:page])
     #render :layout => 'show_computer_tickets'
+    respond_to do |format|
+      format.html 
+      format.json { render json: @tickets }
+      format.xls { 
+        render xls: @download
+      }
+    end
   end
 #Show Department Tickets
   def show_computer_tickets
@@ -137,7 +205,6 @@ def index
       format.json { render json: @computer_tickets }
       format.xls { 
         render xls: @download
-        #send_data @download.to_csv, :filename => "#{@ticket_type}: #{@search.category_name}-#{@search.date_from}-to-#{@search.date_from}.xls"
       }
     end
   #render :layout => 'show_computer_tickets'
@@ -150,7 +217,7 @@ def show_communication_tickets_with_search
   if params[:date_from] && params[:date_to]  
     @download = @search.full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to])
   else
-    @download = @workshop_tickets
+    @download = @tickets
   end
   #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
   @notattended = @search.scope_status('NO_ATENDIDO', @ticket_type)
@@ -169,7 +236,7 @@ def show_communication_tickets_with_search
   respond_to do |format|
     format.html 
     format.json { render json: @tickets }
-    format.xls { render xls: @tickets}
+    format.xls { render xls: @download}
   end
 #render :layout => 'show_computer_tickets'
 end  
@@ -181,7 +248,7 @@ def show_workshop_tickets_with_search
   if params[:date_from] && params[:date_to]  
     @download = @search.full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to])
   else
-    @download = @workshop_tickets
+    @download = @tickets
   end
   #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
   @notattended = @search.scope_status('NO_ATENDIDO', @ticket_type)
@@ -200,7 +267,7 @@ def show_workshop_tickets_with_search
   respond_to do |format|
     format.html 
     format.json { render json: @tickets }
-    format.xls { render xls: @tickets}
+    format.xls { render xls: @download}
   end
 #render :layout => 'show_computer_tickets'
 end  
@@ -212,7 +279,7 @@ def show_electronic_tickets_with_search
   if params[:date_from] && params[:date_to]  
     @download = @search.full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to])
   else
-    @download = @workshop_tickets
+    @download = @tickets
   end
   #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
   @notattended = @search.scope_status('NO_ATENDIDO', @ticket_type)
@@ -231,7 +298,55 @@ def show_electronic_tickets_with_search
   respond_to do |format|
     format.html 
     format.json { render json: @tickets }
-    format.xls { render xls: @tickets}
+    format.xls { render xls: @download}
+  end
+#render :layout => 'show_computer_tickets'
+end  
+
+      def my_chart_data
+	@notattended = notattended
+	logger.debug "MY CHART NOT ATTENDED: #{@notattended}"
+        data_array = [["NO ATENDIDO", "10"],["EN REVISION", "90"]]
+	data = data_array.to_json
+	#data = @search.advanced_scope(@ticket_type) { |item| [item.label, item.value] }
+        render json: data
+      end
+
+def show_electronic_tickets_with_advanced_search
+  logger.debug "--------------------------------------"
+  logger.debug "SHOW ELECTRONIC TICKETS WITH ADVANCED SEARCH"
+  @search = TicketSearch.new(params[:search])
+  @ticket_type = 'electronica'
+  #Filtro de busqueda
+  @tickets = @search.advanced_scope(@ticket_type)
+  if params[:date_from] && params[:date_to]
+  	#Generacion de archivo xls
+  	logger.debug "--------------------------------------"
+  	logger.debug "ENTER TO DOWNLOAD OPTION"
+    	@download = @search.tech_full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to], params[:tech_id])
+  else
+    @download = @tickets
+  end
+  #Filtro por status
+  #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
+  @notattended = @search.advanced_scope_with_status('NO_ATENDIDO', @ticket_type)
+  @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
+  @revision = @search.advanced_scope_with_status('EN_REVISION', @ticket_type)
+  @tickets_revision = Kaminari.paginate_array(@revision).page(params[:page])
+  @finished = @search.advanced_scope_with_status('ENTREGADO', @ticket_type)
+  @tickets_finished = Kaminari.paginate_array(@finished).page(params[:page])
+  @inprocess = @search.advanced_scope_with_status('EN_PROCESO', @ticket_type)
+  @tickets_inprocess = Kaminari.paginate_array(@inprocess).page(params[:page])
+  @waiting = @search.advanced_scope_with_status('EN_ESPERA', @ticket_type)
+  @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
+  @canceled = @search.advanced_scope_with_status('CANCELADO', @ticket_type)
+  @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
+  #render :layout => 'boostrap_application'
+  respond_to do |format|
+    format.html 
+    #format.html {render :layout => 'boostrap_application2'}
+    format.json { render json: @tickets }
+    format.xls { render xls: @download}
   end
 #render :layout => 'show_computer_tickets'
 end  
@@ -243,7 +358,7 @@ def show_maintenance_tickets_with_search
   if params[:date_from] && params[:date_to]  
     @download = @search.full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to])
   else
-    @download = @workshop_tickets
+    @download = @tickets
   end
   #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
   @notattended = @search.scope_status('NO_ATENDIDO', @ticket_type)
@@ -262,7 +377,7 @@ def show_maintenance_tickets_with_search
   respond_to do |format|
     format.html 
     format.json { render json: @tickets }
-    format.xls { render xls: @tickets}
+    format.xls { render xls: @download}
   end
 #render :layout => 'show_computer_tickets'
 end  
