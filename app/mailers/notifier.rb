@@ -73,7 +73,7 @@ class Notifier < ActionMailer::Base
     #mail(:to => "sac-if@fisica.unam.mx , mcuautle@fisica.unam.mx, jicruzm@fisica.unam.mx, jicruz@fisica.unam.mx",
     #mail(:to => "sac-if@fisica.unam.mx",
     #mail(:to => "jicruzm@fisica.unam.mx",
-    mail(:to => "sac-ifm@fisica.unam.mx",
+    mail(:to => "sac-if@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - ELECTRONICA",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
