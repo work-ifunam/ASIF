@@ -18,6 +18,8 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'login' => "user_sessions#new",      :as => :login
   match 'logout' => "user_sessions#destroy", :as => :logout
   match 'send_students_message' => "user_sessions#send_students_message", :as => :send_students_message
+  
+  get 'my_chart_data', to: 'tickets#my_chart_data'
 
   match 'my_workshop_reports' => "reports#my_workshop_reports",           :as => :my_workshop_reports
   match 'my_electronic_reports' => "reports#my_electronic_reports",           :as => :my_electronic_reports
@@ -33,6 +35,7 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'show_communication_tickets_with_search' => "tickets#show_communication_tickets_with_search", :as => :show_communication_tickets_with_search
   match 'show_workshop_tickets_with_search' => "tickets#show_workshop_tickets_with_search", :as => :show_workshop_tickets_with_search
   match 'show_electronic_tickets_with_search' => "tickets#show_electronic_tickets_with_search", :as => :show_electronic_tickets_with_search
+  match 'show_electronic_tickets_with_advanced_search' => "tickets#show_electronic_tickets_with_advanced_search", :as => :show_electronic_tickets_with_advanced_search
   match 'show_maintenance_tickets_with_search' => "tickets#show_maintenance_tickets_with_search", :as => :show_maintenance_tickets_with_search
   
   match 'show_electronic_tickets' => "tickets#show_electronic_tickets", :as => :show_electronic_tickets

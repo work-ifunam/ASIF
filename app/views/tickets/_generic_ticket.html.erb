@@ -29,7 +29,7 @@
         <td width="45%">
           <% if ticket.ideal_time %>
           <p class="ticket_responsible2">Fecha estimada de entrega: 
-            <small>
+            <small class="date">
               <%= ticket.ideal_time.strftime("%d/%m/%Y") %>
             </small></p>
           <% end %>
@@ -39,17 +39,18 @@
                 <%= ticket.ended_at.strftime("%d/%m/%Y") %>
               </small></p>
           <% end %>
-            <% if (current_user.category == "Sec COMPUTO" && @ticket_type == 'computo') || (current_user.category == "SAC" && @ticket_type == 'electronica')%>
+ 
+            <% if (current_user.category == "Sec COMPUTO" && @ticket_type == 'computo') || (current_user.category == "Admin COMPUTO" && @ticket_type == 'computo') || (current_user.category == "SAC" && @ticket_type == 'electronica') %>
               <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "btn action-button line-3" %><br />
-              <% if ticket.technicians.count == 0 && @ticket_type == 'computo'%>
+	    <% end %>
+              <% if ticket.technicians.count == 0 && (@ticket_type == 'computo' || @ticket_type == 'electronica') %>
                 <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "btn action-button-taken" %>
               <%end %>  
-              <% if ticket.technicians.count > 0 && @ticket_type == 'computo' %>
+              <% if ticket.technicians.count > 0 && (@ticket_type == 'computo' || @ticket_type == 'electronica')%>
                 <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
                   <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "btn action-button-closed" %>
                 <% end %>    
               <% end %>  
-            <% end %>
         </td>
         <td width="10%">
           <% if ticket.status == "NO_ATENDIDO" %>
