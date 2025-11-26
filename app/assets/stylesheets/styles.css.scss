@@ -645,4 +645,43 @@ small.date{
   margin: 0 !important;
   padding: 0 !important;
 }
-
+input[type=text].small-field{
+  width: 20%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  background-image: url('searchicon.png');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 10px;
+  margin: 0 5px 10px 0;
+}
+select.small-field{
+  width: 30%;
+  font-size: 14px;
+  padding: 12px 15px;
+  border: 2px solid #ccc;
+  //border: none;
+  border-radius: 4px;
+  //background-color: #f1f1f1;
+  background-color: white;
+  margin: 0 10px 10px 0;
+}
+.search-advanced-button{
+  font-size: 14px;
+  text-decoration: none;
+  background-color: #bcb5b5;
+  border-color: #bcb5b5;
+  color: white;
+  margin: 0.5 2em;
+  border: 2px solid;
+}
+.search-advanced-button:hover{
+  color: white;
+  background-color: #7c7575;
+  border-color: #7c7575;
+  border: 2px solid;
+  margin: 0.5 2em;
+}

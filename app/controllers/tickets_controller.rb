@@ -318,7 +318,18 @@ def show_electronic_tickets_with_advanced_search
   @search = TicketSearch.new(params[:search])
   @ticket_type = 'electronica'
   #Filtro de busqueda
-  @tickets = @search.advanced_scope(@ticket_type)
+
+  if @search.folio
+  	logger.debug "--------------------------------------"
+  	logger.debug "SHOW ELECTRONIC TICKETS WITH ADVANCED SEARCH------ONLY FOLIO"
+  	logger.debug "--------------------------------------"
+  	@tickets = @search.scope_with_folio(@ticket_type, @search.folio)
+  else
+  	logger.debug "--------------------------------------"
+  	logger.debug "SHOW ELECTRONIC TICKETS WITH ADVANCED SEARCH------IGNORING FOLIO"
+  	logger.debug "--------------------------------------"
+  	@tickets = @search.advanced_scope(@ticket_type)
+  end
   if params[:date_from] && params[:date_to]
   	#Generacion de archivo xls
   	logger.debug "--------------------------------------"
@@ -680,7 +691,7 @@ end
  
   def take_ticket
    @ticket = Ticket.find(params[:id])
-   @ticket.status = "EN_PROCESO"
+   @ticket.status = "EN_ESPERA"
    @ticket.taked_at = Time.now
    @ticket.save
    @assignment = Assignment.new
@@ -717,7 +728,7 @@ end
     @user = User.find(:all, :order => "lastname")
    # @category = Category.assignation(current_user.category);
     if params[:department] == 'taller' 
-      if DateTime.now < Time.local(2025,04,01,23,55)
+      if DateTime.now < Time.local(2025,11,28,23,55)
         @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
       else
         @category = Category.find(:all, :conditions => ['department LIKE ? AND id != ? ', params[:department], 91])
