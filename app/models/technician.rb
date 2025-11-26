@@ -27,5 +27,8 @@ class Technician < ActiveRecord::Base
     end
   end
 
+  def fullname
+	self.firstname << " " << self.lastname
+  end
 
 end

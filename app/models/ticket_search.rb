@@ -1,6 +1,6 @@
 class TicketSearch < ActiveRecord::Base
 
-  attr_reader :date_from, :date_to, :department, :category, :category_name, :tech, :technicians, :technician_name
+  attr_reader :date_from, :date_to, :department, :category, :category_name, :tech, :technicians, :technician_name, :folio
 
   def initialize(params)
    params ||= {}
@@ -9,6 +9,11 @@ class TicketSearch < ActiveRecord::Base
       @department = params[:department].to_s 
       @category = params[:category].to_s
       @technicians = params[:technicians].to_s
+      if params[:folio].present?
+      	@folio = params[:folio].to_s
+      else
+      	@folio = nil
+      end
       if params[:category].present?
          @category_names = Category.where('id = ? ', @category).pluck(:name)
          #@category_names = Category.where('id = ? ', @category).pluck(:name)
@@ -26,6 +31,14 @@ class TicketSearch < ActiveRecord::Base
       if params[:tech].present?
          @tech = params[:tech].to_s
       end
+  end
+
+  def scope_with_folio(department, folio)
+   logger.debug "--------------------------------------"
+   logger.debug "SCOPE FOLIO"
+   logger.debug "--------------------------------------"
+   @department = department
+   Ticket.where('folio = ? AND department = ?', @folio, @department)
   end
 
   def scope(department)
@@ -68,16 +81,23 @@ class TicketSearch < ActiveRecord::Base
       	    Ticket.joins(:technicians).where('department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @department, @technicians, @date_from, @date_to).order('tickets.created_at DESC')
    else
       logger.debug "--------------------------------------"
-      logger.debug "ALL THE DATA"
+      logger.debug "ALL THE DATA FROM advanced_scope L57"
       Ticket.where('department = ?  AND created_at BETWEEN ? AND ?', @department, @date_from.to_date, @date_to.to_date.end_of_day).order("created_at DESC")
    end
   end
 
   #Filtrar a partir de parametros recibidos en la busqueda y estatus de solicitud
-  def advanced_scope_with_status(status, depaartment)
+  def advanced_scope_with_status(status, department)
    @status = status
    @department = department
-   if @category != ''
+   if @folio != nil
+	logger.debug "--------------------------------------"
+	logger.debug "ADVANCED SCOPE WITH FOLIO"
+	logger.debug "-Folio: #{@folio}"
+	logger.debug "-Department: #{@department}"
+	logger.debug "-Status: #{@status}"
+   	Ticket.where('folio = ? AND department = ? AND status = ?', @folio, @department, @status)
+   elsif @category != ''
 	if @technicians !=''
 	    logger.debug "--------------------------------------"
 	    logger.debug "ADVANCED SCOPE WITH TECHNICIAN AND CATEGORY"
@@ -102,7 +122,7 @@ class TicketSearch < ActiveRecord::Base
       	    Ticket.joins(:technicians).where('status = ? AND department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @status, @department, @technicians, @date_from, @date_to).order('tickets.created_at DESC')
    else
       logger.debug "--------------------------------------"
-      logger.debug "ALL THE DATA"
+      logger.debug "ALL THE DATA FROM advanced_scope_with_status L90"
       Ticket.where('status = ? AND department  = ? AND created_at BETWEEN ? AND ?', @status, @department, @date_from.to_date, @date_to.to_date.end_of_day).order("created_at DESC")
    end
   end
