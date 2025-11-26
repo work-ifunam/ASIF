@@ -10,6 +10,7 @@
       Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s %>
       Fin: <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s %>   
       <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', 'computo'), :id, :name),  :prompt => "Todas las categorías" %>
+      <!--Atendio: <%#= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%COMPUTO%'), :id, :firstname),  :prompt => "Todos" %>-->
       <%= hidden_field_tag 'search[department]', @search.department.to_s %>
       <%= hidden_field_tag 'search[category_name]', @search.category_name.to_s %>
       <%= submit_tag 'Buscar', class: 'btn search-button' %>
