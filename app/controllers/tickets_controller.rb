@@ -330,14 +330,23 @@ def show_electronic_tickets_with_advanced_search
   	logger.debug "--------------------------------------"
   	@tickets = @search.advanced_scope(@ticket_type)
   end
-  if params[:date_from] && params[:date_to]
-  	#Generacion de archivo xls
+  if params[:folio]
+  	logger.debug "--------------------------------------"
+  	logger.debug "ENTER TO DOWNLOAD OPTION-----ONLY FOLIO"
+  	@download = @search.scope_with_folio(@ticket_type, params[:folio])
+	logger.debug "DOWNLOAD WITH FOLIO: #{@download}"
+  elsif params[:date_from] && params[:date_to]
   	logger.debug "--------------------------------------"
   	logger.debug "ENTER TO DOWNLOAD OPTION"
     	@download = @search.tech_full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to], params[:tech_id])
   else
-    @download = @tickets
+    	@download = @tickets
   end
+  #if params[:date_from] && params[:date_to]
+  	#Generacion de archivo xls
+  #else
+  #  @download = @tickets
+  #end
   #Filtro por status
   #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
   @notattended = @search.advanced_scope_with_status('NO_ATENDIDO', @ticket_type)
