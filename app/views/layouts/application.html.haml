@@ -83,7 +83,7 @@
        - if current_user.category == "Admin ELECTRONICA"  
         = link_to 'Solicitudes en Electrónica', tickets_path
        - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección" 
-        = link_to 'Electrónica', show_electronic_tickets_with_search_path 
+        = link_to 'Electrónica', show_electronic_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Electrónica',my_electronic_reports_path
       %li
