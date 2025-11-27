@@ -7,7 +7,11 @@
   <h1 class="subtitle text-left">Categor&iacute;a: <%= @search.category_name%></h1>
 <% end %>
 <h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
-<%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, :tech_id => @search.technicians.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% if @search.folio != nil %>
+	<%= link_to 'DESCARGAR RESULTADOS', url_for(:folio => @search.folio.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% else %>
+	<%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, :tech_id => @search.technicians.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% end %>
 </h4>
 <div class="row search-box">
   <div class="pull-right range-query">
@@ -16,7 +20,6 @@
     <%= form_tag show_electronic_tickets_with_advanced_search_path, method: :get do %>
       	<div class="col-xs-6 col-md-4">
       	  No. ticket: <%= text_field_tag 'search[folio]', params['search[folio]'], class: 'small-field', placeholder: 'Buscar por número de ticket' %>
-      	</div>
       	</div>
       	<div class="col-xs-6 col-md-4">
       	  Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s, class: 'small-field', placeholder: 'Inicio' %>
