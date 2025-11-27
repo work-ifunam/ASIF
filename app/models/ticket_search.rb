@@ -38,6 +38,7 @@ class TicketSearch < ActiveRecord::Base
    logger.debug "SCOPE FOLIO"
    logger.debug "--------------------------------------"
    @department = department
+   @folio = folio
    Ticket.where('folio = ? AND department = ?', @folio, @department)
   end
 
