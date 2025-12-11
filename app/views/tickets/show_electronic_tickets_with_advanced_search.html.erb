@@ -1,16 +1,21 @@
-<% if current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
+<% if current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Admin ELECTRONICA" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
 <h1 class="maintitle"><%= @search.department.upcase%> (<%= @tickets.count.to_s %>)</h1>
 <% if @search.folio != nil %>
   <h1 class="subtitle text-left">Folio: <%= @search.folio%></h1>
 <% else %>
+  <% if @search.user_search != nil %>
+  <h1 class="subtitle text-left">Solicitante: <%= @search.user_search%></h1>
+  <% end %>
   <h1 class="subtitle text-left">Personal: <%= @search.technician_name%></h1>
   <h1 class="subtitle text-left">Categor&iacute;a: <%= @search.category_name%></h1>
 <% end %>
 <h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
+<% if current_user.category != "Admin ELECTRONICA"  %>
 <% if @search.folio != nil %>
 	<%= link_to 'DESCARGAR RESULTADOS', url_for(:folio => @search.folio.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
 <% else %>
 	<%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, :tech_id => @search.technicians.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% end %>
 <% end %>
 </h4>
 <div class="row search-box">
@@ -28,6 +33,36 @@
       	</div>
       	<div class="col-xs-6 col-md-4">
       	   Atendio: <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname),  :prompt => "Todos", class: 'small-field'%>
+<% if current_user.category != "Admin ELECTRONICA"  %>
+      	  Solicito: 
+    <%= text_field_tag :user_search, '',
+                       data: { autocomplete_source: autocomplete_user_name_users_path} , class: 'small-field'%>
+    <%#= text_field_tag 'search[folio]', params['search[folio]'], class: 'small-field', placeholder: 'Buscar por número de ticket' %>
+<% end %>
+    <script type="text/javascript">
+      $(function() {
+        $('#user_search').autocomplete({
+          source: $('#user_search').data('autocomplete-source'),
+          minLength: 2, // Minimum characters before triggering autocomplete
+          select: function(event, ui) {
+            // Handle the selection, e.g., populate a hidden field with the user ID
+            // or perform another action based on the selected user.
+            console.log("Selected user ID:", ui.item.id);
+            console.log("Selected user Value:", ui.item.value);
+            console.log("Selected user name:", ui.item.label);
+            // Example: set a hidden field for user ID
+            $('#selected_user_id').val(ui.item.id);
+            $('#user_search').val(ui.item.id);
+            $('#search').val(ui.item.id);
+            $('#selected_user_name').val(ui.item.label);
+          }
+        });
+      });
+    </script>
+
+    <%= hidden_field_tag :selected_user_id %>
+<!--
+-->
       </div>
       <div class="row">
       	<div class="col-xs-6 col-md-4">
