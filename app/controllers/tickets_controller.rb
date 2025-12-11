@@ -272,6 +272,7 @@ def show_workshop_tickets_with_search
 #render :layout => 'show_computer_tickets'
 end  
 
+=begin
 def show_electronic_tickets_with_search
   @search = TicketSearch.new(params[:search])
   @ticket_type = 'electronica'
@@ -281,7 +282,6 @@ def show_electronic_tickets_with_search
   else
     @download = @tickets
   end
-  #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
   @notattended = @search.scope_status('NO_ATENDIDO', @ticket_type)
   @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
   @revision = @search.scope_status('EN_REVISION', @ticket_type)
@@ -294,15 +294,71 @@ def show_electronic_tickets_with_search
   @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
   @canceled = @search.scope_status('CANCELADO', @ticket_type)
   @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
-  #render :layout => 'boostrap_application'
   respond_to do |format|
     format.html 
     format.json { render json: @tickets }
     format.xls { render xls: @download}
   end
+end  
+=end
+def show_electronic_tickets_with_search
+  logger.debug "--------------------------------------"
+  logger.debug "SHOW ELECTRONIC TICKETS WITH ADVANCED SEARCH"
+  @search = TicketSearch.new(params[:search])
+  @ticket_type = 'electronica'
+  #Filtro de busqueda
+
+  if @search.folio
+  	logger.debug "--------------------------------------"
+  	logger.debug "SHOW ELECTRONIC TICKETS WITH ADVANCED SEARCH------ONLY FOLIO"
+  	logger.debug "--------------------------------------"
+  	@tickets = @search.scope_with_folio(@ticket_type, @search.folio)
+  else
+  	logger.debug "--------------------------------------"
+  	logger.debug "SHOW ELECTRONIC TICKETS WITH ADVANCED SEARCH------IGNORING FOLIO"
+  	logger.debug "--------------------------------------"
+  	@tickets = @search.advanced_scope(@ticket_type)
+  end
+  if params[:folio]
+  	logger.debug "--------------------------------------"
+  	logger.debug "ENTER TO DOWNLOAD OPTION-----ONLY FOLIO"
+  	@download = @search.scope_with_folio(@ticket_type, params[:folio])
+	logger.debug "DOWNLOAD WITH FOLIO: #{@download}"
+  elsif params[:date_from] && params[:date_to]
+  	logger.debug "--------------------------------------"
+  	logger.debug "ENTER TO DOWNLOAD OPTION"
+    	@download = @search.tech_full_scope(params[:cat], @ticket_type, params[:date_from], params[:date_to], params[:tech_id])
+  else
+    	@download = @tickets
+  end
+  #if params[:date_from] && params[:date_to]
+  	#Generacion de archivo xls
+  #else
+  #  @download = @tickets
+  #end
+  #Filtro por status
+  #@tickets = Kaminari.paginate_array(@computer_tickets).page(params[:page])
+  @notattended = @search.advanced_scope_with_status('NO_ATENDIDO', @ticket_type)
+  @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
+  @revision = @search.advanced_scope_with_status('EN_REVISION', @ticket_type)
+  @tickets_revision = Kaminari.paginate_array(@revision).page(params[:page])
+  @finished = @search.advanced_scope_with_status('ENTREGADO', @ticket_type)
+  @tickets_finished = Kaminari.paginate_array(@finished).page(params[:page])
+  @inprocess = @search.advanced_scope_with_status('EN_PROCESO', @ticket_type)
+  @tickets_inprocess = Kaminari.paginate_array(@inprocess).page(params[:page])
+  @waiting = @search.advanced_scope_with_status('EN_ESPERA', @ticket_type)
+  @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
+  @canceled = @search.advanced_scope_with_status('CANCELADO', @ticket_type)
+  @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
+  #render :layout => 'boostrap_application'
+  respond_to do |format|
+    format.html 
+    #format.html {render :layout => 'boostrap_application2'}
+    format.json { render json: @tickets }
+    format.xls { render xls: @download}
+  end
 #render :layout => 'show_computer_tickets'
 end  
-
       def my_chart_data
 	@notattended = notattended
 	logger.debug "MY CHART NOT ATTENDED: #{@notattended}"
@@ -883,4 +939,5 @@ end
       format.json { head :no_content }
     end
   end
+
 end
