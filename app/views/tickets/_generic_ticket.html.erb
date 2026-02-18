@@ -27,6 +27,12 @@
           <% end %>
         </td>
         <td width="45%">
+          <% if ticket.schedule_time %>
+          <p class="ticket_responsible2">Horario de atención: 
+            <small class="date">
+              <%= ticket.schedule_time.strftime("%H:%M") %>
+            </small></p>
+          <% end %>
           <% if ticket.ideal_time %>
           <p class="ticket_responsible2">Fecha estimada de entrega: 
             <small class="date">

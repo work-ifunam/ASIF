@@ -1,5 +1,5 @@
 class Ticket < ActiveRecord::Base
-  attr_accessible :category, :description, :priority, :status, :technician, :user_id, :id, :department, :revision, :ideal_time, :revision_old, :folio, :ext, :location
+  attr_accessible :category, :description, :priority, :status, :technician, :user_id, :id, :department, :revision, :ideal_time, :revision_old, :folio, :ext, :location, :schedule_time
   belongs_to :user
   has_many :assignments
   has_many :technicians, :through => :assignments

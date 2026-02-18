@@ -1,8 +1,7 @@
 <h1>Por favor complete el siguiente formulario:</h1>
-<% if params[:department] == "mantenimiento" %>
-   <p class="mAdvise">Indicar edificio, número de cubículo o laboratorio. En caso de hacer una solicitud de <strong>"ADECUACI&Oacute;N"</strong>, es necesario tener carta de autorización de jefe de departamento que indique partida del presupuesto del que se tomará el recurso.</p>	
-<% end %>
-<%= if params[:department] == "servicio" 
+<%= if params[:department] == "mantenimiento"
+	render 'maintenanceform' 
+   elsif params[:department] == "servicio" 
 	render 'serviceform' 
    else
 	render 'form' 
