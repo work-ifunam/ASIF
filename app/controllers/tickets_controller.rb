@@ -730,7 +730,7 @@ end
     if params[:department] == 'taller' 
       #if DateTime.now < Time.local(2026,05,13,23,59) && DateTime.now > Time.local(2026,05,23,23,59)
       inicio = Time.zone.local(2026, 4, 23, 0, 0, 0)
-      fin = Time.zone.local(2026, 5, 13, 23, 59, 59)
+      fin = Time.zone.local(2026, 5, 18, 23, 59, 59)
       
       if (inicio..fin).cover?(Time.zone.now)
         @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
