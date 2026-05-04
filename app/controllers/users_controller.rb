@@ -64,4 +64,26 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def autocomplete_user_name
+        # Search for users matching the first name or last name
+    # Ensure you are using safe query methods like 'LIKE ?' with wildcards
+        @users = User.where("firstname LIKE ? OR lastname LIKE ?",
+                        "%#{params[:term]}%", "%#{params[:term]}%")
+                 .limit(20) # Limit the results for performance
+
+    # Format the results into an array of hashes or a simple array of names
+    list = @users.map do |user|
+      { id: "#{user.id}", label: "#{user.firstname} #{user.lastname}", value: "#{user.firstname} #{user.lastname}" }
+      #{ id: user.id, label: "#{user.firstname} #{user.lastname}", value: "#{user.firstname} #{user.lastname}" }
+    end
+
+    render json: list
+  end
+ # def autocomplete_users
+   #user = params[:user]
+  #  users = User.where("firstname LIKE ? OR lastname LIKE ?", "%#{params[:user]}%", "%#{params[:user]}%").order(:lastname)
+   # render json: users.map { |user| { label: "#{user.first_name} #{user.last_name}", value: user.id } }
+#SELECT id, CONCAT(firstname, ' ', lastname) AS fullname FROM helpdesk.users where firstname LIKE '%osales%' OR lastname LIKE '%osales%';
+   # render json: @fullnames.map(&:brand_nam)
+ # end
 end

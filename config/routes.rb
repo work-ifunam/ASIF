@@ -8,10 +8,13 @@ SuperSimpleHELPDESK::Application.routes.draw do
   resources :assignations
   resources :categories
   resources :tickets
-  resources :users
+  #resources :users do
+  resources :users do
+	get :autocomplete_user_name, on: :member
+	get :autocomplete_user_name, on: :collection
+  end
   resources :user_sessions
   resource :users, :as => 'account' 
-
   root :to => 'reports#index'
 
   match 'home' => "reports#index",           :as => :home
@@ -20,6 +23,7 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'send_students_message' => "user_sessions#send_students_message", :as => :send_students_message
   
   get 'my_chart_data', to: 'tickets#my_chart_data'
+  #get 'autocomplete_users' => "account#autocomplete_users" , on: :member # or :member if searching for a specific user
 
   match 'my_workshop_reports' => "reports#my_workshop_reports",           :as => :my_workshop_reports
   match 'my_electronic_reports' => "reports#my_electronic_reports",           :as => :my_electronic_reports
