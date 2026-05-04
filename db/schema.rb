@@ -11,16 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20221201154843) do
+ActiveRecord::Schema.define(:version => 20260218165401) do
 
   create_table "Reportetotal", :id => false, :force => true do |t|
     t.integer  "id",                               :default => 0, :null => false
     t.integer  "folio"
     t.string   "department"
     t.string   "Solicitante",       :limit => 511
-    t.string   "Email_Solicitante"
+    t.string   "email_solicitante"
     t.string   "Tecnico",           :limit => 511
-    t.string   "Email_Tecnico"
+    t.string   "email_tecnico"
+    t.string   "category"
     t.text     "description"
     t.string   "status"
     t.datetime "created_at",                                      :null => false
@@ -58,10 +59,10 @@ ActiveRecord::Schema.define(:version => 20221201154843) do
 
   create_table "reporteASIF", :id => false, :force => true do |t|
     t.integer  "id",          :default => 0, :null => false
+    t.integer  "folio"
     t.string   "firstname"
     t.string   "lastname"
     t.string   "email"
-    t.text     "description"
     t.string   "category"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
@@ -70,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20221201154843) do
     t.datetime "taked_at"
     t.datetime "ended_at"
     t.text     "revision"
+    t.text     "description"
   end
 
   create_table "scores", :force => true do |t|
@@ -120,6 +122,7 @@ ActiveRecord::Schema.define(:version => 20221201154843) do
     t.integer  "folio"
     t.string   "ext"
     t.string   "location"
+    t.time     "schedule_time"
   end
 
   create_table "users", :force => true do |t|

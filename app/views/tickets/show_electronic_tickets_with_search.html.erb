@@ -1,4 +1,4 @@
-<% if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
+<% if current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
 <h1 class="maintitle"><%= @search.department.upcase%> </h1>
 <h1 class="subtitle text-center"><%= @search.category_name%> (<%= @tickets.count.to_s %>)</h1>
 <h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
@@ -7,12 +7,12 @@
 <div class="row search-box">
   <div class="pull-right range-query">
     <%= form_tag show_electronic_tickets_with_search_path, method: :get do %>
-      Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s %>
-      Fin: <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s %>   
-      <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', @ticket_type), :id, :name),  :prompt => "Todas las categorías" %>
+      	  Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s %>
+           Fin: <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s %>   
+      	   <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', @ticket_type), :id, :name),  :prompt => "Todas las categorías" %>
       <%= hidden_field_tag 'search[department]', @search.department.to_s %>
       <%= hidden_field_tag 'search[category_name]', @search.category_name.to_s %>
-      <%= submit_tag 'Buscar', class: 'btn search-button' %>
+      	   <%= submit_tag 'Buscar', class: 'btn search-button' %>
     <% end %>
   </div>
 </div>

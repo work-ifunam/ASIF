@@ -22,6 +22,28 @@ class Notifier < ActionMailer::Base
     end
   end
 
+ def assign_to_computer(ticket)
+    @user = User.find(ticket.user_id)        
+    @category = Category.find(ticket.category)    
+    @description = ticket.description
+    @ext = ticket.ext
+    @id = ticket.id
+    @location = ticket.location
+    @folio = ticket.folio
+    @link = "computo"
+    emails = Array.new
+    ticket.technicians.each do |tech|
+      emails << tech.email + "," + " "
+    end
+    mail(:to => emails,
+         :subject => "Se le asignó una solicitud en ASIF - COMPUTO",
+         :from => "asif@fisica.unam.mx",
+         :fail_to => "asif@fisica.unam.mx"
+         ) do |format|
+      format.text
+    end
+  end
+
  def send_to_workshop(ticket)    
     @user = User.find(ticket.user_id)        
     @category = Category.find(ticket.category)    

@@ -1,6 +1,8 @@
 <% if current_user.category == "Admin COMPUTO" || current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
-<h1>Solicitudes de C&oacute;mputo (<%= @computer_tickets.count.to_s %>)</h1>
-<h2>Periodo: <%= 1.year.ago.strftime("%d/%m/%Y") + ' - ' + Date.current.strftime("%d/%m/%Y") %></h2>
+<h1>Solicitudes de C&oacute;mputo  - <%=   %> (<%= @computer_tickets.count.to_s %>)</h1>
+
+<hr></hr>
+<h2>Periodo: <%= @search.date_from.to_s + ' - ' + @search.date_to.to_s %></h2>
 <p>
 <%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "computo"), :class => "mylink2" %>
 </p>
@@ -40,7 +42,7 @@
     <td><center><%= link_to "EN REVISION (#{@computer_revision.count.to_s})", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
     <!--<td><center><%#= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>-->
     <td><center><%= link_to "ATENDIDOS (#{@computer_finished.count.to_s})", { :controller => "tickets", :action => "show_attended_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "CANCELADOS (#{@computer_canceled.count.to_s})", { :controller => "tickets", :action => "show_canceled_tickets", :department => "computo"}, :class => "mylink2" %></center></td>
+        <td><center><%= link_to "CANCELADOS (#{@computer_canceled.count.to_s})", { :controller => "tickets", :action => "show_canceled_tickets_with_search", :department => "computo", :date_from => "#{@search.date_from.to_date.strftime("%d/%m/%Y").to_s}", :date_to => "#{@search.date_to.to_date.strftime("%d/%m/%Y").to_s}", :category => "#{@category}"}, :class => "mylink2" %></center></td>
   </tr>
 </table>
 <br />

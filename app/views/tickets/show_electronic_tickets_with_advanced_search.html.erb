@@ -1,13 +1,22 @@
-<% if current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
+<% if current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Admin ELECTRONICA" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
 <h1 class="maintitle"><%= @search.department.upcase%> (<%= @tickets.count.to_s %>)</h1>
-<%# if @search.technician_name != 'Todos' %>
-  <h1 class="subtitle text-left">Personal: <%= @search.technician_name%></h1>
-<%# else %>
-  <h1 class="subtitle text-left">Categor&iacute;a: <%= @search.category_name%></h1>
+<% if @search.folio != nil %>
   <h1 class="subtitle text-left">Folio: <%= @search.folio%></h1>
-<%# end %>
+<% else %>
+  <% if @search.user_search != nil %>
+  <h1 class="subtitle text-left">Solicitante: <%= @search.user_search%></h1>
+  <% end %>
+  <h1 class="subtitle text-left">Personal: <%= @search.technician_name%></h1>
+  <h1 class="subtitle text-left">Categor&iacute;a: <%= @search.category_name%></h1>
+<% end %>
 <h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
-<%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, :tech_id => @search.technicians.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% if current_user.category != "Admin ELECTRONICA"  %>
+<% if @search.folio != nil %>
+	<%= link_to 'DESCARGAR RESULTADOS', url_for(:folio => @search.folio.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% else %>
+	<%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, :tech_id => @search.technicians.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% end %>
+<% end %>
 </h4>
 <div class="row search-box">
   <div class="pull-right range-query">
@@ -17,7 +26,6 @@
       	<div class="col-xs-6 col-md-4">
       	  No. ticket: <%= text_field_tag 'search[folio]', params['search[folio]'], class: 'small-field', placeholder: 'Buscar por número de ticket' %>
       	</div>
-      	</div>
       	<div class="col-xs-6 col-md-4">
       	  Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s, class: 'small-field', placeholder: 'Inicio' %>
       	  Fin: <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s, class: 'small-field', placeholder: 'Inicio' %>   
@@ -25,6 +33,36 @@
       	</div>
       	<div class="col-xs-6 col-md-4">
       	   Atendio: <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname),  :prompt => "Todos", class: 'small-field'%>
+<% if current_user.category != "Admin ELECTRONICA"  %>
+      	  Solicito: 
+    <%= text_field_tag :user_search, '',
+                       data: { autocomplete_source: autocomplete_user_name_users_path} , class: 'small-field'%>
+    <%#= text_field_tag 'search[folio]', params['search[folio]'], class: 'small-field', placeholder: 'Buscar por número de ticket' %>
+<% end %>
+    <script type="text/javascript">
+      $(function() {
+        $('#user_search').autocomplete({
+          source: $('#user_search').data('autocomplete-source'),
+          minLength: 2, // Minimum characters before triggering autocomplete
+          select: function(event, ui) {
+            // Handle the selection, e.g., populate a hidden field with the user ID
+            // or perform another action based on the selected user.
+            console.log("Selected user ID:", ui.item.id);
+            console.log("Selected user Value:", ui.item.value);
+            console.log("Selected user name:", ui.item.label);
+            // Example: set a hidden field for user ID
+            $('#selected_user_id').val(ui.item.id);
+            $('#user_search').val(ui.item.id);
+            $('#search').val(ui.item.id);
+            $('#selected_user_name').val(ui.item.label);
+          }
+        });
+      });
+    </script>
+
+    <%= hidden_field_tag :selected_user_id %>
+<!--
+-->
       </div>
       <div class="row">
       	<div class="col-xs-6 col-md-4">
@@ -68,6 +106,14 @@
 </table></div>
 </div>
 <!---->
+<% if @search.folio != nil %>
+<div id="finished" class="w3-container status">
+  <h4 class="subtitle">TICKET</h4>
+  <% @tickets.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+</div>
+<% else %>
 <div class="status-bar">
   <button class="btn btn-primary btn-notattended" <%= disabled = @notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
   <button class="btn btn-primary btn-waiting" <%= disabled = @waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
@@ -76,7 +122,6 @@
   <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
   <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
 </div>
-
 <div id="notattended" class="w3-container status" style="display:none">
   <h4 class="subtitle">NO ATENDIDOS</h4>
   <% @tickets_notattended.each do |ticket| %>
@@ -125,7 +170,7 @@
   <%= paginate @tickets_canceled %>
 </div>
 <!---->
-
+<% end %>
 <br />
 
 
