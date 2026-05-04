@@ -1,0 +1,20 @@
+---------------------------------
+TIENE UNA NUEVA ASIGNACION EN ASIF
+---------------------------------
+
+CATEGORIA: <%= @category.name %>
+
+SOLICITANTE: <%= @user.firstname %> <%= @user.lastname %>
+
+UBICACION: <%= @location%>
+
+CONTACTO
+- email: <%= @user.email %>
+- ext: <%= @ext %>
+
+SOLICITUD No.<%= @folio %>:
+
+<%= @description %>
+
+ATENDER SOLICITUD:
+https://asif.fisica.unam.mx/tickets/<%= @id %>/edit?department=<%= @link %>
