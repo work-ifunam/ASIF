@@ -1,6 +1,6 @@
 class TicketSearch < ActiveRecord::Base
 
-  attr_reader :date_from, :date_to, :department, :category, :category_name, :tech, :technicians, :technician_name, :folio
+  attr_reader :date_from, :date_to, :department, :category, :category_name, :tech, :technicians, :technician_name, :folio, :user_search
 
   def initialize(params)
    params ||= {}
@@ -13,6 +13,11 @@ class TicketSearch < ActiveRecord::Base
       	@folio = params[:folio].to_s
       else
       	@folio = nil
+      end
+      if params[:user_search].present?
+      	@user_search = params[:user_search].to_s
+      else
+      	@user_search = nil
       end
       if params[:category].present?
          @category_names = Category.where('id = ? ', @category).pluck(:name)
@@ -38,6 +43,7 @@ class TicketSearch < ActiveRecord::Base
    logger.debug "SCOPE FOLIO"
    logger.debug "--------------------------------------"
    @department = department
+   @folio = folio
    Ticket.where('folio = ? AND department = ?', @folio, @department)
   end
 

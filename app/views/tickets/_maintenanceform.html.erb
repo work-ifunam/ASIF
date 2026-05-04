@@ -1,0 +1,54 @@
+   <p class="mAdvise">Indicar edificio, número de cubículo o laboratorio. En caso de hacer una solicitud de <strong>"ADECUACI&Oacute;N"</strong>, es necesario tener carta de autorización de jefe de departamento que indique partida del presupuesto del que se tomará el recurso..</p>	
+<%= form_for(@ticket) do |f| %>
+
+  <% if @ticket.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+      <ul>
+      <% @ticket.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>
+    Seleccione una categor&iacute;a:<br />
+    <%= f.select :category, @category.collect { |record| [record.name, record.id] } %>
+  </p>
+  <p>
+    Ubicaci&oacute;n:
+    <%= f.text_field :location, :class=>"form-control"%>
+  </p>
+  
+  <p>
+    N&uacute;mero de Extensi&oacute;n IFUNAM:
+    <%= f.text_field :ext, :size => "5" %>
+  </p>
+  <p>
+     Horario en el que se pueda asistir a revisar la solicitud (09:00 - 14:30):
+    <%= f.text_field :schedule_time, 
+      :type => 'time', 
+      :min => '09:00', 
+      :max => '14:30', 
+      :required => true %>
+  </p>
+
+  <p>
+    Descripci&oacute;n detallada del problema o solicitud:<br />
+    <%= f.text_area :description, :size => "75x15" %>
+  </p>
+
+  <%= if @current_user.login == "salma" 
+    f.select :user_id, @user.collect { |record| [record.lastname + " " + record.firstname, record.id] }
+    end %> 
+
+  <%= f.hidden_field :department, :value => params[:department] %>
+  <%= f.hidden_field :status, :value => "NO ATENDIDO" %>
+  
+  <p>
+    <%= f.submit 'Crear ticket', :class => "btn btn-primary"%>
+  </p>
+
+<% end %>
+

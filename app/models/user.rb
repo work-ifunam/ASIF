@@ -30,5 +30,9 @@ class User < ActiveRecord::Base
        return User.find(:all,:condition => 'department = "null"')
     end
   end
+
+  def full_name
+    "#{firstname} #{lastname}"
+  end
 end
 

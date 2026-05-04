@@ -27,7 +27,10 @@
 
 <p>
   <b>T&eacute;cnico:</b>
-  <%= @ticket.technician %>
+	    <% @technicians = @ticket.technicians %>
+	    <% @technicians.each do |tech| %>
+	      <%= tech.firstname %> <%= tech.lastname %> - <%= tech.email %><br />
+	    <% end %>
 </p>
 
 

@@ -728,7 +728,11 @@ end
     @user = User.find(:all, :order => "lastname")
    # @category = Category.assignation(current_user.category);
     if params[:department] == 'taller' 
-      if DateTime.now < Time.local(2025,11,28,23,55)
+      #if DateTime.now < Time.local(2026,05,13,23,59) && DateTime.now > Time.local(2026,05,23,23,59)
+      inicio = Time.zone.local(2026, 4, 23, 0, 0, 0)
+      fin = Time.zone.local(2026, 5, 18, 23, 59, 59)
+      
+      if (inicio..fin).cover?(Time.zone.now)
         @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
       else
         @category = Category.find(:all, :conditions => ['department LIKE ? AND id != ? ', params[:department], 91])
@@ -852,6 +856,8 @@ end
         @ticket.save
         if @ticket.status == "ENTREGADO"
  	    @ticket.ended_at = Time.now
+        elsif @ticket.department == "computo" && @ticket.status == "EN_ESPERA" && @ticket.technicians.exists?
+          Notifier.assign_to_computer(@ticket).deliver
         else
         end
         @ticket.save

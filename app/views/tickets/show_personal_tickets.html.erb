@@ -1,124 +1,104 @@
-<h2><%= @current_user.firstname %> <%= @current_user.lastname %></span> - <span class="category"><%= @current_user.category %></span></h2>
-<h1>Solicitudes Individuales de C&oacute;mputo (<%= @computer_tickets_tech.count.to_s %>)</h1>
-<p>
-<%= link_to "CREAR SOLICITUD DE SERVICIO", new_ticket_path(:department => "computo"), :class => "mylink2" %>
-</p>
-<div class="stats">
+<h1 class="maintitle">Solicitudes de <%= @current_user.firstname %> <%= @current_user.lastname %></span> <span class="lbl-status lbl-primary lbl-fit-content"><%= @current_user.category %></h1>
+<% not_count = @tickets_notattended_count != nil ? @tickets_notattended_count:0 %>
+<h1 class="subtitle text-center">Total (<%= @computer_tickets_tech.count.to_i + not_count %>)</h1>
+<h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
+<% if current_user.category == "Chuck Norris" || current_user.category == "Sec COMPUTO" ||  current_user.category == "Admin COMPUTO"%>
+<%= link_to 'DESCARGAR RESULTADOS', url_for(:tech => current_user.id , :format=>"xls"), :class=> "btn btn-secondary" %>
+<% end %>
+</h4>
+<div class="stats text-center">
+<div id="chart_div">
 <table id="mystats1">
-  <caption>SOLICITUDES ACTIVAS EN COMPUTO (<%= p @current_year %>)</caption>
+  <caption>PERIODO: </caption>
+  <caption><%= p @current_year %></caption>
   <thead>
     <tr>
       <th></th>
-      <th>NO ATENDIDOS (<%= @computer_notattended_tech.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @computer_waiting_tech.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @computer_inprocess_tech.count.to_s %>)</th>
-      <th>ATENDIDOS (<%= @computer_finished_tech.count.to_s %>)</th>
-      <th>EN REVISION (<%= @computer_revision_tech.count.to_s %>)</th>
-      <th>CANCELADOS (<%= @computer_canceled_tech.count.to_s %>)</th>
+      <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
+      <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
+      <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
+      <th>EN REVISION (<%= @revision.count.to_s %>)</th>
+      <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
+      <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th></th>
-      <td><%= @computer_notattended_tech.count.to_s %></td>
-      <td><%= @computer_waiting_tech.count.to_s %></td>
-      <td><%= @computer_inprocess_tech.count.to_s %></td>
-      <td><%= @computer_finished_tech.count.to_s %></td>
-      <td><%= @computer_revision_tech.count.to_s %></td>
-      <td><%= @computer_canceled_tech.count.to_s %></td>
+      <td><%= @notattended.count.to_s %></td>
+      <td><%= @waiting.count.to_s %></td>
+      <td><%= @inprocess.count.to_s %></td>
+      <td><%= @revision.count.to_s %></td>
+      <td><%= @finished.count.to_s %></td>
+      <td><%= @canceled.count.to_s %></td>
     </tr>
   </tbody>
-</table>
+</table></div>
 </div>
-<table width="790px">
-  <tr>
-    <!--<td><center><%#= link_to "NO ATENDIDOS", { :controller => "tickets", :action => "show_unattended_tickets", :department => "computo" }, :class => "mylink2" %></center></td>-->
-    <td><center><%= link_to "EN PROCESO", { :controller => "tickets", :action => "show_inprocess_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "EN REVISION", { :controller => "tickets", :action => "show_inrevision_tickets", :department => "computo" ,:tech => current_user.tech}, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "EN ESPERA", { :controller => "tickets", :action => "show_froze_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "ATENDIDOS", { :controller => "tickets", :action => "show_attended_tickets", :department => "computo", :tech => current_user.tech }, :class => "mylink2" %></center></td>
-    <td><center><%= link_to "CANCELADOS", { :controller => "tickets", :action => "show_canceled_tickets", :department => "computo", :tech => current_user.tech}, :class => "mylink2" %></center></td>
-  </tr>
-</table>
-<br />
-<% @tickets.each do |ticket| %>
-  <div class="ticket_title">
-      <span class="ticket_number">No. <%= ticket.folio %> - <%= ticket.created_at.strftime("%d/%m/%Y - %H:%M:%S") %></span>
-      <span class="ticket_category"><%= category = Category.find(ticket.category)
-     				        category.name %></span>
-  </div>  
-  <div class="ticket_status">
-      <strong><%= ticket.user.firstname + " " + ticket.user.lastname %></strong> solicita: 
-      <%= ticket.description %><br />
-  </div>
-  <div class="ticket_content">
+<!---->
+<div class="status-bar">
+  <button class="btn btn-primary btn-notattended" <%= disabled = @notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
+  <button class="btn btn-primary btn-waiting" <%= disabled = @waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
+  <button class="btn btn-primary btn-inprocess" <%= disabled = @inprocess.count == 0 ? 'disabled':''%> onclick="openStatus('inprocess')">EN PROCESO (<%=@inprocess.count.to_s%>)</button>
+  <button class="btn btn-primary btn-revision" <%= disabled = @revision.count == 0 ? 'disabled':''%> onclick="openStatus('revision')">EN REVISION (<%=@revision.count.to_s%>)</button>
+  <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
+  <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
+</div>
+<div id="notattended" class="w3-container status">
+  <h4 class="subtitle">NO ATENDIDOS</h4>
+  <% @tickets_notattended.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_notattended%>
+</div>
 
-    <div class="accordion">
-      <h3>Estado de la Solicitud</h3>
-      <div>
+<div id="waiting" class="w3-container status" style="display:none">
+  <h4 class="subtitle">EN ESPERA</h4>
+  <% @tickets_waiting.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_waiting%>
+</div>
 
-    <table width="730px">
-      <tr>
-      <td width="40%">	
-	<span class="ticket_responsible">Trabajo asignado a: </span><br />
-	<% unless ticket.technicians.nil? %>
-	    <% @technicians = ticket.technicians %>
-	    <% @technicians.each do |tech| %>
-	      <%= tech.firstname %> <%= tech.lastname %><br />
-	    <% end %>
-          <% end %>
-	<% if ticket.technicians.count == 0 %>
-	      <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
-        <% end %>  
+<div id="inprocess" class="w3-container status" style="display:none">
+  <h4 class="subtitle">EN PROCESO</h4>
+  <% @tickets_inprocess.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_inprocess %>
+</div>
 
-	<% if ticket.technicians.count > 0 %>
-   	  <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
-	      <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "button" %>
-	  <% end %>    
-        <% end %>  
-      </td>
-      <td width="50%">
-      <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "mylink4" %><br />
-	<span class="ticket_responsible2">Fecha estimada de entrega:</span> 
-	<small><%= unless ticket.ideal_time.nil?
-	    ticket.ideal_time.strftime("%d/%m/%Y") 
-	    end
-	    %></small>
-        <br/><span class="ticket_responsible2">Fecha de entrega:</span> 
-	<small><%= unless ticket.ended_at.nil?
-	    ticket.ended_at.strftime("%d/%m/%Y") 
-	    end
-	    %></small>
-      </td>
-      <td width="10%">
-      <%= if ticket.status == "NO_ATENDIDO" 
-            image_tag("/assets/noatendido.png", :alt => "no atendido") 
-          elsif ticket.status == "EN_PROCESO"
-            image_tag("/assets/enproceso.png", :alt => "en proceso") 
-          elsif ticket.status == "EN_ESPERA" 
-            image_tag("/assets/enespera.png", :alt => "en espera") 
-          elsif ticket.status == "EN_REVISION" 
-            image_tag("/assets/enrevision.png", :alt => "en revision")
-          elsif ticket.status == "ENTREGADO" 
-            image_tag("/assets/entregado.png", :alt => "atendido")
-          elsif ticket.status == "CANCELADO" 
-            image_tag("/assets/cancelado.png", :alt => "cancelado")
-         end %>
-         <br />
-      <%= if ticket.client_status == "APROBADO" 
-            image_tag("/assets/aprobado.jpg", :alt => "aprobado") 
-          elsif ticket.client_status == "NO_APROBADO"
-            image_tag("/assets/noaprobado.jpg", :alt => "no aprobado") 
-       end %>
-      </td>
-      </tr>
-      </table>
-      </div>
-      <h3>Bit&aacute;cora de Observaciones</h3>
-      <div>
-	<%= simple_format h ticket.revision %>
-      </div>
-    </div>
-  </div>
-<% end %>
-<%= paginate @tickets %>
+<div id="revision" class="w3-container status" style="display:none">
+  <h4 class="subtitle">EN REVISION</h4>
+  <% @tickets_revision.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_revision %>
+</div>
+
+<div id="finished" class="w3-container status" style="display:none">
+  <h4 class="subtitle">ATENDIDOS</h4>
+  <% @tickets_finished.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_finished %>
+</div>
+
+<div id="canceled" class="w3-container status" style="display:none">
+  <h4 class="subtitle">CANCELADOS</h4>
+  <% @tickets_canceled.each do |ticket| %>
+    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+  <% end %>
+  <%= paginate @tickets_canceled %>
+</div>
+<script>
+
+function openStatus(status) {
+  var i;
+  var x = document.getElementsByClassName("status");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(status).style.display = "block";  
+}
+</script>

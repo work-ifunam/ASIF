@@ -27,6 +27,12 @@
           <% end %>
         </td>
         <td width="45%">
+          <% if ticket.schedule_time %>
+          <p class="ticket_responsible2">Horario de atención: 
+            <small class="date">
+              <%= ticket.schedule_time.strftime("%H:%M") %>
+            </small></p>
+          <% end %>
           <% if ticket.ideal_time %>
           <p class="ticket_responsible2">Fecha estimada de entrega: 
             <small class="date">
@@ -40,7 +46,7 @@
               </small></p>
           <% end %>
  
-            <% if (current_user.category == "Sec COMPUTO" && @ticket_type == 'computo') || (current_user.category == "Admin COMPUTO" && @ticket_type == 'computo') || (current_user.category == "SAC" && @ticket_type == 'electronica') %>
+            <% if (current_user.category == "Sec COMPUTO" && @ticket_type == 'computo') || (current_user.category == "Admin COMPUTO" && @ticket_type == 'computo') || (current_user.category == "SAC" && @ticket_type == 'electronica')  || (current_user.category == "Admin ELECTRONICA" && @ticket_type == 'electronica')%>
               <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "btn action-button line-3" %><br />
 	    <% end %>
               <% if ticket.technicians.count == 0 && (@ticket_type == 'computo' || @ticket_type == 'electronica') %>
