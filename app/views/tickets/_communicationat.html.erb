@@ -8,7 +8,7 @@
   </div>  
   <div class="ticket_status">
       <strong><%= ticket.user.firstname + " " + ticket.user.lastname %></strong> solicita: 
-      <%= ticket.description %><br />
+        <%= ticket.description.html_safe %><br />
   </div>
   <div class="ticket_content">
 
