@@ -7,7 +7,7 @@
     </div>  
     <div class="tickets-status-search">
         <strong><%= ticket.user.firstname + " " + ticket.user.lastname %></strong> solicita: 
-        <%= ticket.description %><br />
+        <%= ticket.description.html_safe %><br />
     </div>
     <div class="tickets-content-search">
       <div class="accordion">

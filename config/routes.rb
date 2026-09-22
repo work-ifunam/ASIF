@@ -61,8 +61,13 @@ SuperSimpleHELPDESK::Application.routes.draw do
   get 'reports/approve_ticket/:id' => 'reports#approve_ticket', :via => :get
   get 'reports/not_approve_ticket/:id' => 'reports#not_approve_ticket', :via => :get
  
-  namespace :api, defaults: { format: :json } do
-   resources :info, only: [:index, :create, :show, :update]
+  #namespace :api, defaults: { format: :json } do
+   #resources :info, only: [:index, :create, :show, :update]
+  #end
+  namespace :api do
+    namespace :v1 do
+      resources :tickets, only: [:index, :create, :show] 
+    end
   end
 
  end
