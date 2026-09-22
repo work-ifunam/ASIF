@@ -1,0 +1,12 @@
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins 'https://192.168.209.128'  # Especifica el dominio del servidor remoto en producción
+    
+    resource '/api/v1/tickets',
+      headers: :any,
+      methods: [:get, :post, :put, :options],
+      expose: ['Authorization'],
+      credentials: true,
+      max_age: 600
+  end
+end

@@ -1,6 +1,5 @@
 class TicketSearch < ActiveRecord::Base
-
-  attr_reader :date_from, :date_to, :department, :category, :category_name, :tech, :technicians, :technician_name, :folio, :user_search
+  attr_reader :date_from, :date_to, :department, :category, :category_name, :tech, :technicians, :technician_name, :folio, :user_search, :user_name
 
   def initialize(params)
    params ||= {}
@@ -15,9 +14,12 @@ class TicketSearch < ActiveRecord::Base
       	@folio = nil
       end
       if params[:user_search].present?
-      	@user_search = params[:user_search].to_s
+        @user_search = params[:user_search].to_s
+        user = User.find_by_id(@user_search)
+        @user_name = user.try(:full_name) || @user_search
       else
-      	@user_search = nil
+        @user_search = nil
+        @user_name = nil
       end
       if params[:category].present?
          @category_names = Category.where('id = ? ', @category).pluck(:name)
@@ -62,75 +64,47 @@ class TicketSearch < ActiveRecord::Base
   #Filtrar a partir de parametros recibidos en la busqueda
   def advanced_scope(department)
    @department = department
-   if @category != ''
-	if @technicians !=''
-	    logger.debug "--------------------------------------"
-	    logger.debug "ADVANCED SCOPE WITH TECHNICIAN AND CATEGORY"
-	    logger.debug "-Technician: #{@technicians}"
-	    logger.debug "-Department: #{@department}"
-	    logger.debug "-Category: #{@category}"
-      	    Ticket.joins(:technicians).where('tickets.category = ? AND department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @category, @department, @technicians, @date_from, @date_to).order('tickets.created_at DESC')
-	else
-	    logger.debug "--------------------------------------"
-	    logger.debug "ADVANCED SCOPE WITHOUT TECHNICIAN BUT WITH CATEGORY"
-	    logger.debug "-Technician: #{@technicians}"
-	    logger.debug "-Department: #{@department}"
-	    logger.debug "-Category: #{@category}"
-	    Ticket.where('category = ? AND department = ?  AND created_at BETWEEN ? AND ?', @category, @department, @date_from.to_date, @date_to.to_date.end_of_day.to_s ).order("created_at DESC")
-	end
-   elsif @category =='' && @technicians !=''
-	    logger.debug "--------------------------------------"
-	    logger.debug "ADVANCED SCOPE WITH TECHNICIAN BUT WITHOUT CATEGORY"
-	    logger.debug "-Technician: #{@technicians}"
-	    logger.debug "-Department: #{@department}"
-	    logger.debug "-Category: #{@category}"
-      	    Ticket.joins(:technicians).where('department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @department, @technicians, @date_from, @date_to).order('tickets.created_at DESC')
-   else
-      logger.debug "--------------------------------------"
-      logger.debug "ALL THE DATA FROM advanced_scope L57"
-      Ticket.where('department = ?  AND created_at BETWEEN ? AND ?', @department, @date_from.to_date, @date_to.to_date.end_of_day).order("created_at DESC")
-   end
+   tickets = Ticket.where('tickets.department = ? AND tickets.created_at BETWEEN ? AND ?', @department, @date_from.to_date, @date_to.to_date.end_of_day)
+
+    if @category.present?
+      tickets = tickets.where('tickets.category = ?', @category)
+    end
+
+    if @technicians.present?
+      tickets = tickets.joins(:technicians).where('assignments.technician_id = ?', @technicians)
+    end
+
+    if @user_search.present?
+      tickets = tickets.where('tickets.user_id = ?', @user_search)
+    end
+
+    tickets.order('tickets.created_at DESC')
   end
 
   #Filtrar a partir de parametros recibidos en la busqueda y estatus de solicitud
   def advanced_scope_with_status(status, department)
-   @status = status
-   @department = department
-   if @folio != nil
-	logger.debug "--------------------------------------"
-	logger.debug "ADVANCED SCOPE WITH FOLIO"
-	logger.debug "-Folio: #{@folio}"
-	logger.debug "-Department: #{@department}"
-	logger.debug "-Status: #{@status}"
-   	Ticket.where('folio = ? AND department = ? AND status = ?', @folio, @department, @status)
-   elsif @category != ''
-	if @technicians !=''
-	    logger.debug "--------------------------------------"
-	    logger.debug "ADVANCED SCOPE WITH TECHNICIAN AND CATEGORY"
-	    logger.debug "-Technician: #{@technicians}"
-	    logger.debug "-Department: #{@department}"
-	    logger.debug "-Category: #{@category}"
-      	    Ticket.joins(:technicians).where('status = ? AND tickets.category = ? AND department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @status, @category, @department, @technicians, @date_from, @date_to).order('tickets.created_at DESC')
-	else
-	    logger.debug "--------------------------------------"
-	    logger.debug "ADVANCED SCOPE WITHOUT TECHNICIAN BUT WITH CATEGORY"
-	    logger.debug "-Technician: #{@technicians}"
-	    logger.debug "-Department: #{@department}"
-	    logger.debug "-Category: #{@category}"
-	    Ticket.where('status = ? AND category = ? AND department = ?  AND created_at BETWEEN ? AND ?', @status, @category, @department, @date_from.to_date, @date_to.to_date.end_of_day.to_s ).order("created_at DESC")
-	end
-   elsif @category =='' && @technicians !=''
-	    logger.debug "--------------------------------------"
-	    logger.debug "ADVANCED SCOPE WITH TECHNICIAN BUT WITHOUT CATEGORY"
-	    logger.debug "-Technician: #{@technicians}"
-	    logger.debug "-Department: #{@department}"
-	    logger.debug "-Category: #{@category}"
-      	    Ticket.joins(:technicians).where('status = ? AND department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @status, @department, @technicians, @date_from, @date_to).order('tickets.created_at DESC')
-   else
-      logger.debug "--------------------------------------"
-      logger.debug "ALL THE DATA FROM advanced_scope_with_status L90"
-      Ticket.where('status = ? AND department  = ? AND created_at BETWEEN ? AND ?', @status, @department, @date_from.to_date, @date_to.to_date.end_of_day).order("created_at DESC")
-   end
+    @status = status
+    @department = department
+
+    if @folio != nil
+      Ticket.where('tickets.folio = ? AND tickets.department = ? AND tickets.status = ?', @folio, @department, @status)
+    else
+      tickets = Ticket.where('tickets.status = ? AND tickets.department = ? AND tickets.created_at BETWEEN ? AND ?', @status, @department, @date_from.to_date, @date_to.to_date.end_of_day)
+
+      if @category.present?
+        tickets = tickets.where('tickets.category = ?', @category)
+      end
+
+      if @technicians.present?
+        tickets = tickets.joins(:technicians).where('assignments.technician_id = ?', @technicians)
+      end
+
+      if @user_search.present?
+        tickets = tickets.where('tickets.user_id = ?', @user_search)
+      end
+
+      tickets.order('tickets.created_at DESC')
+    end
   end
 
   def scope_status(status, department)
@@ -168,36 +142,31 @@ class TicketSearch < ActiveRecord::Base
    end
 
   #Generar la busqueda para la generacion y descarga del archivo xls
-   def tech_full_scope(cat, department, date_from, date_to, tech_id)
-      @category = cat
-      @department = department
-      @date_from = date_from
-      @date_to = date_to
-      @technicians = tech_id
-	    logger.debug "----------------------------------------"
-	    logger.debug "DOWNLOAD XLS"
-	    logger.debug "-Technician: #{@technicians}"
-	    logger.debug "-Department: #{@department}"
-	    logger.debug "-Category: #{@category}"
-	    logger.debug "----------------------------------------"
-      if @category != ''
-	 if @technicians !=''
-	    logger.debug "DOWNLOAD CATEGORY AND TECHNICIANS"
-      	    Ticket.joins(:technicians).where('tickets.category = ? AND department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @category, @department, @technicians, @date_from.to_date, @date_to.to_date.end_of_day.to_s).order('tickets.created_at DESC')
-	 else
-	    logger.debug "DOWNLOAD ONY CATEGORY"
-	    Ticket.where('category = ? AND department = ?  AND created_at BETWEEN ? AND ?', @category, @department, @date_from.to_date, @date_to.to_date.end_of_day.to_s ).order("created_at DESC")
-	 end
-      elsif @category =='' && @technicians !=''
-	    logger.debug "DOWNLOAD ONY TECHNICIANS"
-      	    relation = Ticket.joins(:technicians).where('department = ? AND technician_id = ? AND tickets.created_at BETWEEN ? AND ?', @department, @technicians, @date_from.to_date, @date_to.to_date.end_of_day.to_s).order('tickets.created_at DESC')
-	    logger.debug "SQL Query: #{relation.to_sql}"
-	    return relation
-      else
-	    logger.debug "DOWNLOAD ALL"
-      	    Ticket.where('department = ?  AND created_at BETWEEN ? AND ?', @department, @date_from.to_date, @date_to.to_date.end_of_day).order("created_at DESC")
-      end
-   end
+  # Para la descarga del reporte Excel (.xls)
+  def tech_full_scope(cat, department, date_from, date_to, tech_id, user_id = nil)
+    @category = cat
+    @department = department
+    @date_from = date_from
+    @date_to = date_to
+    @technicians = tech_id
+    @user_search = user_id if user_id.present?
+
+    tickets = Ticket.where('tickets.department = ? AND tickets.created_at BETWEEN ? AND ?', @department, @date_from.to_date, @date_to.to_date.end_of_day)
+
+    if @category.present?
+      tickets = tickets.where('tickets.category = ?', @category)
+    end
+
+    if @technicians.present?
+      tickets = tickets.joins(:technicians).where('assignments.technician_id = ?', @technicians)
+    end
+
+    if @user_search.present?
+      tickets = tickets.where('tickets.user_id = ?', @user_search)
+    end
+
+    tickets.order('tickets.created_at DESC')
+  end
 
    def tech_scope(department, tech_id)
       @department = department
