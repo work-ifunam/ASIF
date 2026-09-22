@@ -24,7 +24,7 @@ module Api
           	  @computer_tickets = Ticket.find(:all, :conditions => ['department = ?', "computo"])
           	  @ticket.folio = @computer_tickets.count 
           	  @ticket.save
-          	  #Notifier.send_to_computer(@ticket).deliver
+          	  Notifier.send_to_computer(@ticket).deliver
           	  flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
           	  format.html { redirect_to show_computer_tickets_path }
           	  format.json { render json: @ticket, status: :created, location: @ticket }
@@ -32,7 +32,7 @@ module Api
           	  @communication_tickets = Ticket.find(:all, :conditions => ['department = ?', "comunicacion"])
           	  @ticket.folio = @communication_tickets.count
           	  @ticket.save
-          	  #Notifier.send_to_communication(@ticket).deliver
+          	  Notifier.send_to_communication(@ticket).deliver
           	  flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
           	  format.html { redirect_to show_communication_tickets_path }
           	  format.json { render json: @ticket, status: :created, location: @ticket }
