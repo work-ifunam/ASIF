@@ -31,7 +31,7 @@
     </br><b>email:</b> <small><%=@ticket.user.email %></small>
     </br><b>ext:</b> <small><%=@ticket.ext %></small></br><br />
     <b>Descripci&oacute;n:</b> 
-    <p><%= @ticket.description %></p>
+    <p><%= @ticket.description.html_safe%></p>
   </div>
   
   <p>

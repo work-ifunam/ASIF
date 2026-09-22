@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20260218165401) do
+ActiveRecord::Schema.define(:version => 20260504225900) do
 
   create_table "Reportetotal", :id => false, :force => true do |t|
     t.integer  "id",                               :default => 0, :null => false
@@ -82,6 +82,15 @@ ActiveRecord::Schema.define(:version => 20260218165401) do
     t.integer  "ticket_id"
     t.integer  "user_id"
   end
+
+  create_table "server_tokens", :force => true do |t|
+    t.string   "name"
+    t.string   "token"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "server_tokens", ["token"], :name => "index_server_tokens_on_token", :unique => true
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
