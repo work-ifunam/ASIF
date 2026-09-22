@@ -3,19 +3,35 @@
 <% if @search.folio != nil %>
   <h1 class="subtitle text-left">Folio: <%= @search.folio%></h1>
 <% else %>
-  <% if @search.user_search != nil %>
-  <h1 class="subtitle text-left">Solicitante: <%= @search.user_search%></h1>
-  <% end %>
+<!--
+  <%# if @search.user_search != nil %>
+  <h1 class="subtitle text-left">Solicitante: <%#= @search.user_search%></h1>
+  <%# end %>
+-->
+<% if @search.user_search.present? %>
+  <h1 class="subtitle text-left">
+    Solicitante: <%= params[:user_search_display].presence || @search.user_search %>
+  </h1>
+<% end %>
   <h1 class="subtitle text-left">Personal: <%= @search.technician_name%></h1>
   <h1 class="subtitle text-left">Categor&iacute;a: <%= @search.category_name%></h1>
 <% end %>
 <h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
-<% if current_user.category != "Admin ELECTRONICA"  %>
-<% if @search.folio != nil %>
-	<%= link_to 'DESCARGAR RESULTADOS', url_for(:folio => @search.folio.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
+<% if @search.folio.present? %>
+  <%= link_to 'DESCARGAR RESULTADOS', 
+              url_for(:folio => @search.folio.to_s, :format => "xls"), 
+              :class => "btn btn-secondary" %>
 <% else %>
-	<%= link_to 'DESCARGAR RESULTADOS', url_for(:cat => @search.category.to_s, :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, :tech_id => @search.technicians.to_s, :format=>"xls"), :class=> "btn btn-secondary" %>
-<% end %>
+  <%= link_to 'DESCARGAR RESULTADOS', 
+              url_for(
+                :cat => @search.category.to_s, 
+                :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, 
+                :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, 
+                :tech_id => @search.technicians.to_s, 
+                :user_search => @search.user_search.to_s,
+                :format => "xls"
+              ), 
+              :class => "btn btn-secondary" %>
 <% end %>
 </h4>
 <div class="row search-box">
@@ -33,34 +49,77 @@
       	</div>
       	<div class="col-xs-6 col-md-4">
       	   Atendio: <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname),  :prompt => "Todos", class: 'small-field'%>
-<% if current_user.category != "Admin ELECTRONICA"  %>
-      	  Solicito: 
-    <%= text_field_tag :user_search, '',
-                       data: { autocomplete_source: autocomplete_user_name_users_path} , class: 'small-field'%>
-    <%#= text_field_tag 'search[folio]', params['search[folio]'], class: 'small-field', placeholder: 'Buscar por número de ticket' %>
-<% end %>
-    <script type="text/javascript">
-      $(function() {
-        $('#user_search').autocomplete({
-          source: $('#user_search').data('autocomplete-source'),
-          minLength: 2, // Minimum characters before triggering autocomplete
-          select: function(event, ui) {
-            // Handle the selection, e.g., populate a hidden field with the user ID
-            // or perform another action based on the selected user.
-            console.log("Selected user ID:", ui.item.id);
-            console.log("Selected user Value:", ui.item.value);
-            console.log("Selected user name:", ui.item.label);
-            // Example: set a hidden field for user ID
-            $('#selected_user_id').val(ui.item.id);
-            $('#user_search').val(ui.item.id);
-            $('#search').val(ui.item.id);
-            $('#selected_user_name').val(ui.item.label);
-          }
-        });
-      });
-    </script>
 
-    <%= hidden_field_tag :selected_user_id %>
+<% if current_user.category != "Admin ELECTRONICA" %>
+  Solicito: 
+  <!-- Campo visible para buscar por nombre -->
+  <%= text_field_tag 'user_search_display', (params[:user_search_display] || ''), 
+                     data: { autocomplete_source: autocomplete_user_name_users_path }, 
+                     class: 'small-field', 
+                     placeholder: 'Buscar por usuario' %>
+
+  <!-- Campo oculto que se envía dentro de params[:search][:user_search] -->
+  <%= hidden_field_tag 'search[user_search]', (params[:search][:user_search] if params[:search]), id: 'search_user_id' %>
+<% end %>
+<script type="text/javascript">
+  $(function() {
+    var $input = $('#user_search_display');
+
+    if ($input.length) {
+      $input.autocomplete({
+        // 1. Adjunta el menú directamente al elemento padre del input
+        // Esto evita que pierda el foco al mover el cursor hacia abajo
+        appendTo: $input.parent(),
+
+        source: function(request, response) {
+          $.ajax({
+            url: $input.data('autocomplete-source'),
+            dataType: "json",
+            cache: false,
+            data: { term: request.term },
+            success: function(data) {
+              var items = Array.isArray(data) ? data : (data.users || data.results || []);
+
+              response($.map(items, function(rawItem) {
+                var item = rawItem.user || rawItem;
+
+                if (typeof item === 'string') {
+                  return { label: item, value: item, id: item };
+                }
+
+                var textToShow = item.label || item.value || item.name || item.full_name;
+
+                if (!textToShow && (item.firstname || item.lastname)) {
+                  textToShow = ((item.firstname || '') + ' ' + (item.lastname || '')).trim();
+                }
+
+                return {
+                  label: textToShow || (item.id ? "Usuario #" + item.id : "Sin nombre"),
+                  value: textToShow || '',
+                  id: item.id
+                };
+              }));
+            }
+          });
+        },
+        minLength: 2,
+
+        // 2. Previene que el menú se cierre al navegar con las flechas o el mouse
+        focus: function(event, ui) {
+          event.preventDefault();
+          return false;
+        },
+
+        // 3. Asigna los datos SOLO al hacer clic o presionar Enter
+        select: function(event, ui) {
+          $input.val(ui.item.label);
+          $('#search_user_id').val(ui.item.id);
+          return false;
+        }
+      });
+    }
+  });
+</script>
 <!--
 -->
       </div>
