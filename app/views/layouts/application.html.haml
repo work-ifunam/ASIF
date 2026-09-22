@@ -1,23 +1,21 @@
 !!!
-%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "es", :lang => "es"}
  %head
   %title ASIF 
   %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
-  %meta{"http-equiv" => "content-language", "content" => "en"}
-  %meta{"http-equiv" => "description", "content" => " "}
-  %meta{"http-equiv" => "keywords", "content" => " "}
+  %meta{"http-equiv" => "content-language", "content" => "es"}
+  %meta{"http-equiv" => "description", "content" => "ASIF"}
+  %meta{"http-equiv" => "keywords", "content" => "ASIF"}
   %meta{"http-equiv" => "author", "content" => "Daniel Rosales"}
-  %meta{"http-equiv" => "copyright", "content" => " "}
+  %meta{"http-equiv" => "copyright", "content" => "IFUNAM"}
   %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
   %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
   = stylesheet_link_tag "application"
+  = stylesheet_link_tag "jquery-ui"
   = javascript_include_tag "https://www.google.com/jsapi"
   = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
   = javascript_include_tag "application"
-  = javascript_include_tag "jquery-1.9.0.min"
   = javascript_include_tag "jquery.gvChart-1.1.min"
-  = stylesheet_link_tag "jquery-ui"
-  = javascript_include_tag "jquery-ui"
   %script{"type" => "text/javascript"}
    $(function() {
    $( ".accordion" ).accordion({

@@ -64,20 +64,20 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
   def autocomplete_user_name
-        # Search for users matching the first name or last name
-    # Ensure you are using safe query methods like 'LIKE ?' with wildcards
-        @users = User.where("firstname LIKE ? OR lastname LIKE ?",
-                        "%#{params[:term]}%", "%#{params[:term]}%")
-                 .limit(20) # Limit the results for performance
+    term = params[:term].to_s.strip
+    users = User.where('firstname LIKE ? OR lastname LIKE ?', "%#{term}%", "%#{term}%").limit(20)
 
-    # Format the results into an array of hashes or a simple array of names
-    list = @users.map do |user|
-      { id: "#{user.id}", label: "#{user.firstname} #{user.lastname}", value: "#{user.firstname} #{user.lastname}" }
-      #{ id: user.id, label: "#{user.firstname} #{user.lastname}", value: "#{user.firstname} #{user.lastname}" }
+    results = users.map do |u|
+      full_name = "#{u.firstname} #{u.lastname}".strip
+      { id: u.id, label: full_name, value: full_name }
     end
 
-    render json: list
+    # Desactivar caché HTTP para que el navegador pida datos frescos
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+  
+    render json: results, root: false
   end
  # def autocomplete_users
    #user = params[:user]
