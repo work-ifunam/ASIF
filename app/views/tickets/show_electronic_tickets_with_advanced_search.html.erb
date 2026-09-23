@@ -181,23 +181,24 @@
   <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
   <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
 </div>
-<div id="notattended" class="w3-container status" style="display:none">
+
+<div id="notattended" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'notattended' %>">
   <h4 class="subtitle">NO ATENDIDOS</h4>
   <% @tickets_notattended.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
   <% end %>
-  <%= paginate @tickets_notattended%>
+  <%= paginate @tickets_notattended %>
 </div>
 
-<div id="waiting" class="w3-container status" style="display:none">
+<div id="waiting" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'waiting' %>">
   <h4 class="subtitle">EN ESPERA</h4>
   <% @tickets_waiting.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
   <% end %>
-  <%= paginate @tickets_waiting%>
+  <%= paginate @tickets_waiting %>
 </div>
 
-<div id="inprocess" class="w3-container status" style="display:none">
+<div id="inprocess" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'inprocess' %>">
   <h4 class="subtitle">EN PROCESO</h4>
   <% @tickets_inprocess.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
@@ -205,7 +206,7 @@
   <%= paginate @tickets_inprocess %>
 </div>
 
-<div id="revision" class="w3-container status" style="display:none">
+<div id="revision" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'revision' %>">
   <h4 class="subtitle">EN REVISION</h4>
   <% @tickets_revision.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
@@ -213,7 +214,7 @@
   <%= paginate @tickets_revision %>
 </div>
 
-<div id="finished" class="w3-container status">
+<div id="finished" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'finished' %>">
   <h4 class="subtitle">ATENDIDOS</h4>
   <% @tickets_finished.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
@@ -221,7 +222,7 @@
   <%= paginate @tickets_finished %>
 </div>
 
-<div id="canceled" class="w3-container status" style="display:none">
+<div id="canceled" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'canceled' %>">
   <h4 class="subtitle">CANCELADOS</h4>
   <% @tickets_canceled.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 

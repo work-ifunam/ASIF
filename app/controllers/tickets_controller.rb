@@ -369,6 +369,20 @@ def show_electronic_tickets_with_advanced_search
   @canceled = @search.advanced_scope_with_status('CANCELADO', @ticket_type)
   @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
 
+  # --- CÁLCULO DE LA PESTAÑA CON MÁS REGISTROS ---
+  counts = {
+    'notattended' => @notattended.count,
+    'waiting'     => @waiting.count,
+    'inprocess'   => @inprocess.count,
+    'revision'    => @revision.count,
+    'finished'    => @finished.count,
+    'canceled'    => @canceled.count
+  }
+
+  # Selecciona el id con mayor número de registros. Si todos están en 0, muestra 'finished' (ATENDIDOS) por defecto.
+  max_pair = counts.max_by { |_, count| count }
+  @default_status = (max_pair && max_pair[1] > 0) ? max_pair[0] : 'finished'
+
   respond_to do |format|
     format.html
     format.json { render json: @tickets }
