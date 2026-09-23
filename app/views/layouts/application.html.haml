@@ -12,7 +12,7 @@
   %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
   = stylesheet_link_tag "application"
   = stylesheet_link_tag "jquery-ui"
-  = javascript_include_tag "https://www.google.com/jsapi"
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
   = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
   = javascript_include_tag "application"
   = javascript_include_tag "jquery-ui"
@@ -36,7 +36,9 @@
    //}
    //});
    //});
+   $(document).ready(function(){
    googleLoaded.done( function(){
+   if($('#mystats1').length) {
    $('#mystats1').gvChart({
    chartType: 'PieChart',
    gvSettings: {
@@ -47,6 +49,8 @@
    pieHole: 0.4,
    width: 820,
    height: 300,
+   }
+   });
    }
    });
    });
