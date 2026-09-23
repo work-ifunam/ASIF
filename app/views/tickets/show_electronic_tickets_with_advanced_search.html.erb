@@ -48,10 +48,10 @@
       	  Categor&iacute;as: <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', @ticket_type), :id, :name),  :prompt => "Todas las categoría", class: 'small-field'%>
       	</div>
       	<div class="col-xs-6 col-md-4">
-      	   Atendio: <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname),  :prompt => "Todos", class: 'small-field'%>
+      	   Técnico Asignado: <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname),  :prompt => "Todos", class: 'small-field'%>
 
 <% if current_user.category != "Admin ELECTRONICA" %>
-  Solicito: 
+  Solicitante: 
   <!-- Campo visible para buscar por nombre -->
   <%= text_field_tag 'user_search_display', (params[:user_search_display] || ''), 
                      data: { autocomplete_source: autocomplete_user_name_users_path }, 
