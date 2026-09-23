@@ -22,7 +22,7 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'logout' => "user_sessions#destroy", :as => :logout
   match 'send_students_message' => "user_sessions#send_students_message", :as => :send_students_message
   
-  get 'my_chart_data', to: 'tickets#my_chart_data'
+  #get 'my_chart_data', to: 'tickets#my_chart_data'
   #get 'autocomplete_users' => "account#autocomplete_users" , on: :member # or :member if searching for a specific user
 
   match 'my_workshop_reports' => "reports#my_workshop_reports",           :as => :my_workshop_reports
