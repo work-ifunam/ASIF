@@ -12,9 +12,9 @@
   %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
   = stylesheet_link_tag "application"
   = stylesheet_link_tag "jquery-ui"
-  = javascript_include_tag "https://www.google.com/jsapi"
-  = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
   = javascript_include_tag "application"
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+  = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
   = javascript_include_tag "jquery.gvChart-1.1.min"
   %script{"type" => "text/javascript"}
    $(function() {
@@ -23,18 +23,6 @@
    });
    });
   %script{"type" => "text/javascript"}
-   //gvChartInit();
-   //jQuery(document).ready(function(){
-   //jQuery('#mystats1').gvChart({
-   //chartType: 'PieChart',
-   //gvSettings: {
-   //vAxis: {title: 'Mis solicitudes de Servicio'},
-   //hAxis: {title: ' '},
-   //width: 700,
-   //height: 300
-   //}
-   //});
-   //});
    googleLoaded.done( function(){
    $('#mystats1').gvChart({
    chartType: 'PieChart',
