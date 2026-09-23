@@ -1,12 +1,12 @@
 !!!
-%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "es", :lang => "es"}
  %head
   %title ASIF 
   %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
   %meta{"http-equiv" => "content-language", "content" => "en"}
   %meta{"http-equiv" => "description", "content" => " "}
   %meta{"http-equiv" => "keywords", "content" => " "}
-  %meta{"http-equiv" => "author", "content" => "Goz"}
+  %meta{"http-equiv" => "author", "content" => "Daniel Rosales"}
   %meta{"http-equiv" => "copyright", "content" => " "}
   %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
   %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
@@ -22,10 +22,12 @@
     %div#left_menu
      
     %div#content
+     - flash.each do |type, msg|
+      %div{:class => "flash #{type}"}= msg
      = yield      
    %div#footer
-    Instituto de F&iacute;sica UNAM - 2022 | Circuito de la Investigaci&oacute;n Cient&iacute;fica, Ciudad Universitaria, M&eacute;xico, D.F.<br />
-    Hecho en M&eacute;xico con software libre | &Uacute;ltima actualizaci&oacute;n: Marzo 2022
+    Instituto de F&iacute;sica UNAM -
+    = @current_year
    %div.clear
 
 

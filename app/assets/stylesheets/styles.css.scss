@@ -707,3 +707,51 @@ select.small-field{
     background-color: #007bff !important;
     color: #ffffff !important;
   }
+  /* ==========================================
+   ESTILOS PARA MENSAJES FLASH / NOTIFICACIONES
+   ========================================== */
+
+  /* Estilo base para todos los mensajes */
+  .flash {
+    padding: 12px 16px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    border-left: 5px solid transparent; /* Borde de acento izquierdo */
+  }
+
+  /* 1. Éxito / Éxito en login (notice, success) */
+  .flash.notice, 
+  .flash.success {
+    background-color: #e6f4ea;
+    color: #137333;
+    border-color: #1e8e3e;
+  }
+
+  /* 2. Error / Alertas (alert, error) */
+  .flash.alert, 
+  .flash.error {
+    background-color: #fce8e6;
+    color: #c5221f;
+    border-color: #d93025;
+  }
+
+  /* 3. Advertencias (warning) */
+  .flash.warning {
+    background-color: #fef7e0;
+    color: #b06000;
+    border-color: #f9ab00;
+  }
+
+  /* 4. Información / AVISOS (info) */
+  .flash.info {
+    background-color: #e8f0fe;
+    color: #1a73e8;
+    border-color: #1a73e8;
+  }

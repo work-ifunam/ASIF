@@ -103,6 +103,9 @@
       %li
        = link_to 'Salir', logout_path 
     %div#content
+     -# Despliegue de mensajes flash (login, errores, notificaciones)
+     - flash.each do |type, msg|
+      %div{:class => "flash #{type}"}= msg
      = yield      
    %div#footer
     Instituto de F&iacute;sica UNAM -
