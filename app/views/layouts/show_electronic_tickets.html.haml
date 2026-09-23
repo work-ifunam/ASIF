@@ -13,7 +13,7 @@
   = javascript_include_tag "application"
   = stylesheet_link_tag "application"
   = stylesheet_link_tag "jquery-ui"
-  = javascript_include_tag "https://www.google.com/jsapi"
+  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
   = javascript_include_tag "jquery-1.9.0.min"
   = javascript_include_tag "jquery-ui"
   = javascript_include_tag "jquery.gvChart-1.1.min"
@@ -24,7 +24,9 @@
    });
    });
   %script{"type" => "text/javascript"}
+   $(document).ready(function(){
    googleLoaded.done( function(){
+   if($('#mystats1').length) {
    $('#mystats1').gvChart({
    chartType: 'PieChart',
    gvSettings: {
@@ -32,6 +34,8 @@
    hAxis: {title: ' '},
    width: 720,
    height: 300,
+   }
+   });
    }
    });
    });
