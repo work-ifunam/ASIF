@@ -134,109 +134,117 @@
   <hr></hr>
   </div>
 </div>
-<div class="stats text-center">
-<div id="chart_div">
-<table id="mystats1">
-  <!--<caption>SOLICITUDES ACTIVAS EN <%= @search.department.upcase%> (<%#= @last_year + '-' + @current_year %>)</caption>-->
-  <caption>PERIODO: </caption>
-  <caption><%= @search.date_from.to_s + ' - ' + @search.date_to.to_s %></caption>
-  <thead>
-    <tr>
-      <th></th>
-      <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
-      <th>EN REVISION (<%= @revision.count.to_s %>)</th>
-      <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
-      <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th></th>
-      <td><%= @notattended.count.to_s %></td>
-      <td><%= @waiting.count.to_s %></td>
-      <td><%= @inprocess.count.to_s %></td>
-      <td><%= @revision.count.to_s %></td>
-      <td><%= @finished.count.to_s %></td>
-      <td><%= @canceled.count.to_s %></td>
-    </tr>
-  </tbody>
-</table></div>
-</div>
-<!---->
-<% if @search.folio != nil %>
-<div id="finished" class="w3-container status">
-  <h4 class="subtitle">TICKET</h4>
-  <% @tickets.each do |ticket| %>
-    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+<% if @tickets.count > 0 %>
+  <%# --- SECCIÓN DE GRÁFICAS Y ESTADÍSTICAS --- %>
+  <div class="stats text-center">
+    <div id="chart_div">
+      <table id="mystats1">
+        <caption>PERIODO: </caption>
+        <caption><%= @search.date_from.to_s + ' - ' + @search.date_to.to_s %></caption>
+        <thead>
+          <tr>
+            <th></th>
+            <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
+            <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
+            <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
+            <th>EN REVISION (<%= @revision.count.to_s %>)</th>
+            <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
+            <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th></th>
+            <td><%= @notattended.count.to_s %></td>
+            <td><%= @waiting.count.to_s %></td>
+            <td><%= @inprocess.count.to_s %></td>
+            <td><%= @revision.count.to_s %></td>
+            <td><%= @finished.count.to_s %></td>
+            <td><%= @canceled.count.to_s %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%# --- MUESTRA POR FOLIO O PESTAÑAS POR ESTATUS --- %>
+  <% if @search.folio != nil %>
+    <div id="finished" class="w3-container status">
+      <h4 class="subtitle">TICKET</h4>
+      <% @tickets.each do |ticket| %>
+        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+      <% end %>
+    </div>
+  <% else %>
+    <div class="status-bar">
+      <button class="btn btn-primary btn-notattended" <%= @notattended.count == 0 ? 'disabled' : '' %> onclick="openStatus('notattended')">NO ATENDIDOS (<%= @notattended.count.to_s %>)</button>
+      <button class="btn btn-primary btn-waiting" <%= @waiting.count == 0 ? 'disabled' : '' %> onclick="openStatus('waiting')">EN ESPERA (<%= @waiting.count.to_s %>)</button>
+      <button class="btn btn-primary btn-inprocess" <%= @inprocess.count == 0 ? 'disabled' : '' %> onclick="openStatus('inprocess')">EN PROCESO (<%= @inprocess.count.to_s %>)</button>
+      <button class="btn btn-primary btn-revision" <%= @revision.count == 0 ? 'disabled' : '' %> onclick="openStatus('revision')">EN REVISION (<%= @revision.count.to_s %>)</button>
+      <button class="btn btn-primary btn-finished" <%= @finished.count == 0 ? 'disabled' : '' %> onclick="openStatus('finished')">ATENDIDOS (<%= @finished.count.to_s %>)</button>
+      <button class="btn btn-primary btn-canceled" <%= @canceled.count == 0 ? 'disabled' : '' %> onclick="openStatus('canceled')">CANCELADOS (<%= @canceled.count.to_s %>)</button>
+    </div>
+
+    <div id="notattended" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'notattended' %>">
+      <h4 class="subtitle">NO ATENDIDOS</h4>
+      <% @tickets_notattended.each do |ticket| %>
+        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+      <% end %>
+      <%= paginate @tickets_notattended %>
+    </div>
+
+    <div id="waiting" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'waiting' %>">
+      <h4 class="subtitle">EN ESPERA</h4>
+      <% @tickets_waiting.each do |ticket| %>
+        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+      <% end %>
+      <%= paginate @tickets_waiting %>
+    </div>
+
+    <div id="inprocess" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'inprocess' %>">
+      <h4 class="subtitle">EN PROCESO</h4>
+      <% @tickets_inprocess.each do |ticket| %>
+        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+      <% end %>
+      <%= paginate @tickets_inprocess %>
+    </div>
+
+    <div id="revision" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'revision' %>">
+      <h4 class="subtitle">EN REVISION</h4>
+      <% @tickets_revision.each do |ticket| %>
+        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+      <% end %>
+      <%= paginate @tickets_revision %>
+    </div>
+
+    <div id="finished" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'finished' %>">
+      <h4 class="subtitle">ATENDIDOS</h4>
+      <% @tickets_finished.each do |ticket| %>
+        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+      <% end %>
+      <%= paginate @tickets_finished %>
+    </div>
+
+    <div id="canceled" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'canceled' %>">
+      <h4 class="subtitle">CANCELADOS</h4>
+      <% @tickets_canceled.each do |ticket| %>
+        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+      <% end %>
+      <%= paginate @tickets_canceled %>
+    </div>
   <% end %>
-</div>
+
 <% else %>
-<div class="status-bar">
-  <button class="btn btn-primary btn-notattended" <%= disabled = @notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
-  <button class="btn btn-primary btn-waiting" <%= disabled = @waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
-  <button class="btn btn-primary btn-inprocess" <%= disabled = @inprocess.count == 0 ? 'disabled':''%> onclick="openStatus('inprocess')">EN PROCESO (<%=@inprocess.count.to_s%>)</button>
-  <button class="btn btn-primary btn-revision" <%= disabled = @revision.count == 0 ? 'disabled':''%> onclick="openStatus('revision')">EN REVISION (<%=@revision.count.to_s%>)</button>
-  <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
-  <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
-</div>
-
-<div id="notattended" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'notattended' %>">
-  <h4 class="subtitle">NO ATENDIDOS</h4>
-  <% @tickets_notattended.each do |ticket| %>
-    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-  <% end %>
-  <%= paginate @tickets_notattended %>
-</div>
-
-<div id="waiting" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'waiting' %>">
-  <h4 class="subtitle">EN ESPERA</h4>
-  <% @tickets_waiting.each do |ticket| %>
-    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-  <% end %>
-  <%= paginate @tickets_waiting %>
-</div>
-
-<div id="inprocess" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'inprocess' %>">
-  <h4 class="subtitle">EN PROCESO</h4>
-  <% @tickets_inprocess.each do |ticket| %>
-    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-  <% end %>
-  <%= paginate @tickets_inprocess %>
-</div>
-
-<div id="revision" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'revision' %>">
-  <h4 class="subtitle">EN REVISION</h4>
-  <% @tickets_revision.each do |ticket| %>
-    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-  <% end %>
-  <%= paginate @tickets_revision %>
-</div>
-
-<div id="finished" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'finished' %>">
-  <h4 class="subtitle">ATENDIDOS</h4>
-  <% @tickets_finished.each do |ticket| %>
-    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-  <% end %>
-  <%= paginate @tickets_finished %>
-</div>
-
-<div id="canceled" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'canceled' %>">
-  <h4 class="subtitle">CANCELADOS</h4>
-  <% @tickets_canceled.each do |ticket| %>
-    <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-  <% end %>
-  <%= paginate @tickets_canceled %>
-</div>
-<!---->
+  <%# --- MENSAJE CUANDO VIENE VACÍO --- %>
+  <div class="alert alert-info text-center" style="margin: 40px auto; padding: 25px; max-width: 600px; border-radius: 6px;">
+    <h3 style="margin: 0; font-weight: bold; color: #31708f;">Sin registros</h3>
+    <p style="margin-top: 10px; color: #31708f;">No se encontraron solicitudes que coincidan con los criterios de búsqueda.</p>
+  </div>
 <% end %>
+
 <br />
 
-
-
 <script>
-
 function openStatus(status) {
   var i;
   var x = document.getElementsByClassName("status");
@@ -246,4 +254,4 @@ function openStatus(status) {
   document.getElementById(status).style.display = "block";  
 }
 </script>
-  <% end %>
+<% end %>
