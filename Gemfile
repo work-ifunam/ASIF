@@ -5,6 +5,7 @@ gem 'rails', '3.2.12'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+gem 'sqlite3', '~> 1.5.4'
 gem 'mysql2', '~> 0.3.20'
 gem 'authlogic'
 gem 'rb-readline'
@@ -25,7 +26,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'jquery-rails'
+gem 'webrick'
+gem 'rexml'
 gem 'rack-cors'
 gem 'active_model_serializers', '~> 0.8.3'
 # To use ActiveModel has_secure_password
