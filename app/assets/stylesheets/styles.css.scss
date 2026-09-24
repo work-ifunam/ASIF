@@ -149,13 +149,13 @@ body {
     text-align: justify;
     background-color: transparent;
     font: {
-      family: verdana, sans-serif;
+      family: 'Montserrat', sans-serif;
       size: 15px;
     }
     color: #333333;
     .username {
       font: {
-        family: verdana, sans-serif;
+        family: 'Montserrat', sans-serif;
 	font-weight: bold;
         size: 25px;
       }
@@ -164,7 +164,7 @@ body {
     }
     .category {
       font: {
-        family: verdana, sans-serif;
+        family: 'Montserrat', sans-serif;
         size: 13px;
       }
       color: #333333;
@@ -377,6 +377,7 @@ h3 {
   border-color: #1484AE;
   color: white;
   border: 2px solid;
+  border-radius: 10px;
 }
 .lbl-primary{
   background-color: #1484AE;
@@ -396,6 +397,7 @@ h3 {
   border-color: rgb(29, 111, 66);
   color: white;
   border: 2px solid;
+  border-radius: 10px;
 }
 
 .btn-secondary:hover {
@@ -436,12 +438,13 @@ h3 {
   color: white !important;
   border: 2px solid;
   margin-top: 1em;
+  border-radius: 10px;
 }
 .action-button:hover{
   padding: 0.5rem;
   font-size: 14px !important;
-  color: white !important;
-  background-color: #7c7575;
+  color: #7c7575 !important;
+  background-color: transparent;
   border-color: #7c7575;
   border: 2px solid;
   margin-top: 1em;
@@ -456,12 +459,13 @@ h3 {
   color: white !important;
   border: 2px solid;
   margin-top: 1em;
+  border-radius: 10px;
 }
 .action-button-taken:hover{
   padding: 0.5rem;
   font-size: 14px !important;
-  color: white !important;
-  background-color: #028001;
+  color: #028001 !important;
+  background-color: transparent;
   border-color: #028001;
   border: 2px solid;
   margin-top: 1em;
@@ -477,12 +481,13 @@ h3 {
   color: white !important;
   border: 2px solid;
   margin-top: 1em;
+  border-radius: 10px;
 }
 .action-button-closed:hover{
   padding: 0.5rem;
   font-size: 14px !important;
-  color: white !important;
-  background-color: #D45508;
+  color: #D45508 !important;
+  background-color: transparent;
   border-color: #D45508;
   border: 2px solid;
   margin-top: 1em;
@@ -755,3 +760,180 @@ select.small-field{
     color: #1a73e8;
     border-color: #1a73e8;
   }
+/* ==========================================================================
+   Encabezado y Panel de Búsqueda Bootstrap
+   ========================================================================== */
+
+/* Encabezado Principal */
+.header-flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+
+  .header-text-block {
+    flex: 1 1 320px;
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1e3a8a;
+      margin: 0 0 6px 0;
+      line-height: 1.2;
+    }
+
+    .header-subtext {
+      font-size: 13px;
+      color: #475569;
+      margin-top: 25px;
+      margin-bottom: 0;
+
+      .subtext-item {
+        margin-right: 15px;
+        display: block;
+
+        strong {
+          color: #1e293b;
+        }
+      }
+    }
+  }
+
+  .header-actions-block {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 5px;
+  }
+}
+/* ==========================================================================
+   Panel de Filtros en Par de Columnas (Flexbox estricto)
+   ========================================================================== */
+
+.search-filter-card {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+
+  .search-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  /* Fuerza 2 columnas al 50% cada una */
+  .search-col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    width: 50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+
+    @media (max-width: 576px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  /* Columna completa 100% */
+  .search-col-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+    white-space: nowrap;
+  }
+
+  .form-control {
+    width: 100% !important;
+    height: 38px !important;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: #2563eb;
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+  }
+
+  /* Contenedor del rango de fechas */
+  .date-range-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .form-control {
+      flex: 1;
+    }
+
+    .range-sep {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+    }
+  }
+
+  /* Botón BUSCAR perfectamente centrado */
+  .btn-search-main {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    margin-top: 5px;
+    line-height: 1 !important;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 6px;
+    background-color: #2563eb;
+    border: 1px solid #2563eb;
+    color: #ffffff !important;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    &:hover, &:focus {
+      background-color: #1d4ed8;
+      border-color: #1d4ed8;
+      color: #ffffff !important;
+    }
+  }
+  /* Espaciador invisible para alinear el botón con los inputs */
+  .label-spacer {
+    display: block;
+    height: 19px;
+    margin-bottom: 6px;
+  }
+}

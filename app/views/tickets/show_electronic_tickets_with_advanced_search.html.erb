@@ -1,257 +1,277 @@
 <% if current_user.category == "Chuck Norris" || current_user.category == "SAC" || current_user.category == "Admin ELECTRONICA" || current_user.category == "Sec COMPUTO" || current_user.category == "Dirección" %>
-<h1 class="maintitle"><%= @search.department.upcase%> (<%= @tickets.count.to_s %>)</h1>
-<% if @search.folio != nil %>
-  <h1 class="subtitle text-left">Folio: <%= @search.folio%></h1>
-<% else %>
-<!--
-  <%# if @search.user_search != nil %>
-  <h1 class="subtitle text-left">Solicitante: <%#= @search.user_search%></h1>
-  <%# end %>
--->
-<% if @search.user_search.present? %>
-  <h1 class="subtitle text-left">
-    Solicitante: <%= params[:user_search_display].presence || @search.user_search %>
-  </h1>
-<% end %>
-  <h1 class="subtitle text-left">Personal: <%= @search.technician_name%></h1>
-  <h1 class="subtitle text-left">Categor&iacute;a: <%= @search.category_name%></h1>
-<% end %>
-<h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
-<% if @search.folio.present? %>
-  <%= link_to 'DESCARGAR RESULTADOS', 
-              url_for(:folio => @search.folio.to_s, :format => "xls"), 
-              :class => "btn btn-secondary" %>
-<% else %>
-  <%= link_to 'DESCARGAR RESULTADOS', 
-              url_for(
-                :cat => @search.category.to_s, 
-                :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, 
-                :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, 
-                :tech_id => @search.technicians.to_s, 
-                :user_search => @search.user_search.to_s,
-                :format => "xls"
-              ), 
-              :class => "btn btn-secondary" %>
-<% end %>
-</h4>
-<div class="row search-box">
-  <div class="pull-right range-query">
-  <hr></hr>
-      <div class="row">
-    <%= form_tag show_electronic_tickets_with_advanced_search_path, method: :get do %>
-      	<div class="col-xs-6 col-md-4">
-      	  No. ticket: <%= text_field_tag 'search[folio]', params['search[folio]'], class: 'small-field', placeholder: 'Buscar por número de ticket' %>
-      	</div>
-      	<div class="col-xs-6 col-md-4">
-      	  Inicio: <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s, class: 'small-field', placeholder: 'Inicio' %>
-      	  Fin: <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s, class: 'small-field', placeholder: 'Inicio' %>   
-      	  Categor&iacute;as: <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', @ticket_type), :id, :name),  :prompt => "Todas las categoría", class: 'small-field'%>
-      	</div>
-      	<div class="col-xs-6 col-md-4">
-      	   Técnico Asignado: <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname),  :prompt => "Todos", class: 'small-field'%>
 
-<% if current_user.category != "Admin ELECTRONICA" %>
-  Solicitante: 
-  <!-- Campo visible para buscar por nombre -->
-  <%= text_field_tag 'user_search_display', (params[:user_search_display] || ''), 
-                     data: { autocomplete_source: autocomplete_user_name_users_path }, 
-                     class: 'small-field', 
-                     placeholder: 'Buscar por usuario' %>
-
-  <!-- Campo oculto que se envía dentro de params[:search][:user_search] -->
-  <%= hidden_field_tag 'search[user_search]', (params[:search][:user_search] if params[:search]), id: 'search_user_id' %>
-<% end %>
-<script type="text/javascript">
-  $(function() {
-    var $input = $('#user_search_display');
-
-    if ($input.length) {
-      $input.autocomplete({
-        // 1. Adjunta el menú directamente al elemento padre del input
-        // Esto evita que pierda el foco al mover el cursor hacia abajo
-        appendTo: $input.parent(),
-
-        source: function(request, response) {
-          $.ajax({
-            url: $input.data('autocomplete-source'),
-            dataType: "json",
-            cache: false,
-            data: { term: request.term },
-            success: function(data) {
-              var items = Array.isArray(data) ? data : (data.users || data.results || []);
-
-              response($.map(items, function(rawItem) {
-                var item = rawItem.user || rawItem;
-
-                if (typeof item === 'string') {
-                  return { label: item, value: item, id: item };
-                }
-
-                var textToShow = item.label || item.value || item.name || item.full_name;
-
-                if (!textToShow && (item.firstname || item.lastname)) {
-                  textToShow = ((item.firstname || '') + ' ' + (item.lastname || '')).trim();
-                }
-
-                return {
-                  label: textToShow || (item.id ? "Usuario #" + item.id : "Sin nombre"),
-                  value: textToShow || '',
-                  id: item.id
-                };
-              }));
-            }
-          });
-        },
-        minLength: 2,
-
-        // 2. Previene que el menú se cierre al navegar con las flechas o el mouse
-        focus: function(event, ui) {
-          event.preventDefault();
-          return false;
-        },
-
-        // 3. Asigna los datos SOLO al hacer clic o presionar Enter
-        select: function(event, ui) {
-          $input.val(ui.item.label);
-          $('#search_user_id').val(ui.item.id);
-          return false;
-        }
-      });
-    }
-  });
-</script>
-<!--
--->
+  <!-- ENCABEZADO Y ACCIONES -->
+  <div class="header-flex-container">
+    <div class="header-text-block">
+      <h1 class="header-title">
+        <%= @search.department.upcase %> (<%= @tickets.count.to_s %>)
+      </h1>
+      <div class="header-subtext">
+        <% if @search.folio.present? %>
+          <span class="label label-info">Folio: <%= @search.folio %></span>
+        <% else %>
+          <% if @search.user_search.present? %>
+            <span class="subtext-item"><strong>Solicitante:</strong> <%= params[:user_search_display].presence || @search.user_search %></span>
+          <% end %>
+          <span class="subtext-item"><strong>Personal:</strong> <%= @search.technician_name %></span>
+          <span class="subtext-item"><strong>Categoría:</strong> <%= @search.category_name %></span>
+        <% end %>
       </div>
-      <div class="row">
-      	<div class="col-xs-6 col-md-4">
-      	   <%= hidden_field_tag 'search[department]', @search.department.to_s %>
-      	   <%= hidden_field_tag 'search[category_name]', @search.category_name.to_s %>
-      	   <%= submit_tag 'Buscar', class: 'btn search-advanced-button' %>
-      	</div>
+    </div>
+
+    <div class="header-actions-block">
+      <%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), class: "btn btn-primary" %>
+      
+      <% if @search.folio.present? %>
+        <%= link_to 'DESCARGAR RESULTADOS', 
+                    url_for(:folio => @search.folio.to_s, :format => "xls"), 
+                    class: "btn btn-secondary" %>
+      <% else %>
+        <%= link_to 'DESCARGAR RESULTADOS', 
+                    url_for(
+                      :cat => @search.category.to_s, 
+                      :date_from => @search.date_from.to_date.strftime("%d/%m/%Y").to_s, 
+                      :date_to => @search.date_to.to_date.strftime("%d/%m/%Y").to_s, 
+                      :tech_id => @search.technicians.to_s, 
+                      :user_search => @search.user_search.to_s,
+                      :format => "xls"
+                    ), 
+                    class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+  </div>
+
+<!-- PANEL DE BÚSQUEDA AVANZADA -->
+  <div class="search-filter-card">
+    <%= form_tag show_electronic_tickets_with_advanced_search_path, method: :get do %>
+      <%= hidden_field_tag 'search[department]', @search.department.to_s %>
+      <%= hidden_field_tag 'search[category_name]', @search.category_name.to_s %>
+
+      <!-- FILA 1: No. Ticket (Izq) | Categoría (Der) -->
+      <div class="search-row">
+        <div class="search-col-6">
+          <label for="search_folio">No. Ticket:</label>
+          <%= text_field_tag 'search[folio]', params['search[folio]'], id: 'search_folio', class: 'form-control', placeholder: 'Buscar por folio...' %>
+        </div>
+
+        <div class="search-col-6">
+          <label for="search_category">Categoría:</label>
+          <%= select_tag 'search[category]', options_from_collection_for_select(Category.where('department = ?', @ticket_type), :id, :name), prompt: "Todas las categorías", id: 'search_category', class: 'form-control' %>
+        </div>
+      </div>
+
+      <!-- FILA 2: Rango de Fechas (Inicio - Fin) -->
+      <div class="search-row">
+        <div class="search-col-12">
+          <label>Rango de Fechas (Inicio - Fin):</label>
+          <div class="date-range-container">
+            <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s, id: 'search_date_from', class: 'form-control', placeholder: 'dd/mm/aaaa' %>
+            <span class="range-sep">a</span>
+            <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s, id: 'search_date_to', class: 'form-control', placeholder: 'dd/mm/aaaa' %>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILA 3: Técnico Asignado (Izq) | Solicitante (Der) -->
+      <div class="search-row">
+        <div class="search-col-6">
+          <label for="search_technicians">Técnico Asignado:</label>
+          <%= select_tag 'search[technicians]', options_from_collection_for_select(Technician.where('category LIKE ?', '%ELECTRONICA%'), :id, :fullname), prompt: "Todos", id: 'search_technicians', class: 'form-control' %>
+        </div>
+
+        <div class="search-col-6">
+          <% if current_user.category != "Admin ELECTRONICA" %>
+            <label for="user_search_display">Solicitante:</label>
+            <%= text_field_tag 'user_search_display', (params[:user_search_display] || ''), 
+                               id: 'user_search_display',
+                               data: { autocomplete_source: autocomplete_user_name_users_path }, 
+                               class: 'form-control', 
+                               placeholder: 'Escriba para buscar por usuario...' %>
+            <%= hidden_field_tag 'search[user_search]', (params[:search][:user_search] if params[:search]), id: 'search_user_id' %>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- BOTÓN BUSCAR COMPLETO ABAJO -->
+      <div class="search-row">
+        <div class="search-col-12">
+          <%= button_tag type: 'submit', class: 'btn btn-primary btn-search-main' do %>
+            BUSCAR
+          <% end %>
+        </div>
       </div>
     <% end %>
-  <hr></hr>
-  </div>
-</div>
-<% if @tickets.count > 0 %>
-  <%# --- SECCIÓN DE GRÁFICAS Y ESTADÍSTICAS --- %>
-  <div class="stats text-center">
-    <div id="chart_div">
-      <table id="mystats1">
-        <caption>PERIODO: </caption>
-        <caption><%= @search.date_from.to_s + ' - ' + @search.date_to.to_s %></caption>
-        <thead>
-          <tr>
-            <th></th>
-            <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
-            <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
-            <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
-            <th>EN REVISION (<%= @revision.count.to_s %>)</th>
-            <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
-            <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th></th>
-            <td><%= @notattended.count.to_s %></td>
-            <td><%= @waiting.count.to_s %></td>
-            <td><%= @inprocess.count.to_s %></td>
-            <td><%= @revision.count.to_s %></td>
-            <td><%= @finished.count.to_s %></td>
-            <td><%= @canceled.count.to_s %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 
-  <%# --- MUESTRA POR FOLIO O PESTAÑAS POR ESTATUS --- %>
-  <% if @search.folio != nil %>
-    <div id="finished" class="w3-container status">
-      <h4 class="subtitle">TICKET</h4>
-      <% @tickets.each do |ticket| %>
-        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-      <% end %>
+  <% if @tickets.count > 0 %>
+    <%# --- SECCIÓN DE GRÁFICAS Y ESTADÍSTICAS --- %>
+    <div class="stats text-center">
+      <div id="chart_div">
+        <table id="mystats1">
+          <caption>PERIODO: </caption>
+          <caption><%= @search.date_from.to_s + ' - ' + @search.date_to.to_s %></caption>
+          <thead>
+            <tr>
+              <th></th>
+              <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
+              <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
+              <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
+              <th>EN REVISION (<%= @revision.count.to_s %>)</th>
+              <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
+              <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th></th>
+              <td><%= @notattended.count.to_s %></td>
+              <td><%= @waiting.count.to_s %></td>
+              <td><%= @inprocess.count.to_s %></td>
+              <td><%= @revision.count.to_s %></td>
+              <td><%= @finished.count.to_s %></td>
+              <td><%= @canceled.count.to_s %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
+
+    <%# --- MUESTRA POR FOLIO O PESTAÑAS POR ESTATUS --- %>
+    <% if @search.folio != nil %>
+      <div id="finished" class="w3-container status">
+        <h4 class="subtitle">TICKET</h4>
+        <% @tickets.each do |ticket| %>
+          <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+        <% end %>
+      </div>
+    <% else %>
+      <div class="status-bar">
+        <button class="btn btn-primary btn-notattended" <%= @notattended.count == 0 ? 'disabled' : '' %> onclick="openStatus('notattended')">NO ATENDIDOS (<%= @notattended.count.to_s %>)</button>
+        <button class="btn btn-primary btn-waiting" <%= @waiting.count == 0 ? 'disabled' : '' %> onclick="openStatus('waiting')">EN ESPERA (<%= @waiting.count.to_s %>)</button>
+        <button class="btn btn-primary btn-inprocess" <%= @inprocess.count == 0 ? 'disabled' : '' %> onclick="openStatus('inprocess')">EN PROCESO (<%= @inprocess.count.to_s %>)</button>
+        <button class="btn btn-primary btn-revision" <%= @revision.count == 0 ? 'disabled' : '' %> onclick="openStatus('revision')">EN REVISION (<%= @revision.count.to_s %>)</button>
+        <button class="btn btn-primary btn-finished" <%= @finished.count == 0 ? 'disabled' : '' %> onclick="openStatus('finished')">ATENDIDOS (<%= @finished.count.to_s %>)</button>
+        <button class="btn btn-primary btn-canceled" <%= @canceled.count == 0 ? 'disabled' : '' %> onclick="openStatus('canceled')">CANCELADOS (<%= @canceled.count.to_s %>)</button>
+      </div>
+
+      <div id="notattended" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'notattended' %>">
+        <h4 class="subtitle">NO ATENDIDOS</h4>
+        <% @tickets_notattended.each do |ticket| %>
+          <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+        <% end %>
+        <%= paginate @tickets_notattended %>
+      </div>
+
+      <div id="waiting" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'waiting' %>">
+        <h4 class="subtitle">EN ESPERA</h4>
+        <% @tickets_waiting.each do |ticket| %>
+          <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+        <% end %>
+        <%= paginate @tickets_waiting %>
+      </div>
+
+      <div id="inprocess" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'inprocess' %>">
+        <h4 class="subtitle">EN PROCESO</h4>
+        <% @tickets_inprocess.each do |ticket| %>
+          <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+        <% end %>
+        <%= paginate @tickets_inprocess %>
+      </div>
+
+      <div id="revision" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'revision' %>">
+        <h4 class="subtitle">EN REVISION</h4>
+        <% @tickets_revision.each do |ticket| %>
+          <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+        <% end %>
+        <%= paginate @tickets_revision %>
+      </div>
+
+      <div id="finished" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'finished' %>">
+        <h4 class="subtitle">ATENDIDOS</h4>
+        <% @tickets_finished.each do |ticket| %>
+          <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+        <% end %>
+        <%= paginate @tickets_finished %>
+      </div>
+
+      <div id="canceled" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'canceled' %>">
+        <h4 class="subtitle">CANCELADOS</h4>
+        <% @tickets_canceled.each do |ticket| %>
+          <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
+        <% end %>
+        <%= paginate @tickets_canceled %>
+      </div>
+    <% end %>
+
   <% else %>
-    <div class="status-bar">
-      <button class="btn btn-primary btn-notattended" <%= @notattended.count == 0 ? 'disabled' : '' %> onclick="openStatus('notattended')">NO ATENDIDOS (<%= @notattended.count.to_s %>)</button>
-      <button class="btn btn-primary btn-waiting" <%= @waiting.count == 0 ? 'disabled' : '' %> onclick="openStatus('waiting')">EN ESPERA (<%= @waiting.count.to_s %>)</button>
-      <button class="btn btn-primary btn-inprocess" <%= @inprocess.count == 0 ? 'disabled' : '' %> onclick="openStatus('inprocess')">EN PROCESO (<%= @inprocess.count.to_s %>)</button>
-      <button class="btn btn-primary btn-revision" <%= @revision.count == 0 ? 'disabled' : '' %> onclick="openStatus('revision')">EN REVISION (<%= @revision.count.to_s %>)</button>
-      <button class="btn btn-primary btn-finished" <%= @finished.count == 0 ? 'disabled' : '' %> onclick="openStatus('finished')">ATENDIDOS (<%= @finished.count.to_s %>)</button>
-      <button class="btn btn-primary btn-canceled" <%= @canceled.count == 0 ? 'disabled' : '' %> onclick="openStatus('canceled')">CANCELADOS (<%= @canceled.count.to_s %>)</button>
-    </div>
-
-    <div id="notattended" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'notattended' %>">
-      <h4 class="subtitle">NO ATENDIDOS</h4>
-      <% @tickets_notattended.each do |ticket| %>
-        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-      <% end %>
-      <%= paginate @tickets_notattended %>
-    </div>
-
-    <div id="waiting" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'waiting' %>">
-      <h4 class="subtitle">EN ESPERA</h4>
-      <% @tickets_waiting.each do |ticket| %>
-        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-      <% end %>
-      <%= paginate @tickets_waiting %>
-    </div>
-
-    <div id="inprocess" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'inprocess' %>">
-      <h4 class="subtitle">EN PROCESO</h4>
-      <% @tickets_inprocess.each do |ticket| %>
-        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-      <% end %>
-      <%= paginate @tickets_inprocess %>
-    </div>
-
-    <div id="revision" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'revision' %>">
-      <h4 class="subtitle">EN REVISION</h4>
-      <% @tickets_revision.each do |ticket| %>
-        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-      <% end %>
-      <%= paginate @tickets_revision %>
-    </div>
-
-    <div id="finished" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'finished' %>">
-      <h4 class="subtitle">ATENDIDOS</h4>
-      <% @tickets_finished.each do |ticket| %>
-        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-      <% end %>
-      <%= paginate @tickets_finished %>
-    </div>
-
-    <div id="canceled" class="w3-container status" style="<%= 'display:none;' unless @default_status == 'canceled' %>">
-      <h4 class="subtitle">CANCELADOS</h4>
-      <% @tickets_canceled.each do |ticket| %>
-        <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
-      <% end %>
-      <%= paginate @tickets_canceled %>
+    <!-- MENSAJE SIN RESULTADOS -->
+    <div class="alert alert-info text-center empty-state-alert">
+      <h4 class="empty-state-title">Sin registros</h4>
+      <p class="empty-state-desc">No se encontraron solicitudes que coincidan con los criterios de búsqueda.</p>
     </div>
   <% end %>
 
-<% else %>
-  <%# --- MENSAJE CUANDO VIENE VACÍO --- %>
-  <div class="alert alert-info text-center" style="margin: 40px auto; padding: 25px; max-width: 600px; border-radius: 6px;">
-    <h3 style="margin: 0; font-weight: bold; color: #31708f;">Sin registros</h3>
-    <p style="margin-top: 10px; color: #31708f;">No se encontraron solicitudes que coincidan con los criterios de búsqueda.</p>
-  </div>
-<% end %>
+  <br />
 
-<br />
+  <script type="text/javascript">
+    $(function() {
+      var $input = $('#user_search_display');
 
-<script>
-function openStatus(status) {
-  var i;
-  var x = document.getElementsByClassName("status");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";  
-  }
-  document.getElementById(status).style.display = "block";  
-}
-</script>
+      if ($input.length) {
+        $input.autocomplete({
+          appendTo: $input.parent(),
+          source: function(request, response) {
+            $.ajax({
+              url: $input.data('autocomplete-source'),
+              dataType: "json",
+              cache: false,
+              data: { term: request.term },
+              success: function(data) {
+                var items = Array.isArray(data) ? data : (data.users || data.results || []);
+
+                response($.map(items, function(rawItem) {
+                  var item = rawItem.user || rawItem;
+
+                  if (typeof item === 'string') {
+                    return { label: item, value: item, id: item };
+                  }
+
+                  var textToShow = item.label || item.value || item.name || item.full_name;
+
+                  if (!textToShow && (item.firstname || item.lastname)) {
+                    textToShow = ((item.firstname || '') + ' ' + (item.lastname || '')).trim();
+                  }
+
+                  return {
+                    label: textToShow || (item.id ? "Usuario #" + item.id : "Sin nombre"),
+                    value: textToShow || '',
+                    id: item.id
+                  };
+                }));
+              }
+            });
+          },
+          minLength: 2,
+          focus: function(event, ui) {
+            event.preventDefault();
+            return false;
+          },
+          select: function(event, ui) {
+            $input.val(ui.item.label);
+            $('#search_user_id').val(ui.item.id);
+            return false;
+          }
+        });
+      }
+    });
+
+    function openStatus(status) {
+      var i;
+      var x = document.getElementsByClassName("status");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+      }
+      document.getElementById(status).style.display = "block";  
+    }
+  </script>
 <% end %>
