@@ -1,10 +1,12 @@
 class Ability
   include CanCan::Ability
-  
+
   def initialize(user)
     user ||= User.new 
-    #if user.category == "Chuck Norris"
-    if user.category == "Chuck Norris" || user.id == 169
+
+    # Administrador general
+    if user.category == "Chuck Norris"
+    #if user.category == "Chuck Norris" || user.id == 169
       can :manage, User
       can :manage, Technician
       can :manage, Category
@@ -12,20 +14,38 @@ class Ability
       can :manage, Assignment          
       can :manage, Score
       can :manage, Ticket
-    elsif user.category == "Admin COMPUTO" || user.category == "SAC" || user.category == "Sec COMPUTO" || user.category == "Dirección"
+      return
+    end
+
+    # Roles con acceso transversal a las vistas solicitadas
+    global_roles = ["SAC", "Sec COMPUTO", "Dirección"]
+    is_global = global_roles.include?(user.category)
+
+    # Permisos de CÓMPUTO
+    if user.category == "Admin COMPUTO" || is_global
       can :read, :show_computer_tickets
-      #cannot :read, :show_workshop_tickets
-    elsif user.category == "Admin TALLER"  || user.category == "SAC" || user.category == "Sec COMPUTO" || user.category == "Dirección"
+      can :read, :show_computer_tickets_with_advanced_search
+    end
+
+    # Permisos de ELECTRÓNICA
+    if user.category == "Admin ELECTRONICA" || is_global
+      can :read, :show_computer_tickets_with_advanced_search
+      can :read, :show_electronic_tickets_with_advanced_search
+    end
+
+    # Permisos de TALLER / MANTENIMIENTO
+    if user.category == "Admin TALLER" || is_global
       can :read, :show_workshop_tickets
-    elsif user.category == "Admin MANTENIMIENTO"  || user.category == "SAC" || user.category == "Sec COMPUTO" || user.category == "Dirección"
+      can :read, :show_maintenance_tickets_with_advanced_search
+    end
+
+    if user.category == "Admin MANTENIMIENTO" || is_global
       can :read, :show_maintenance_tickets
-    elsif user.category == "Admin COMUNICACION"  || user.category == "SAC" || user.category == "Sec COMPUTO" || user.category == "Dirección"
+    end
+
+    # Permisos de COMUNICACIÓN
+    if user.category == "Admin COMUNICACION" || is_global
       can :read, :show_communication_tickets
-    elsif user.category == "Admin COMPUTO" || user.category == "Admin ELECTRONICA" || user.category == "Admin TALLER"  || user.category == "Admin COMUNICACION" || user.category == "Admin MANTENIMIENTO" || user.category == "Admin SERVICIOS" || user.category == "SAC" || user.category == "Sec COMPUTO"
-      can :manage, Category
-    else
-      can :read, :all
-      #can :create, Score
     end
   end
 end

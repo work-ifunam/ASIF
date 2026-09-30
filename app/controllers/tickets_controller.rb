@@ -313,6 +313,9 @@ end
       end
 
 def show_electronic_tickets_with_advanced_search
+  # 1. Validar el permiso asignado en Ability
+  authorize! :read, :show_electronic_tickets_with_advanced_search
+  
   logger.debug "--------------------------------------"
   logger.debug "SHOW ELECTRONIC TICKETS WITH ADVANCED SEARCH"
   @search = TicketSearch.new(params[:search])

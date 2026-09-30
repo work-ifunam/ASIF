@@ -49,4 +49,8 @@ class ApplicationController < ActionController::Base
       redirect_to(session[:return_to] || default)
       session[:return_to] = nil
     end
+   # Capturar denegación de CanCan y redirigir limpiamente
+    rescue_from CanCan::AccessDenied do |exception|
+      redirect_to root_url, alert: "No tienes permisos para acceder a esta sección."
+    end
 end
