@@ -70,9 +70,9 @@
        = link_to 'Mis Solicitudes', home_path
       %li 
        - if current_user.category == "Admin COMPUTO"
-        = link_to 'Solicitudes en Cómputo', tickets_path
+        = link_to 'Solicitudes en Cómputo', show_computer_tickets_with_advanced_search_path
        - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
-        = link_to 'Cómputo', show_computer_tickets_with_search_path
+        = link_to 'Cómputo', show_computer_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Cómputo',my_computer_reports_path
       %li
@@ -93,16 +93,16 @@
         = link_to 'Solicitudes en Electrónica',my_electronic_reports_path
       %li
        - if current_user.category == "Admin COMUNICACION" 
-        = link_to 'Solicitudes en Unidad de Comunicación', tickets_path
+        = link_to 'Solicitudes en Unidad de Comunicación', show_communication_tickets_with_advanced_search_path
        - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección" 
-        = link_to 'Comunicación', show_communication_tickets_with_search_path 
+        = link_to 'Comunicación', show_communication_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Unidad de Comunicación',my_communication_reports_path
       %li
        - if current_user.category == "Admin MANTENIMIENTO"
-        = link_to 'Solicitudes en Mantenimiento', tickets_path
+        = link_to 'Solicitudes en Mantenimiento', show_maintenance_tickets_with_advanced_search_path
        - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
-        = link_to 'Mantenimiento', show_maintenance_tickets_with_search_path 
+        = link_to 'Mantenimiento', show_maintenance_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Mantenimiento', my_maintenance_reports_path
       %li

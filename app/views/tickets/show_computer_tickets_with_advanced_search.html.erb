@@ -42,7 +42,7 @@
 
 <!-- PANEL DE BÚSQUEDA AVANZADA -->
   <div class="search-filter-card">
-    <%= form_tag show_electronic_tickets_with_advanced_search_path, method: :get do %>
+    <%= form_tag show_computer_tickets_with_advanced_search_path, method: :get do %>
       <%= hidden_field_tag 'search[department]', @search.department.to_s %>
       <%= hidden_field_tag 'search[category_name]', @search.category_name.to_s %>
 

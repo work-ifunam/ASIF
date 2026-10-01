@@ -39,7 +39,12 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'show_communication_tickets_with_search' => "tickets#show_communication_tickets_with_search", :as => :show_communication_tickets_with_search
   match 'show_workshop_tickets_with_search' => "tickets#show_workshop_tickets_with_search", :as => :show_workshop_tickets_with_search
   match 'show_electronic_tickets_with_search' => "tickets#show_electronic_tickets_with_search", :as => :show_electronic_tickets_with_search
+
+  match 'show_computer_tickets_with_advanced_search' => "tickets#show_computer_tickets_with_advanced_search", :as => :show_computer_tickets_with_advanced_search
   match 'show_electronic_tickets_with_advanced_search' => "tickets#show_electronic_tickets_with_advanced_search", :as => :show_electronic_tickets_with_advanced_search
+  match 'show_communication_tickets_with_advanced_search' => "tickets#show_communication_tickets_with_advanced_search", :as => :show_communication_tickets_with_advanced_search
+  match 'show_maintenance_tickets_with_advanced_search' => "tickets#show_maintenance_tickets_with_advanced_search", :as => :show_maintenance_tickets_with_advanced_search
+
   match 'show_maintenance_tickets_with_search' => "tickets#show_maintenance_tickets_with_search", :as => :show_maintenance_tickets_with_search
   
   match 'show_electronic_tickets' => "tickets#show_electronic_tickets", :as => :show_electronic_tickets
