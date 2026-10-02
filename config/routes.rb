@@ -25,12 +25,12 @@ SuperSimpleHELPDESK::Application.routes.draw do
   #get 'my_chart_data', to: 'tickets#my_chart_data'
   #get 'autocomplete_users' => "account#autocomplete_users" , on: :member # or :member if searching for a specific user
 
-  match 'my_workshop_reports' => "reports#my_workshop_reports",           :as => :my_workshop_reports
-  match 'my_electronic_reports' => "reports#my_electronic_reports",           :as => :my_electronic_reports
-  match 'my_computer_reports' => "reports#my_computer_reports",           :as => :my_computer_reports
-  match 'my_communication_reports' => "reports#my_communication_reports",           :as => :my_communication_reports
-  match 'my_maintenance_reports' => "reports#my_maintenance_reports",           :as => :my_maintenance_reports
-  match 'my_service_reports' => "reports#my_service_reports",           :as => :my_service_reports
+  #match 'my_workshop_reports' => "reports#my_workshop_reports",           :as => :my_workshop_reports
+  #match 'my_electronic_reports' => "reports#my_electronic_reports",           :as => :my_electronic_reports
+  #match 'my_computer_reports' => "reports#my_computer_reports",           :as => :my_computer_reports
+  #match 'my_communication_reports' => "reports#my_communication_reports",           :as => :my_communication_reports
+  #match 'my_maintenance_reports' => "reports#my_maintenance_reports",           :as => :my_maintenance_reports
+  #match 'my_service_reports' => "reports#my_service_reports",           :as => :my_service_reports
   #match 'generate_report' => "reports#generate_report",           :as => :generate_report
   
   match 'show_personal_tickets' => "tickets#show_personal_tickets", :as => :show_personal_tickets
@@ -60,6 +60,7 @@ SuperSimpleHELPDESK::Application.routes.draw do
   match 'show_canceled_tickets' => "tickets#show_canceled_tickets", :as => :show_canceled_tickets
   match 'show_canceled_tickets_with_search' => "tickets#show_canceled_tickets_with_search", :as => :show_canceled_tickets_with_search
 
+  get 'reports/:department' => 'reports#department_reports', :as => :department_reports
 
   get 'tickets/take_ticket/:id' => 'tickets#take_ticket', :via => :get
   get 'tickets/close_ticket/:id' => 'tickets#close_ticket', :via => :get

@@ -25,6 +25,11 @@ class Ability
       can :autocomplete_user_name, User
     end
 
+    # Permisos Tickets Personales
+    if ["Admin COMPUTO", "Personal COMPUTO", "Sec COMPUTO"].include?(user.category)
+      can :read, :show_personal_tickets
+    end
+
     # Permisos de CÓMPUTO
     if user.category == "Admin COMPUTO" || is_global
       can :read, :show_computer_tickets

@@ -1,49 +1,47 @@
-<span class="username">Sesi&oacute;n de <%= @current_user.firstname %> <%= @current_user.lastname %></span> - <span class="category"><%= @current_user.category %></span>
+<span class="username">Sesión de <%= current_user.firstname %> <%= current_user.lastname %></span> - <span class="category"><%= current_user.category %></span>
 
 <p>
-Bienvenido/a a trav&eacute;s de este panel usted podr&aacute; llevar un seguimiento de sus solicitudes de servicio. Por favor seleccione
-una de las siguientes opciones para comenzar:
+  Bienvenido/a. A través de este panel usted podrá llevar un seguimiento de sus solicitudes de servicio. Por favor seleccione una de las siguientes opciones para comenzar:
 </p>
-<% if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO" || current_user.category == "Sec COMPUTO" %>
-<h3>Asignadas</h3>
- <ul>
-   <li><%= link_to 'Mis solicitudes', show_personal_tickets_path, :class => "mylink3" %></li>
- </ul>
+
+<% if can? :read, :show_personal_tickets %>
+  <h3>Asignadas</h3>
+  <ul>
+    <li><%= link_to 'Mis solicitudes', show_personal_tickets_path, class: "mylink3" %></li>
+  </ul>
 <% end %>
+
 <h3>Solicitadas</h3>
- <ul>
-   <li><%= link_to 'Cómputo', my_computer_reports_path, :class => "mylink3" %></li>
-   <li><%= link_to "Taller", my_workshop_reports_path, :class => "mylink3" %></li>
-   <li><%= link_to "Electrónica", my_electronic_reports_path, :class => "mylink3" %></li>
-   <li><%= link_to "Comunicación", my_communication_reports_path, :class => "mylink3" %></li>
-   <li><%= link_to "Mantenimiento", my_maintenance_reports_path, :class => "mylink3" %></li>
- </ul>
-<p><%#= link_to "Ver mis Solicitudes de Servicio", my_service_reports_path, :class => "mylink3" %></p>
+<ul>
+  <li><%= link_to 'Cómputo', department_reports_path('computo'), class: "mylink3" %></li>
+  <li><%= link_to 'Taller', department_reports_path('taller'), class: "mylink3" %></li>
+  <li><%= link_to 'Electrónica', department_reports_path('electronica'), class: "mylink3" %></li>
+  <li><%= link_to 'Comunicación', department_reports_path('comunicacion'), class: "mylink3" %></li>
+  <li><%= link_to 'Mantenimiento', department_reports_path('mantenimiento'), class: "mylink3" %></li>
+</ul>
 
 <div class="stats">
-<table id="mystats1">
-  <caption>Solicitudes de <%= @current_user.firstname %> <%= @current_user.lastname %></caption>
-  <thead>
-    <tr>
-      <th></th>
-      <th>COMPUTO</th>
-      <th>TALLER</th>
-      <th>ELECTRONICA</th>
-      <th>COMUNICACI&Oacute;N</th>
-      <th>MANTENIMIENTO</th>
-      <!--<th>SERVICIO</th>-->
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th></th>
-      <td><%= @my_computer.count.to_s %></td>
-      <td><%= @my_workshop.count.to_s %></td>
-      <td><%= @my_electronic.count.to_s %></td>
-      <td><%= @my_communication.count.to_s %></td>
-      <td><%= @my_maintenance.count.to_s %></td>
-      <!--<td><%#= @my_service.count.to_s %></td>-->
-    </tr>
-  </tbody>
-</table>
+  <table id="mystats1">
+    <caption>Solicitudes de <%= current_user.firstname %> <%= current_user.lastname %></caption>
+    <thead>
+      <tr>
+        <th></th>
+        <th>CÓMPUTO</th>
+        <th>TALLER</th>
+        <th>ELECTRÓNICA</th>
+        <th>COMUNICACIÓN</th>
+        <th>MANTENIMIENTO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th></th>
+        <td><%= @my_computer.size %></td>
+        <td><%= @my_workshop.size %></td>
+        <td><%= @my_electronic.size %></td>
+        <td><%= @my_communication.size %></td>
+        <td><%= @my_maintenance.size %></td>
+      </tr>
+    </tbody>
+  </table>
 </div>

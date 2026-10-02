@@ -1,69 +1,70 @@
 class ReportsController < ApplicationController
-
   before_filter :require_user, :current_year
 
- def index
-    @my_workshop = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "taller"], :order => "created_at DESC")
-    @my_electronic = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "electronica"], :order => "created_at DESC")
-    @my_computer = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "computo"], :order => "created_at DESC")
-    @my_communication = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "comunicacion"], :order => "created_at DESC")
-    @my_maintenance = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "mantenimiento"], :order => "created_at DESC")
-    @my_service = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "servicio"], :order => "created_at DESC")
+  DEPARTMENT_NAMES = {
+    "computo"      => "Cómputo",
+    "taller"       => "Taller",
+    "electronica"  => "Electrónica",
+    "comunicacion" => "Comunicación",
+    "mantenimiento"=> "Mantenimiento",
+    "servicio"     => "Servicio"
+  }.freeze
+
+  def index
+    @my_workshop     = tickets_for_user_department("taller")
+    @my_electronic   = tickets_for_user_department("electronica")
+    @my_computer     = tickets_for_user_department("computo")
+    @my_communication= tickets_for_user_department("comunicacion")
+    @my_maintenance  = tickets_for_user_department("mantenimiento")
+    @my_service      = tickets_for_user_department("servicio")
   end
 
-  def my_workshop_reports
-    @my_workshop = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "taller"], :order => "created_at DESC")
-    @workshop_tickets = Kaminari.paginate_array(@my_workshop).page(params[:page])
-      @workshop_revision = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_REVISION", "taller"])
-      @workshop_finished = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "ENTREGADO", "taller"])
-      @workshop_inprocess = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_PROCESO", "taller"])
-      @workshop_notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "NO_ATENDIDO", "taller"])
-      @workshop_waiting = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "EN_ESPERA", "taller"])
-      @workshop_canceled = Ticket.find(:all, :conditions => ['status = ? AND department = ?', "CANCELADO", "taller"])
+  # Acción genérica reutilizable
+  def department_reports
+    @department_slug = params[:department] || extract_department_from_action
+    @department_name = DEPARTMENT_NAMES[@department_slug] || @department_slug.titleize
+
+    tickets_list = tickets_for_user_department(@department_slug)
+    @tickets = Kaminari.paginate_array(tickets_list).page(params[:page])
+
+    render "department_reports"
   end
 
-  def my_electronic_reports
-    @my_electronic = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "electronica"], :order => "created_at DESC")
-    @electronic_tickets = Kaminari.paginate_array(@my_electronic).page(params[:page])
-  end
-
-  def my_computer_reports
-    @my_computer = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "computo"], :order => "created_at DESC")
-    @computer_tickets = Kaminari.paginate_array(@my_computer).page(params[:page])
-  end
-
-  def my_communication_reports
-    @my_communication = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "comunicacion"], :order => "created_at DESC")
-    @communication_tickets = Kaminari.paginate_array(@my_communication).page(params[:page])
-  end
-  
-  def my_maintenance_reports
-    @my_maintenance = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "mantenimiento"], :order => "created_at DESC")
-    @maintenance_tickets = Kaminari.paginate_array(@my_maintenance).page(params[:page])
-  end
-
-  def my_service_reports
-    @my_service = Ticket.find(:all, :conditions => ['user_id = ? AND department = ?', current_user.id, "servicio"], :order => "created_at DESC")
-    @service_tickets = Kaminari.paginate_array(@my_service).page(params[:page])
-  end
+  # Mantener compatibilidad con los métodos anteriores
+  alias_method :my_workshop_reports,     :department_reports
+  alias_method :my_electronic_reports,   :department_reports
+  alias_method :my_computer_reports,     :department_reports
+  alias_method :my_communication_reports,:department_reports
+  alias_method :my_maintenance_reports,  :department_reports
+  alias_method :my_service_reports,      :department_reports
 
   def approve_ticket
-   @ticket = Ticket.find(params[:id])
-   @ticket.client_status = "APROBADO"
-   @ticket.status = "ENTREGADO"
-   @ticket.save
-   redirect_to :back
+    @ticket = Ticket.find(params[:id])
+    @ticket.client_status = "APROBADO"
+    @ticket.status = "ENTREGADO"
+    @ticket.save
+    redirect_to :back
   end
 
   def not_approve_ticket
-   @ticket = Ticket.find(params[:id])
-   @ticket.client_status = "NO_APROBADO"
-   @ticket.status = "EN_REVISION"
-   @ticket.save
-   redirect_to :back
+    @ticket = Ticket.find(params[:id])
+    @ticket.client_status = "NO_APROBADO"
+    @ticket.status = "EN_REVISION"
+    @ticket.save
+    redirect_to :back
   end
 
   def generate_report
-   @tickets = Ticket.all
+    @tickets = Ticket.all
+  end
+
+  private
+
+  def tickets_for_user_department(dept)
+    Ticket.find(:all, conditions: ['user_id = ? AND department = ?', current_user.id, dept], order: "created_at DESC")
+  end
+
+  def extract_department_from_action
+    action_name.gsub(/^my_|_reports$/, '')
   end
 end
