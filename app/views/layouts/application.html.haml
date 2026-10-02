@@ -24,18 +24,6 @@
    });
    });
   %script{"type" => "text/javascript"}
-   //gvChartInit();
-   //jQuery(document).ready(function(){
-   //jQuery('#mystats1').gvChart({
-   //chartType: 'PieChart',
-   //gvSettings: {
-   //vAxis: {title: 'Mis solicitudes de Servicio'},
-   //hAxis: {title: ' '},
-   //width: 700,
-   //height: 300
-   //}
-   //});
-   //});
    $(document).ready(function(){
    googleLoaded.done( function(){
    if($('#mystats1').length) {
@@ -64,47 +52,43 @@
      Administrador de Solicitudes del Instituto de F&iacute;sica
    %div#main_content
     %div#left_menu
-     =image_tag("icono_computo.png")
+     = image_tag(current_department_icon)
      %ul
       %li 
        = link_to 'Mis Solicitudes', home_path
+
       %li 
-       - if current_user.category == "Admin COMPUTO"
-        = link_to 'Solicitudes en Cómputo', show_computer_tickets_with_advanced_search_path
-       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
-        = link_to 'Cómputo', show_computer_tickets_with_advanced_search_path 
+       - if can? :read, :show_computer_tickets_with_advanced_search
+        = link_to 'Solicitudes en Cómputo', show_computer_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Cómputo', department_reports_path('computo')
+
       %li
-       - if current_user.category == "Admin TALLER"
+       - if can? :read, :show_workshop_tickets
         = link_to 'Solicitudes en Taller', tickets_path
-       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
+       - elsif can? :read, :show_workshop_tickets_with_search
         = link_to 'Taller', show_workshop_tickets_with_search_path
        - else
         = link_to 'Solicitudes en Taller', department_reports_path('taller')
-        =# link_to 'Solicitudes en Taller', show_workshop_tickets_path
+
       %li
-       - if current_user.category == "Admin ELECTRONICA"  
-        =# link_to 'Solicitudes en Electrónica', tickets_path
-        = link_to 'Electrónica', show_electronic_tickets_with_advanced_search_path 
-       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección" 
+       - if can? :read, :show_electronic_tickets_with_advanced_search
         = link_to 'Electrónica', show_electronic_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Electrónica', department_reports_path('electronica')
+
       %li
-       - if current_user.category == "Admin COMUNICACION" 
+       - if can? :read, :show_communication_tickets_with_advanced_search
         = link_to 'Solicitudes en Unidad de Comunicación', show_communication_tickets_with_advanced_search_path
-       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección" 
-        = link_to 'Comunicación', show_communication_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Unidad de Comunicación', department_reports_path('comunicacion')
+
       %li
-       - if current_user.category == "Admin MANTENIMIENTO"
+       - if can? :read, :show_maintenance_tickets_with_advanced_search
         = link_to 'Solicitudes en Mantenimiento', show_maintenance_tickets_with_advanced_search_path
-       - elsif current_user.category == 'SAC' || current_user.category == 'Sec COMPUTO' || current_user.category == "Dirección"
-        = link_to 'Mantenimiento', show_maintenance_tickets_with_advanced_search_path 
        - else
         = link_to 'Solicitudes en Mantenimiento', department_reports_path('mantenimiento')
+
       %li
        = link_to 'Salir', logout_path 
     %div#content

@@ -43,10 +43,19 @@ class Ability
     end
 
     # Permisos de TALLER / MANTENIMIENTO
-    if user.category == "Admin TALLER" || is_global
-      can :read, :show_workshop_tickets
+    #if user.category == "Admin TALLER" || is_global
+      #can :read, :show_workshop_tickets
+    #end
+    # Permisos de TALLER
+    if user.category == "Admin TALLER"
+      can :read, :show_workshop_tickets # Permiso para tickets_path
     end
 
+    if is_global
+      can :read, :show_workshop_tickets_with_search # Permiso para show_workshop_tickets_with_search_path
+    end
+
+    # Permisos de MANTENIMIENTO
     if user.category == "Admin MANTENIMIENTO" || is_global
       can :read, :show_maintenance_tickets
       can :read, :show_maintenance_tickets_with_advanced_search
