@@ -6,7 +6,6 @@ class Ability
 
     # Administrador general
     if user.category == "Chuck Norris"
-    #if user.category == "Chuck Norris" || user.id == 169
       can :manage, User
       can :manage, Technician
       can :manage, Category
@@ -25,6 +24,7 @@ class Ability
     if is_global
       can :autocomplete_user_name, User
     end
+
     # Permisos de CÓMPUTO
     if user.category == "Admin COMPUTO" || is_global
       can :read, :show_computer_tickets
@@ -53,5 +53,40 @@ class Ability
       can :read, :show_communication_tickets
       can :read, :show_communication_tickets_with_advanced_search
     end
+
+    # =========================================================================
+    # REGLAS Y ACCIONES SOBRE EL MODELO TICKET (Administrar, Tomar, Cerrar)
+    # =========================================================================
+
+    # 1. Permisos para Editar / Administrar Solicitud
+    admin_departments = case user.category
+                        when "Sec COMPUTO", "Admin COMPUTO" then ['computo']
+                        when "SAC", "Admin ELECTRONICA"     then ['electronica']
+                        when "Admin MANTENIMIENTO"          then ['mantenimiento']
+                        else []
+                        end
+
+    can :edit, Ticket, department: admin_departments if admin_departments.any?
+
+    # 2. Permisos para Tomar y Cerrar Ticket
+    action_departments = case user.category
+                         when "Sec COMPUTO", "Admin COMPUTO" then ['computo']
+                         when "Admin ELECTRONICA"            then ['electronica']
+                         when "Admin COMUNICACION"           then ['comunicacion']
+                         else []
+                         end
+
+    if action_departments.any?
+      # Permiso para Tomar Ticket
+      can :take, Ticket, department: action_departments, status: "NO_ATENDIDO"
+
+      # Permiso para Cerrar Ticket
+      can :close, Ticket do |ticket|
+        action_departments.include?(ticket.department) &&
+          %w[EN_PROCESO EN_REVISION EN_ESPERA].include?(ticket.status) &&
+          ticket.technicians.any?
+      end
+    end
+
   end
 end

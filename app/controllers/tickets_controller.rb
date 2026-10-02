@@ -1131,6 +1131,7 @@ end
 
   def update
     @ticket = Ticket.find(params[:id])
+    @ticket_department = @ticket.department
 
     respond_to do |format|
       if @ticket.update_attributes(params[:ticket])
@@ -1161,7 +1162,17 @@ end
         end
         @ticket.save
         Notifier.send_reply_to_user(@ticket).deliver
-        format.html { redirect_to action: 'index' }
+	if @ticket_department == "computo"
+          format.html { redirect_to action: 'show_computer_tickets_with_advanced_search' }
+	elsif @ticket_department == "electronica"
+          format.html { redirect_to action: 'show_electronic_tickets_with_advanced_search' }
+	elsif @ticket_department == "comunicacion"
+          format.html { redirect_to action: 'show_communication_tickets_with_advanced_search' }
+	elsif @ticket_department == "mantenimiento"
+          format.html { redirect_to action: 'show_maintenance_tickets_with_advanced_search' }
+	else
+          format.html { redirect_to action: 'index' }
+	end
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

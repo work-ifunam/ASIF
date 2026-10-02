@@ -45,18 +45,21 @@
                 <%= ticket.ended_at.strftime("%d/%m/%Y") %>
               </small></p>
           <% end %>
- 
-            <% if (current_user.category == "Sec COMPUTO" && @ticket_type == 'computo') || (current_user.category == "Admin COMPUTO" && @ticket_type == 'computo') || (current_user.category == "SAC" && @ticket_type == 'electronica')  || (current_user.category == "Admin ELECTRONICA" && @ticket_type == 'electronica')%>
-              <%= link_to 'ADMINISTRAR SOLICITUD', edit_ticket_path(ticket, :department => ticket.department), :class => "btn action-button line-3" %><br />
-	    <% end %>
-              <% if ticket.technicians.count == 0 && (@ticket_type == 'computo' || @ticket_type == 'electronica') %>
-                <%= button_to "Tomar Ticket", { :controller => "tickets", :action => "take_ticket", :id => ticket.id }, :method => :get, :class => "btn action-button-taken" %>
-              <%end %>  
-              <% if ticket.technicians.count > 0 && (@ticket_type == 'computo' || @ticket_type == 'electronica')%>
-                <% if ticket.status == "EN_PROCESO" || ticket.status == "EN_REVISION" || ticket.status == "EN_ESPERA" %>
-                  <%=  button_to "Cerrar Ticket", { :controller => "tickets", :action => "close_ticket", :id => ticket.id }, :method => :get, :class => "btn action-button-closed" %>
-                <% end %>    
-              <% end %>  
+	  <%# --- BOTÓN: ADMINISTRAR SOLICITUD --- %>
+	  <% if can? :edit, ticket %>
+  	    <%= link_to 'Administrar SOLICITUD', edit_ticket_path(ticket, department: ticket.department), class: "btn action-button line-3" %><br />
+	  <% end %>
+
+	  <%# --- BOTÓN: TOMAR TICKET --- %>
+	  <% if can? :take, ticket %>
+  	    <%= button_to "Tomar Ticket", { controller: "tickets", action: "take_ticket", id: ticket.id }, method: :get, class: "btn action-button-taken" %>
+	  <% end %>
+
+          <%# --- BOTÓN: CERRAR TICKET --- %>
+	  <% if can? :close, ticket %>
+  	    <%= button_to "Cerrar Ticket", { controller: "tickets", action: "close_ticket", id: ticket.id }, method: :get, class: "btn action-button-closed" %>
+	  <% end %>
+
         </td>
         <td width="10%">
           <% if ticket.status == "NO_ATENDIDO" %>
