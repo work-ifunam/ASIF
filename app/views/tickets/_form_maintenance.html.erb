@@ -1,0 +1,87 @@
+<div class="search-filter-card">
+  <!-- NOTA / ADVERTENCIA INICIAL -->
+  <div class="alert alert-info mAdvise">
+    Indicar edificio, número de cubículo o laboratorio. En caso de hacer una solicitud de <strong>"ADECUACIÓN"</strong>, es necesario tener carta de autorización de jefe de departamento que indique partida del presupuesto del que se tomará el recurso.
+  </div>
+
+  <% if @ticket.errors.any? %>
+    <div class="alert alert-danger" id="error_explanation">
+      <h4><%= pluralize(@ticket.errors.count, "error") %> impidieron guardar este ticket:</h4>
+      <ul>
+        <% @ticket.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_for(@ticket) do |f| %>
+    <%= f.hidden_field :department, value: params[:department] %>
+    <%= f.hidden_field :status, value: "NO ATENDIDO" %>
+
+    <!-- FILA 1: Categoría (Izq) | Ubicación (Der) -->
+    <div class="search-row">
+      <div class="search-col-6">
+        <%= f.label :category, "Seleccione una categoría:" %>
+        <%= f.select :category, 
+                     @category.collect { |record| [record.name, record.id] }, 
+                     { prompt: "Seleccione categoría" }, 
+                     class: 'form-control' %>
+      </div>
+
+      <div class="search-col-6">
+        <%= f.label :location, "Ubicación:" %>
+        <%= f.text_field :location, class: 'form-control', placeholder: 'Ej. Edificio A, Lab 102' %>
+      </div>
+    </div>
+
+    <!-- FILA 2: Extensión (Izq) | Horario de Atención (Der) -->
+    <div class="search-row">
+      <div class="search-col-6">
+        <%= f.label :ext, "Número de Extensión IFUNAM:" %>
+        <%= f.text_field :ext, class: 'form-control', placeholder: 'Ej. 12345' %>
+      </div>
+
+      <div class="search-col-6">
+        <%= f.label :schedule_time, "Horario de atención (09:00 - 14:30):" %>
+        <%= f.text_field :schedule_time, 
+                        type: 'time', 
+                        min: '09:00', 
+                        max: '14:30', 
+                        required: true, 
+                        class: 'form-control' %>
+      </div>
+    </div>
+
+    <!-- FILA 3: Usuario Solicitante (si aplica) -->
+    <% if @current_user && @current_user.login == "salma" %>
+      <div class="search-row">
+        <div class="search-col-12">
+          <%= f.label :user_id, "Usuario Solicitante:" %>
+          <%= f.select :user_id, 
+                       @user.collect { |record| ["#{record.lastname} #{record.firstname}", record.id] }, 
+                       { prompt: "Seleccione un usuario" }, 
+                       class: 'form-control' %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- FILA 4: Descripción detallada -->
+    <div class="search-row">
+      <div class="search-col-12">
+        <%= f.label :description, "Descripción detallada del problema o solicitud:" %>
+        <%= f.text_area :description, 
+                        class: 'form-control', 
+                        style: 'height: 180px; min-height: 150px;', 
+                        placeholder: 'Describa el problema o requerimiento...' %>
+      </div>
+    </div>
+
+    <!-- FILA 5: Botón Enviar -->
+    <div class="search-row" style="margin-top: 15px;">
+      <div class="search-col-12">
+        <%= f.submit 'Crear ticket', class: 'btn btn-primary btn-search-main', disable_with: 'Creando ticket...' %>
+      </div>
+    </div>
+  <% end %>
+</div>
