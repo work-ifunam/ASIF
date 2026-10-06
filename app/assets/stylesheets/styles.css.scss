@@ -581,7 +581,8 @@ button[disabled], button[disabled]:hover {
 }
 .status-bar{
   margin: 1.5em 0;
-  width: max-content;
+  /*width: max-content;*/
+  width: 100%;
 }
 .tickets-status-search{
   background-color: rgba(212, 212, 212, 0.1);

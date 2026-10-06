@@ -144,7 +144,7 @@
         <% end %>
       </div>
     <% else %>
-      <div class="status-bar">
+      <div class="status-bar text-center">
         <button class="btn btn-primary btn-notattended" <%= @notattended.count == 0 ? 'disabled' : '' %> onclick="openStatus('notattended')">NO ATENDIDOS (<%= @notattended.count.to_s %>)</button>
         <button class="btn btn-primary btn-waiting" <%= @waiting.count == 0 ? 'disabled' : '' %> onclick="openStatus('waiting')">EN ESPERA (<%= @waiting.count.to_s %>)</button>
         <button class="btn btn-primary btn-inprocess" <%= @inprocess.count == 0 ? 'disabled' : '' %> onclick="openStatus('inprocess')">EN PROCESO (<%= @inprocess.count.to_s %>)</button>

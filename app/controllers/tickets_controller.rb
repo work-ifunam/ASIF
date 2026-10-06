@@ -1047,14 +1047,38 @@ end
 
   def edit
     @ticket = Ticket.find(params[:id])
+    # Verifica que el departamento del @ticket coincida con el permitido para current_user
+    authorize! :edit, @ticket
+    
     @ticket.revision_old = ""
     @ticket.save
-    @depto = params[:department]
-    @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
+  
+    # Si params[:department] viene nulo, toma el departamento directamente del ticket
+    @depto = params[:department].presence || @ticket.department
+    @category = Category.find(:all, :conditions => ['department LIKE ?', @depto])
+
     if current_user.category == "SAC"
-	@user = User.assignation(params[:department]);
+      @user = User.assignation(@depto)
     else
-	@user = User.assignation(current_user.category);
+      #@user = User.assignation(@depto)
+      @user = User.assignation(current_user.category)
+    end
+
+    # Mapeo del departamento a la categoría de técnicos
+    tech_categories = {
+      "computo"      => "Admin COMPUTO",
+      "taller"       => "Personal TALLER",
+      "electronica"  => "Admin ELECTRONICA",
+      "comunicacion" => "Admin COMUNICACION",
+      "mantenimiento"=> "Personal Mantenimiento"
+    }
+    @tech_category = tech_categories[@depto] || "Admin COMPUTO"
+
+    # Definir los estados disponibles según el departamento
+    if ["comunicacion", "mantenimiento"].include?(@depto)
+      @statuses = %w[EN_ESPERA EN_PROCESO ENTREGADO CANCELADO]
+    else
+      @statuses = %w[EN_ESPERA EN_PROCESO EN_REVISION ENTREGADO CANCELADO]
     end
   end
 
