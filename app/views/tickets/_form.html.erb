@@ -1,46 +1,69 @@
-<%= form_for(@ticket) do |f| %>
-
+<div class="search-filter-card">
   <% if @ticket.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@ticket.errors.count, "error") %> prohibited this ticket from being saved:</h2>
+    <div class="alert alert-danger" id="error_explanation">
+      <h4><%= pluralize(@ticket.errors.count, "error") %> impidieron guardar este ticket:</h4>
       <ul>
-      <% @ticket.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @ticket.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <p>
-    Seleccione una categor&iacute;a:<br />
-    <%= f.select :category, @category.collect { |record| [record.name, record.id] } %>
-  <p>
+  <%= form_for(@ticket) do |f| %>
+    <%= f.hidden_field :department, value: params[:department] %>
+    <%= f.hidden_field :status, value: "NO ATENDIDO" %>
 
-  <p>
-    Ubicaci&oacute;n:
-    <%= f.text_field :location %>
-  <p>
-  
-  <p>
-    N&uacute;mero de Extensi&oacute;n IFUNAM:
-    <%= f.text_field :ext, :size => "5" %>
-  <p>
+    <!-- FILA 1: Categoría (Izq) | Ubicación (Der) -->
+    <div class="search-row">
+      <div class="search-col-6">
+        <%= f.label :category, "Seleccione una categoría:" %>
+        <%= f.select :category, 
+                     @category.collect { |record| [record.name, record.id] }, 
+                     { prompt: "Seleccione categoría" }, 
+                     class: 'form-control' %>
+      </div>
 
-  <p>
-    Descripci&oacute;n detallada del problema o solicitud:<br />
-    <%= f.text_area :description, :size => "75x15" %>
-  </p>
+      <div class="search-col-6">
+        <%= f.label :location, "Ubicación:" %>
+        <%= f.text_field :location, class: 'form-control', placeholder: 'Ej. Edificio A, Lab 102' %>
+      </div>
+    </div>
 
-  <%= if @current_user.login == "salma" 
-    f.select :user_id, @user.collect { |record| [record.lastname + " " + record.firstname, record.id] }
-    end %> 
+    <!-- FILA 2: Extensión (Izq) | Usuario Solicitante (Der, si aplica) -->
+    <div class="search-row">
+      <div class="search-col-6">
+        <%= f.label :ext, "Número de Extensión IFUNAM:" %>
+        <%= f.text_field :ext, class: 'form-control', placeholder: 'Ej. 12345' %>
+      </div>
 
-  <%= f.hidden_field :department, :value => params[:department] %>
-  <%= f.hidden_field :status, :value => "NO ATENDIDO" %>
-  
-  <p>
-    <%= f.submit 'Crear ticket', class: 'btn btn-primary', disable_with: 'Creando ticket...' %>
-  </p>
+      <% if @current_user && @current_user.login == "salma" %>
+        <div class="search-col-6">
+          <%= f.label :user_id, "Usuario Solicitante:" %>
+          <%= f.select :user_id, 
+                       @user.collect { |record| ["#{record.lastname} #{record.firstname}", record.id] }, 
+                       { prompt: "Seleccione un usuario" }, 
+                       class: 'form-control' %>
+        </div>
+      <% end %>
+    </div>
 
-<% end %>
+    <!-- FILA 3: Descripción detallada -->
+    <div class="search-row">
+      <div class="search-col-12">
+        <%= f.label :description, "Descripción detallada del problema o solicitud:" %>
+        <%= f.text_area :description, 
+                        class: 'form-control', 
+                        style: 'height: 180px; min-height: 150px;', 
+                        placeholder: 'Describa el problema o requerimiento...' %>
+      </div>
+    </div>
 
+    <!-- FILA 4: Botón Enviar -->
+    <div class="search-row" style="margin-top: 15px;">
+      <div class="search-col-12">
+        <%= f.submit 'Crear ticket', class: 'btn btn-primary btn-search-main', disable_with: 'Creando ticket...' %>
+      </div>
+    </div>
+  <% end %>
+</div>
