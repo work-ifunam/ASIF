@@ -39,7 +39,7 @@
   <%= f.hidden_field :status, :value => "NO ATENDIDO" %>
   
   <p>
-    <%= f.submit 'Crear ticket'%>
+    <%= f.submit 'Crear ticket', class: 'btn btn-primary', disable_with: 'Creando ticket...' %>
   </p>
 
 <% end %>
