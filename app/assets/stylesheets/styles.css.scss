@@ -937,3 +937,100 @@ select.small-field{
     margin-bottom: 6px;
   }
 }
+/* Tarjeta de Administración de Tickets */
+.ticket-admin-card {
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #174a6e;
+  border-radius: 8px;
+}
+
+.ticket-admin-header {
+  background-color: #174a6e;
+  color: #ffffff;
+  padding: 10px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.ticket-admin-summary {
+  padding: 18px;
+  background-color: #ffffff;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.ticket-admin-description {
+  font-size: 1rem;
+  color: #212529;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.ticket-admin-description .description-text {
+  color: #333333;
+}
+
+.ticket-admin-meta {
+  display: flex;
+  gap: 20px;
+  font-size: 0.88rem;
+  color: #6c757d;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.ticket-admin-body {
+  padding: 18px;
+}
+
+/* Asignación de técnicos */
+.tech-selection-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background: #f8f9fa;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+}
+
+.tech-checkbox-label {
+  font-weight: normal;
+  margin-bottom: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Fecha y Bitácora */
+.date-select-inline select {
+  display: inline-block;
+  width: auto;
+}
+
+.help-text-block {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.revision-textarea {
+  height: 140px;
+  min-height: 100px;
+}
+
+.revision-history-box {
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  padding: 10px;
+  height: 165px;
+  overflow-y: auto;
+}
+
+.form-actions-row {
+  margin-top: 15px;
+}

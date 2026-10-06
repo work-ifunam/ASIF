@@ -1,0 +1,119 @@
+<div class="search-filter-card ticket-admin-card">
+  <!-- 1. ENCABEZADO TIPO TARJETA -->
+  <div class="ticket-admin-header">
+    <span>
+      No. <%= @ticket.id %> 
+      <% if @ticket.respond_to?(:created_at) && @ticket.created_at.present? %>
+        - <%= @ticket.created_at.strftime("%d/%m/%Y - %H:%M:%S") %>
+      <% end %>
+    </span>
+    <span>
+      <%= category = Category.find(@ticket.category)
+                               category.name rescue "Solicitud de servicio" %>
+    </span>
+  </div>
+
+  <!-- 2. DETALLES Y DESCRIPCIÓN DE LA SOLICITUD -->
+  <div class="ticket-admin-summary">
+    <div class="ticket-admin-description">
+      <strong><%= @ticket.user.firstname %> <%= @ticket.user.lastname %></strong> solicita: 
+      <span class="description-text"><%= @ticket.description.html_safe %></span>
+    </div>
+
+    <div class="ticket-admin-meta">
+      <span><strong>Ubicación:</strong> <%= @ticket.location %></span>
+      <span><strong>Email:</strong> <%= @ticket.user.email %></span>
+      <span><strong>Extensión:</strong> <%= @ticket.ext %></span>
+    </div>
+  </div>
+
+  <!-- 3. FORMULARIO DE EDICIÓN Y ADMINISTRACIÓN -->
+  <div class="ticket-admin-body">
+    <% if @ticket.errors.any? %>
+      <div class="alert alert-danger" id="error_explanation">
+        <h4><%= pluralize(@ticket.errors.count, "error") %> impidieron guardar los cambios:</h4>
+        <ul>
+          <% @ticket.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_for(@ticket) do |f| %>
+
+      <!-- FILA 1: Categoría | Status -->
+      <div class="search-row">
+        <div class="search-col-6">
+          <%= f.label :category, "Categoría:" %>
+          <%= f.select :category, 
+                       @category.collect { |record| [record.name, record.id] }, 
+                       { prompt: "Seleccione categoría" }, 
+                       class: 'form-control' %>
+        </div>
+
+        <div class="search-col-6">
+          <%= f.label :status, "Estado / Estatus:" %>
+          <%= f.select :status, 
+                       %w{ EN_ESPERA EN_PROCESO EN_REVISION ENTREGADO CANCELADO }, 
+                       {}, 
+                       class: 'form-control' %>
+        </div>
+      </div>
+
+      <!-- FILA 2: Asignar Trabajo a Técnico(s) -->
+      <div class="search-row">
+        <div class="search-col-12">
+          <%= label_tag nil, "Trabajo asignado a:" %>
+          <div class="tech-selection-box">
+            <% for technician in Technician.find(:all, :conditions => ['category = ?', "Admin COMPUTO"], :order => "lastname") %>    
+              <label class="tech-checkbox-label">
+                <%= check_box_tag "ticket[technician_ids][]", technician.id, @ticket.technicians.include?(technician) %>  
+                <%= technician.lastname %> <%= technician.firstname %>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILA 3: Fecha estimada de entrega -->
+      <div class="search-row">
+        <div class="search-col-6">
+          <%= f.label :ideal_time, "Fecha estimada de entrega:" %>
+          <div class="date-range-container date-select-inline">
+            <%= f.date_select :ideal_time, 
+                              { order: [:day, :month, :year], include_blank: true, default: nil }, 
+                              { class: 'form-control' } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILA 4: Bitácora de Observaciones -->
+      <div class="search-row">
+        <div class="search-col-6">
+          <%= f.label :revision_old, "Agregar información a bitácora:" %>
+          <small class="text-muted help-text-block">(La fecha y hora son automáticas)</small>
+          <%= f.text_area :revision_old, 
+                          class: 'form-control revision-textarea', 
+                          placeholder: 'Escriba las observaciones o el avance...' %>
+        </div>
+
+        <div class="search-col-6">
+          <label><strong>Bitácora de observaciones:</strong></label>
+          <div class="ticket_revision revision-history-box">
+            <%= simple_format h @ticket.revision %>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILA 5: Botón de Guardar / Actualizar -->
+      <div class="search-row form-actions-row">
+        <div class="search-col-12">
+          <%= f.submit 'ACTUALIZAR SOLICITUD DE SERVICIO', class: 'btn btn-primary btn-search-main', disable_with: 'Actualizando solicitud...' %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+
+</div>

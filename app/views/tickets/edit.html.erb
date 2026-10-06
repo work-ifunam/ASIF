@@ -1,7 +1,7 @@
 <h1>Administrar Solicitud de Servicio</h1>
 
 <%= if current_user.category == "Admin COMPUTO" || current_user.category == "Personal COMPUTO" || current_user.category == "Sec COMPUTO"
-       render 'form2'
+       render 'edit_computer'
     elsif current_user.category == "Admin TALLER" 
        render 'form3'
     elsif current_user.category == "Admin ELECTRONICA" || current_user.category == "Personal ELECTRONICA" 
