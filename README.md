@@ -1,5 +1,5 @@
 # [ASIF(Administrador de Solicitudes del Instituto de Física)](https://github.com/work-ifunam/ASIF)
-[![PyPI license](https://img.shields.io/pypi/l/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
+[![PyPI license](https://img.shields.io/pypi/l/ansicolortags.svg)](https://github.com/work-ifunam/ASIF/blob/master/LICENSE)
 [![Ruby](https://badgen.net/badge/icon/ruby?icon=ruby&label)](https://https://ruby-lang.org/)
 
 The Physics Institute Service Request Manager (ASIF) is the web application responsible for the comprehensive management of technical support and maintenance workflows within IFUNAM.
