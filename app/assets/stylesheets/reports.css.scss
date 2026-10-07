@@ -1,3 +1,145 @@
 // Place all the styles related to the reports controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+/* Dashboard Wrapper */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Banner de Bienvenida */
+.welcome-card {
+  background: #ffffff;
+  border: 1px solid #174a6e;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.welcome-card-header {
+  background-color: #174a6e;
+  color: #ffffff;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.welcome-user-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.welcome-badge {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.welcome-card-body {
+  padding: 18px 20px;
+  color: #495057;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Sección de Acciones Destacadas (Mis Asignadas) */
+.section-title {
+  font-size: 1.1rem;
+  color: #174a6e;
+  font-weight: 700;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 6px;
+}
+
+.assigned-banner {
+  background-color: #eaf3f9;
+  border-left: 4px solid #174a6e;
+  padding: 16px 20px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* Rejilla de Tarjetas a lo Ancho (5 columnas en escritorio) */
+.depto-grid-full {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.depto-card {
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none !important;
+  color: #212529;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.depto-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  border-color: #174a6e;
+}
+
+.depto-card-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.depto-card-count {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #174a6e;
+  margin: 10px 0;
+}
+
+.depto-card-footer {
+  font-size: 0.85rem;
+  color: #0056b3;
+  font-weight: 600;
+}
+
+/* Contenedor Completo de la Gráfica (Abajo) */
+.stats-card-full {
+  background: #ffffff;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.stats {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.stats-card-full table#mystats1 {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: center;
+}

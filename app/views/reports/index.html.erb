@@ -1,47 +1,97 @@
-<span class="username">Sesión de <%= current_user.firstname %> <%= current_user.lastname %></span> - <span class="category"><%= current_user.category %></span>
+<div class="dashboard-container">
 
-<p>
-  Bienvenido/a. A través de este panel usted podrá llevar un seguimiento de sus solicitudes de servicio. Por favor seleccione una de las siguientes opciones para comenzar:
-</p>
+  <!-- 1. BANNER DE BIENVENIDA -->
+  <div class="welcome-card">
+    <div class="welcome-card-header">
+      <h2 class="welcome-user-title">
+        Sesión de <%= current_user.firstname %> <%= current_user.lastname %>
+      </h2>
+      <span class="welcome-badge"><%= current_user.category %></span>
+    </div>
+    <div class="welcome-card-body">
+      Bienvenido/a. A través de este panel podrá llevar el seguimiento de sus solicitudes de servicio. Por favor seleccione una opción para comenzar.
+    </div>
+  </div>
 
-<% if can? :read, :show_personal_tickets %>
-  <h3>Asignadas</h3>
-  <ul>
-    <li><%= link_to 'Mis solicitudes', show_personal_tickets_path, class: "mylink3" %></li>
-  </ul>
-<% end %>
+  <!-- 2. SOLICITUDES ASIGNADAS (SI TIENE PERMISO) -->
+  <% if can? :read, :show_personal_tickets %>
+    <div>
+      <h3 class="section-title">Solicitudes Asignadas</h3>
+      <div class="assigned-banner">
+        <div>
+          <strong>Tareas Asignadas a su perfil:</strong> Consulte la lista de solicitudes de las que es responsable.
+        </div>
+        <%= link_to 'Ver Mis Solicitudes', show_personal_tickets_path, class: "btn btn-primary btn-search-main" %>
+      </div>
+    </div>
+  <% end %>
 
-<h3>Solicitadas</h3>
-<ul>
-  <li><%= link_to 'Cómputo', department_reports_path('computo'), class: "mylink3" %></li>
-  <li><%= link_to 'Taller', department_reports_path('taller'), class: "mylink3" %></li>
-  <li><%= link_to 'Electrónica', department_reports_path('electronica'), class: "mylink3" %></li>
-  <li><%= link_to 'Comunicación', department_reports_path('comunicacion'), class: "mylink3" %></li>
-  <li><%= link_to 'Mantenimiento', department_reports_path('mantenimiento'), class: "mylink3" %></li>
-</ul>
+  <!-- 3. SOLICITUDES POR DEPARTAMENTO (TARJETAS ARRIBA) -->
+  <div>
+    <h3 class="section-title">Solicitudes por Departamento</h3>
+    <div class="depto-grid-full">
+      <%= link_to department_reports_path('computo'), class: "depto-card" do %>
+        <span class="depto-card-name">Cómputo</span>
+        <span class="depto-card-count"><%= @my_computer.size %></span>
+        <span class="depto-card-footer">Ver reporte &rarr;</span>
+      <% end %>
 
-<div class="stats">
-  <table id="mystats1">
-    <caption>Solicitudes de <%= current_user.firstname %> <%= current_user.lastname %></caption>
-    <thead>
-      <tr>
-        <th></th>
-        <th>CÓMPUTO</th>
-        <th>TALLER</th>
-        <th>ELECTRÓNICA</th>
-        <th>COMUNICACIÓN</th>
-        <th>MANTENIMIENTO</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th></th>
-        <td><%= @my_computer.size %></td>
-        <td><%= @my_workshop.size %></td>
-        <td><%= @my_electronic.size %></td>
-        <td><%= @my_communication.size %></td>
-        <td><%= @my_maintenance.size %></td>
-      </tr>
-    </tbody>
-  </table>
+      <%= link_to department_reports_path('taller'), class: "depto-card" do %>
+        <span class="depto-card-name">Taller</span>
+        <span class="depto-card-count"><%= @my_workshop.size %></span>
+        <span class="depto-card-footer">Ver reporte &rarr;</span>
+      <% end %>
+
+      <%= link_to department_reports_path('electronica'), class: "depto-card" do %>
+        <span class="depto-card-name">Electrónica</span>
+        <span class="depto-card-count"><%= @my_electronic.size %></span>
+        <span class="depto-card-footer">Ver reporte &rarr;</span>
+      <% end %>
+
+      <%= link_to department_reports_path('comunicacion'), class: "depto-card" do %>
+        <span class="depto-card-name">Comunicación</span>
+        <span class="depto-card-count"><%= @my_communication.size %></span>
+        <span class="depto-card-footer">Ver reporte &rarr;</span>
+      <% end %>
+
+      <%= link_to department_reports_path('mantenimiento'), class: "depto-card" do %>
+        <span class="depto-card-name">Mantenimiento</span>
+        <span class="depto-card-count"><%= @my_maintenance.size %></span>
+        <span class="depto-card-footer">Ver reporte &rarr;</span>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- 4. ESTADÍSTICAS (GRÁFICA COMPLETA ABAJO) -->
+  <div>
+    <h3 class="section-title">Estadísticas</h3>
+    <div class="stats-card-full">
+      <div class="stats">
+        <table id="mystats1">
+          <caption>Solicitudes de <%= current_user.firstname %> <%= current_user.lastname %></caption>
+          <thead>
+            <tr>
+              <th></th>
+              <th>CÓMPUTO</th>
+              <th>TALLER</th>
+              <th>ELECTRÓNICA</th>
+              <th>COMUNICACIÓN</th>
+              <th>MANTENIMIENTO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th></th>
+              <td><%= @my_computer.size %></td>
+              <td><%= @my_workshop.size %></td>
+              <td><%= @my_electronic.size %></td>
+              <td><%= @my_communication.size %></td>
+              <td><%= @my_maintenance.size %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -64,9 +64,17 @@
         <div class="search-col-12">
           <label>Rango de Fechas (Inicio - Fin):</label>
           <div class="date-range-container">
-            <%= text_field_tag 'search[date_from]', @search.date_from.to_date.strftime("%d/%m/%Y").to_s, id: 'search_date_from', class: 'form-control', placeholder: 'dd/mm/aaaa' %>
+            <%= text_field_tag 'search[date_from]', 
+                               @search.date_from.to_date.strftime("%Y-%m-%d"), 
+                               id: 'search_date_from', 
+                               type: 'date', 
+                               class: 'form-control' %>
             <span class="range-sep">a</span>
-            <%= text_field_tag 'search[date_to]', @search.date_to.to_date.strftime("%d/%m/%Y").to_s, id: 'search_date_to', class: 'form-control', placeholder: 'dd/mm/aaaa' %>
+            <%= text_field_tag 'search[date_to]', 
+                               @search.date_to.to_date.strftime("%Y-%m-%d"), 
+                               id: 'search_date_to', 
+                               type: 'date', 
+                               class: 'form-control' %>
           </div>
         </div>
       </div>
@@ -144,7 +152,7 @@
         <% end %>
       </div>
     <% else %>
-      <div class="status-bar">
+      <div class="status-bar text-center">
         <button class="btn btn-primary btn-notattended" <%= @notattended.count == 0 ? 'disabled' : '' %> onclick="openStatus('notattended')">NO ATENDIDOS (<%= @notattended.count.to_s %>)</button>
         <button class="btn btn-primary btn-waiting" <%= @waiting.count == 0 ? 'disabled' : '' %> onclick="openStatus('waiting')">EN ESPERA (<%= @waiting.count.to_s %>)</button>
         <button class="btn btn-primary btn-inprocess" <%= @inprocess.count == 0 ? 'disabled' : '' %> onclick="openStatus('inprocess')">EN PROCESO (<%= @inprocess.count.to_s %>)</button>

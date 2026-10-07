@@ -1,6 +1,6 @@
 <h1>Por favor complete el siguiente formulario:</h1>
 <%= if params[:department] == "mantenimiento"
-	render 'maintenanceform' 
+	render 'form_maintenance' 
    elsif params[:department] == "servicio" 
 	render 'serviceform' 
    else

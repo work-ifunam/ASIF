@@ -1,102 +1,154 @@
 !!!
 %html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "es", :lang => "es"}
- %head
-  %title ASIF 
-  %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
-  %meta{"http-equiv" => "content-language", "content" => "es"}
-  %meta{"http-equiv" => "description", "content" => "ASIF"}
-  %meta{"http-equiv" => "keywords", "content" => "ASIF"}
-  %meta{"http-equiv" => "author", "content" => "Daniel Rosales"}
-  %meta{"http-equiv" => "copyright", "content" => "IFUNAM"}
-  %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
-  %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
-  = stylesheet_link_tag "application"
-  = stylesheet_link_tag "jquery-ui"
-  = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
-  = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
-  = javascript_include_tag "application"
-  = javascript_include_tag "jquery-ui"
-  = javascript_include_tag "jquery.gvChart-1.1.min"
-  %script{"type" => "text/javascript"}
-   $(function() {
-   $( ".accordion" ).accordion({
-   heightStyle: "content"
-   });
-   });
-  %script{"type" => "text/javascript"}
-   $(document).ready(function(){
-   googleLoaded.done( function(){
-   if($('#mystats1').length) {
-   $('#mystats1').gvChart({
-   chartType: 'PieChart',
-   gvSettings: {
-   vAxis: {title: 'Mis solicitudes'},
-   fontName: 'Montserrat',
-   hAxis: {title: ' '},
-   tooltip: {text: 'percentage'},
-   colors: ['#AA0001','#008080', '#D4AA01', '#D45508', '#028001', '#6d0202'],
-   pieHole: 0.4,
-   width: 820,
-   height: 300,
-   }
-   });
-   }
-   });
-   });
- %body
-  %div#wrapper
-   %div#header1
-    %div#title
-     ASIF  
-    %div#title2
-     Administrador de Solicitudes del Instituto de F&iacute;sica
-   %div#main_content
-    %div#left_menu
-     = image_tag(current_department_icon)
-     %ul
-      %li 
-       = link_to 'Mis Solicitudes', home_path
+  %head
+    %title ASIF
+    %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
+    %meta{"http-equiv" => "content-language", "content" => "es"}
+    %meta{"http-equiv" => "description", "content" => "ASIF"}
+    %meta{"http-equiv" => "keywords", "content" => "ASIF"}
+    %meta{"http-equiv" => "author", "content" => "Daniel Rosales"}
+    %meta{"http-equiv" => "copyright", "content" => "IFUNAM"}
+    %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
+    %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
+    = stylesheet_link_tag "application"
+    = stylesheet_link_tag "jquery-ui"
+    = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+    = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
+    = javascript_include_tag "application"
+    = javascript_include_tag "jquery-ui"
+    = javascript_include_tag "jquery.gvChart-1.1.min"
+    :javascript
+      $(function() {
+        $( ".accordion" ).accordion({
+          heightStyle: "content"
+        });
+      });
+    :javascript
+      $(document).ready(function(){
+        googleLoaded.done( function(){
+          if($('#mystats1').length) {
+            $('#mystats1').gvChart({
+              chartType: 'PieChart',
+              gvSettings: {
+                vAxis: {title: 'Mis solicitudes'},
+                fontName: 'Montserrat',
+                hAxis: {title: ' '},
+                tooltip: {text: 'percentage'},
+                colors: ['#AA0001','#008080', '#D4AA01', '#D45508', '#028001', '#6d0202'],
+                pieHole: 0.4,
+                width: 820,
+                height: 300,
+              }
+            });
+          }
+        });
+      });
+  %body
+    %div#wrapper
+      %div#header1
+        %div#title
+          ASIF  
+        %div#title2
+          Administrador de Solicitudes del Instituto de F&iacute;sica
+      %div#main_content
+        %div#left_menu.sidebar-nav
+          .sidebar-header
+            = image_tag(current_department_icon, class: "sidebar-icon")
+          %ul.sidebar-menu
+            %li.sidebar-item 
+              = link_to home_path, class: "sidebar-link #{'active' if current_page?(home_path)}" do
+                .sidebar-link-content
+                  %i.fas.fa-chart-pie
+                  %span Mis Solicitudes
+                %i.fas.fa-chevron-right.sidebar-chevron
 
-      %li 
-       - if can? :read, :show_computer_tickets_with_advanced_search
-        = link_to 'Solicitudes en Cómputo', show_computer_tickets_with_advanced_search_path 
-       - else
-        = link_to 'Solicitudes en Cómputo', department_reports_path('computo')
+            %li.sidebar-item 
+              - if can? :read, :show_computer_tickets_with_advanced_search
+                = link_to show_computer_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_computer_tickets_with_advanced_search_path)}" do
+                  .sidebar-link-content
+                    %i.fas.fa-desktop
+                    %span Cómputo
+                  %i.fas.fa-chevron-right.sidebar-chevron
+              - else
+                = link_to department_reports_path('computo'), class: "sidebar-link #{'active' if current_page?(department_reports_path('computo'))}" do
+                  .sidebar-link-content
+                    %i.fas.fa-desktop
+                    %span Cómputo
+                  %i.fas.fa-chevron-right.sidebar-chevron
 
-      %li
-       - if can? :read, :show_workshop_tickets
-        = link_to 'Solicitudes en Taller', tickets_path
-       - elsif can? :read, :show_workshop_tickets_with_search
-        = link_to 'Taller', show_workshop_tickets_with_search_path
-       - else
-        = link_to 'Solicitudes en Taller', department_reports_path('taller')
+            %li.sidebar-item
+              - if can? :read, :show_workshop_tickets
+                = link_to tickets_path, class: "sidebar-link #{'active' if current_page?(tickets_path)}" do
+                  .sidebar-link-content
+                    %i.fas.fa-wrench
+                    %span Taller
+                  %i.fas.fa-chevron-right.sidebar-chevron
+              - elsif can? :read, :show_workshop_tickets_with_search
+                = link_to show_workshop_tickets_with_search_path, class: "sidebar-link #{'active' if current_page?(show_workshop_tickets_with_search_path)}" do
+                  .sidebar-link-content
+                    %i.fas.fa-wrench
+                    %span Taller
+                  %i.fas.fa-chevron-right.sidebar-chevron
+              - else
+                = link_to department_reports_path('taller'), class: "sidebar-link #{'active' if current_page?(department_reports_path('taller'))}" do
+                  .sidebar-link-content
+                    %i.fas.fa-wrench
+                    %span Taller
+                  %i.fas.fa-chevron-right.sidebar-chevron
 
-      %li
-       - if can? :read, :show_electronic_tickets_with_advanced_search
-        = link_to 'Electrónica', show_electronic_tickets_with_advanced_search_path 
-       - else
-        = link_to 'Solicitudes en Electrónica', department_reports_path('electronica')
+            %li.sidebar-item
+              - if can? :read, :show_electronic_tickets_with_advanced_search
+                = link_to show_electronic_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_electronic_tickets_with_advanced_search_path)}" do
+                  .sidebar-link-content
+                    %i.fas.fa-microchip
+                    %span Electrónica
+                  %i.fas.fa-chevron-right.sidebar-chevron
+              - else
+                = link_to department_reports_path('electronica'), class: "sidebar-link #{'active' if current_page?(department_reports_path('electronica'))}" do
+                  .sidebar-link-content
+                    %i.fas.fa-microchip
+                    %span Electrónica
+                  %i.fas.fa-chevron-right.sidebar-chevron
 
-      %li
-       - if can? :read, :show_communication_tickets_with_advanced_search
-        = link_to 'Solicitudes en Unidad de Comunicación', show_communication_tickets_with_advanced_search_path
-       - else
-        = link_to 'Solicitudes en Unidad de Comunicación', department_reports_path('comunicacion')
+            %li.sidebar-item
+              - if can? :read, :show_communication_tickets_with_advanced_search
+                = link_to show_communication_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_communication_tickets_with_advanced_search_path)}" do
+                  .sidebar-link-content
+                    %i.fas.fa-bullhorn
+                    %span Comunicación
+                  %i.fas.fa-chevron-right.sidebar-chevron
+              - else
+                = link_to department_reports_path('comunicacion'), class: "sidebar-link #{'active' if current_page?(department_reports_path('comunicacion'))}" do
+                  .sidebar-link-content
+                    %i.fas.fa-bullhorn
+                    %span Comunicación
+                  %i.fas.fa-chevron-right.sidebar-chevron
 
-      %li
-       - if can? :read, :show_maintenance_tickets_with_advanced_search
-        = link_to 'Solicitudes en Mantenimiento', show_maintenance_tickets_with_advanced_search_path
-       - else
-        = link_to 'Solicitudes en Mantenimiento', department_reports_path('mantenimiento')
+            %li.sidebar-item
+              - if can? :read, :show_maintenance_tickets_with_advanced_search
+                = link_to show_maintenance_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_maintenance_tickets_with_advanced_search_path)}" do
+                  .sidebar-link-content
+                    %i.fas.fa-tools
+                    %span Mantenimiento
+                  %i.fas.fa-chevron-right.sidebar-chevron
+              - else
+                = link_to department_reports_path('mantenimiento'), class: "sidebar-link #{'active' if current_page?(department_reports_path('mantenimiento'))}" do
+                  .sidebar-link-content
+                    %i.fas.fa-tools
+                    %span Mantenimiento
+                  %i.fas.fa-chevron-right.sidebar-chevron
 
-      %li
-       = link_to 'Salir', logout_path 
-    %div#content
-     -# Despliegue de mensajes flash (login, errores, notificaciones)
-     - flash.each do |type, msg|
-      %div{:class => "flash #{type}"}= msg
-     = yield      
-   %div#footer
-    Instituto de F&iacute;sica UNAM -
-    = @current_year
-   %div.clear
+            %li.sidebar-item.sidebar-logout
+              = link_to logout_path, class: "sidebar-link logout-link" do
+                .sidebar-link-content
+                  %i.fas.fa-sign-out-alt
+                  %span Salir
+        %div#content
+          -# Despliegue de mensajes flash (login, errores, notificaciones)
+          - flash.each do |type, msg|
+            %div{:class => "flash #{type}"}= msg
+          = yield      
+      %div#footer
+        Instituto de F&iacute;sica UNAM -
+        = @current_year
+      %div.clear

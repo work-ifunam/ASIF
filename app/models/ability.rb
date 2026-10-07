@@ -75,6 +75,7 @@ class Ability
     # 1. Permisos para Editar / Administrar Solicitud
     admin_departments = case user.category
                         when "Sec COMPUTO", "Admin COMPUTO" then ['computo']
+                        #when "Admin COMUNICACION"     	    then ['comunicacion']
                         when "SAC", "Admin ELECTRONICA"     then ['electronica']
                         when "Admin MANTENIMIENTO"          then ['mantenimiento']
                         else []
@@ -100,6 +101,37 @@ class Ability
           %w[EN_PROCESO EN_REVISION EN_ESPERA].include?(ticket.status) &&
           ticket.technicians.any?
       end
+    end
+
+    # =========================================================================
+    # REGLAS Y ACCIONES SOBRE EL MODELO TICKET (Administrar, Tomar, Cerrar)
+    # =========================================================================
+
+    # 1. Permisos para Editar / Administrar Solicitud
+    admin_departments = case user.category
+                        when "Sec COMPUTO", "Admin COMPUTO", "Personal COMPUTO"
+                          ['computo', 'COMPUTO']
+                        when "Admin TALLER"
+                          ['taller', 'TALLER']
+                        when "Admin ELECTRONICA", "Personal ELECTRONICA"
+                          ['electronica', 'ELECTRONICA']
+                        when "Admin COMUNICACION", "Personal COMUNICACION"
+                          ['comunicacion', 'COMUNICACION']
+                        when "Admin MANTENIMIENTO", "Personal MANTENIMIENTO"
+                          ['mantenimiento', 'MANTENIMIENTO']
+                        when "SAC"
+                          ['electronica', 'ELECTRONICA', 'comunicacion', 'COMUNICACION']
+                        else
+                          []
+                        end
+
+    if admin_departments.any?
+      can :edit, Ticket, department: admin_departments
+    end
+
+    # Permiso especial para el usuario ID 182
+    if user.id == 182
+      can :edit, Ticket
     end
 
   end

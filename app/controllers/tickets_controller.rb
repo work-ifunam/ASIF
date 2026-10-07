@@ -1047,14 +1047,38 @@ end
 
   def edit
     @ticket = Ticket.find(params[:id])
+    # Verifica que el departamento del @ticket coincida con el permitido para current_user
+    authorize! :edit, @ticket
+    
     @ticket.revision_old = ""
     @ticket.save
-    @depto = params[:department]
-    @category = Category.find(:all, :conditions => ['department LIKE ?', params[:department]])
+  
+    # Si params[:department] viene nulo, toma el departamento directamente del ticket
+    @depto = params[:department].presence || @ticket.department
+    @category = Category.find(:all, :conditions => ['department LIKE ?', @depto])
+
     if current_user.category == "SAC"
-	@user = User.assignation(params[:department]);
+      @user = User.assignation(@depto)
     else
-	@user = User.assignation(current_user.category);
+      #@user = User.assignation(@depto)
+      @user = User.assignation(current_user.category)
+    end
+
+    # Mapeo del departamento a la categoría de técnicos
+    tech_categories = {
+      "computo"      => "Admin COMPUTO",
+      "taller"       => "Personal TALLER",
+      "electronica"  => "Admin ELECTRONICA",
+      "comunicacion" => "Admin COMUNICACION",
+      "mantenimiento"=> "Personal Mantenimiento"
+    }
+    @tech_category = tech_categories[@depto] || "Admin COMPUTO"
+
+    # Definir los estados disponibles según el departamento
+    if ["comunicacion", "mantenimiento"].include?(@depto)
+      @statuses = %w[EN_ESPERA EN_PROCESO ENTREGADO CANCELADO]
+    else
+      @statuses = %w[EN_ESPERA EN_PROCESO EN_REVISION ENTREGADO CANCELADO]
     end
   end
 
@@ -1072,7 +1096,7 @@ end
           @ticket.save
           Notifier.send_to_computer(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
-          format.html { redirect_to my_computer_reports_path }
+          format.html { redirect_to department_reports_path('computo') }
           #format.html { redirect_to show_computer_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "electronica"
@@ -1082,7 +1106,7 @@ end
           Notifier.send_to_electronic(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
           #format.html { redirect_to show_electronic_tickets_path }
-          format.html { redirect_to my_electronic_reports_path }
+          format.html { redirect_to department_reports_path('electronica') }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "comunicacion"
           @communication_tickets = Ticket.find(:all, :conditions => ['department = ?', "comunicacion"])
@@ -1090,8 +1114,8 @@ end
           @ticket.save
           Notifier.send_to_communication(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
-          format.html { redirect_to my_communication_reports_path }
-          #format.html { redirect_to show_communication_tickets_path }
+          format.html { redirect_to  department_reports_path('comunicacion') }
+          #format.html { redirect_to my_communication_reports_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "mantenimiento"
          @maintenance_tickets = Ticket.find(:all, :conditions => ['department = ? AND extract(year  from created_at) = ?', "mantenimiento", @current_year])
@@ -1103,7 +1127,7 @@ end
 	  @ticket.save
           Notifier.send_to_maintenance(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
-          format.html { redirect_to my_maintenance_reports_path }
+          format.html { redirect_to department_reports_path('mantenimiento') }
           #format.html { redirect_to show_maintenance_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         elsif @ticket.department == "taller"
@@ -1118,7 +1142,7 @@ end
           @ticket.save
           Notifier.send_to_workshop(@ticket).deliver
           flash[:notice] = "SU SOLICITUD HA SIDO CREADA"
-          format.html { redirect_to my_workshop_reports_path }
+          format.html { redirect_to department_reports_path('taller')}
           #format.html { redirect_to show_workshop_tickets_path }
           format.json { render json: @ticket, status: :created, location: @ticket }
         end
