@@ -1,7 +1,17 @@
 # [ASIF(Administrador de Solicitudes del Instituto de Física)](https://github.com/work-ifunam/ASIF)
-[![wakatime](https://wakatime.com/badge/user/bbd1ffab-8ecd-4925-89f8-871387792d21/project/c6e798b6-6d93-4123-b347-abe263d505e8.svg)](https://wakatime.com/badge/user/bbd1ffab-8ecd-4925-89f8-871387792d21/project/c6e798b6-6d93-4123-b347-abe263d505e8)
+[![PyPI license](https://img.shields.io/pypi/l/ansicolortags.svg)](https://pypi.python.org/pypi/ansicolortags/)
+[![Ruby](https://badgen.net/badge/icon/ruby?icon=ruby&label)](https://https://ruby-lang.org/)
 
-Helpdesk system created to improve user attention in the Support Department.
+The Physics Institute Service Request Manager (ASIF) is the web application responsible for the comprehensive management of technical support and maintenance workflows within IFUNAM.
+
+### Key Features
+* Centralized Requests: Submit and manage service tickets across IT/Computing, Mechanical Workshop, Electronics, Communications, and Maintenance departments.
+
+* Real-Time Tracking: Monitor ticket status (Pending, In Progress, Under Review, Completed, Canceled) through a detailed activity log.
+
+* Role & Permission Management: Granular access control powered by CanCanCan to automatically route each request to qualified technical staff.
+
+* Dashboard & Metrics: KPI indicators and statistical charts that enable department heads to analyze response times and request volume across departments.
 
 ### Contributors
 
