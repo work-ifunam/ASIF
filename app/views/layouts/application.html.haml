@@ -148,7 +148,19 @@
           - flash.each do |type, msg|
             %div{:class => "flash #{type}"}= msg
           = yield      
-      %div#footer
-        Instituto de F&iacute;sica UNAM -
-        = @current_year
       %div.clear
+
+    %footer#footer.main-footer
+      .footer-content
+        .footer-brand
+          %p.footer-institution
+            = @current_year
+            Instituto de F&iacute;sica, UNAM
+          %p.footer-address Circuito de la Investigación Científica s/n, Ciudad Universitaria, C.P. 04510, Ciudad de México.
+          %p.footer-address.text-center
+            contacto:
+            = link_to 'daniel@fisica.unam.mx', 'mailto:daniel@fisica.unam.mx', target: '_blank'
+        .footer-rights
+          %p.footer-institution.text-center
+            = link_to 'Avisos de Privacidad', 'https://www.fisica.unam.mx/privacidad/?lang=es', target: '_blank'
+          %p.footer-subtext
