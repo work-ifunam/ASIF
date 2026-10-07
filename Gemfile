@@ -15,6 +15,7 @@ gem 'rails-jquery-autocomplete', '~> 1.0', '>= 1.0.1'
 gem 'kaminari'
 gem 'net-ldap'
 gem 'test-unit'
+gem 'dotenv-rails', '1.0.2'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

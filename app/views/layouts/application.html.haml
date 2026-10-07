@@ -165,7 +165,7 @@
           %p.footer-address Circuito de la Investigación Científica s/n, Ciudad Universitaria, C.P. 04510, Ciudad de México.
           %p.footer-address.text-center
             contacto:
-            = link_to 'daniel@fisica.unam.mx', 'mailto:daniel@fisica.unam.mx', target: '_blank'
+            = link_to ENV['EMAIL_ADDRESS'], "mailto:#{ENV['EMAIL_ADDRESS']}", target: '_blank'
         .footer-rights
           %p.footer-institution.text-center
             = link_to 'Avisos de Privacidad', 'https://www.fisica.unam.mx/privacidad/?lang=es', target: '_blank'
