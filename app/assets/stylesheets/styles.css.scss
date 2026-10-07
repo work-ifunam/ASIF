@@ -277,7 +277,7 @@ body {
     width: 100% !important;
     clear: both;
     margin: 40px 0 0 0;
-    padding: 24px 0;
+    padding: 40px 0;
     background-color: #174a6e;
     border-radius: 0;
     font-family: 'Montserrat', sans-serif;
@@ -342,6 +342,23 @@ body {
         color: #38bdf8 !important;
         text-decoration: underline;
       }
+    }
+    /* Badge alineado a la derecha */
+    .footer-version {
+      position: absolute;
+      right: 20px;
+    }
+
+    .version-badge {
+      background-color: #0d6efd; /* Azul estilo Bootstrap */
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 10px; /* Borde redondeado tipo "pill" */
+      font-family: monospace, sans-serif;
+      display: inline-block;
+      line-height: 1.2;
     }
 }
 
@@ -1199,3 +1216,4 @@ select.small-field {
 .form-actions-row {
   margin-top: 15px;
 }
+
