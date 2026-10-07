@@ -1,25 +1,41 @@
-<h1>Bienvenido/a</h1>
+<div class="login-wrapper">
+  <div class="login-card">
+    
+    <div class="login-card-header">
+      <h1 class="login-title">Bienvenido/a</h1>
+      <p class="login-subtitle">
+        El acceso a esta sección es exclusivo para el personal del IFUNAM.<br />
+        Por favor ingrese su usuario y contraseña de SALVA.
+      </p>
+    </div>
 
-  <p>
-   Estimado usuario el acceso a esta secci&oacute;n es exclusivo para el personal del IFUNAM.<br />
-   Por favor ingrese su login y contrase&ntilde;a de SALVA.
-  </p>
+    <div class="login-card-body">
+      <%= form_for @user_session, :as => :user_session, :url => { :action => "create" } do |f| %>
+        <%= render 'shared/error_messages', :target => @user_session %>
 
-<%= form_for @user_session, :as => :user_session, :url => { :action => "create" } do |f| %>
-  <%= render 'shared/error_messages', :target => @user_session %>
-  Usuario:<br />
-  <%= f.text_field :login, :size => "9" %>@fisica.unam.mx<br />
-  <br />
-  Password:<br />
-  <%= f.password_field :password, :size => "20" %><br />
-  <br />
-  <br />
-  <%= f.submit "Entrar" %>
-<% end %>
-<br /><br />
-<a href="https://solicitudes.fisica.unam.mx/pr" target="_blank">Si olvidaste tu contraseña, da clic aquí para restablecerla</a>
-<hr color="#217794" />
-<p>
-En caso de ser <b>estudiante asociado</b> deja tu comentario a la Coordinaci&oacute;n Docente
-<br /><%= button_to "Entrar", send_students_message_path, :method => "get" %>
-</p>
+        <div class="form-group">
+          <label for="user_session_login">Usuario SALVA</label>
+          <div class="input-group-domain">
+            <%= f.text_field :login, class: "form-control", placeholder: "usuario", required: true %>
+            <span class="domain-addon">@fisica.unam.mx</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="user_session_password">Contraseña</label>
+          <%= f.password_field :password, class: "form-control", placeholder: "••••••••", required: true %>
+        </div>
+
+        <%= f.submit "Entrar", class: "btn-login-submit" %>
+      <% end %>
+
+      <a href="https://solicitudes.fisica.unam.mx/pr" target="_blank" class="forgot-password-link">
+        ¿Olvidaste tu contraseña? Da clic aquí para restablecerla
+      </a>
+
+      <hr class="login-divider" />
+
+    </div>
+
+  </div>
+</div>
