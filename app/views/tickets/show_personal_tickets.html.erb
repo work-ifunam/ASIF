@@ -1,66 +1,91 @@
-<h1 class="maintitle">Solicitudes de <%= @current_user.firstname %> <%= @current_user.lastname %></span> <span class="lbl-status lbl-primary lbl-fit-content"><%= @current_user.category %></h1>
-<% not_count = @tickets_notattended_count != nil ? @tickets_notattended_count:0 %>
-<h1 class="subtitle text-center">Total (<%= @computer_tickets_tech.count.to_i + not_count %>)</h1>
-<h4 class="subtitle"><%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), :class => "btn btn-primary" %>
-<% if current_user.category == "Chuck Norris" || current_user.category == "Sec COMPUTO" ||  current_user.category == "Admin COMPUTO"%>
-<%= link_to 'DESCARGAR RESULTADOS', url_for(:tech => current_user.id , :format=>"xls"), :class=> "btn btn-secondary" %>
-<% end %>
-</h4>
+<!-- 1. BANNER DE BIENVENIDA -->
+<div class="welcome-card">
+  <div class="welcome-card-header">
+    <h2 class="welcome-user-title">
+      Sesión de <%= current_user.firstname %> <%= current_user.lastname %>
+    </h2>
+    <span class="welcome-badge"><%= current_user.category %></span>
+  </div>
+  <div class="welcome-card-body">
+      A través de este panel podrá llevar el seguimiento a las solicitudes que se te asignaron durante el periodo <%= @current_year %>.
+  </div>
+</div>
+<!-- ENCABEZADO Y ACCIONES -->
+<div class="header-flex-container">
+  <div class="header-text-block">
+    <h1 class="header-title">
+      <% not_count = @tickets_notattended_count != nil ? @tickets_notattended_count:0 %>
+      Solicitudes Asignadas (<%= @computer_tickets_tech.count.to_i + not_count %>)
+    </h1>
+  </div>
+
+  <div class="header-actions-block">
+    <%= link_to "CREAR SOLICITUD", new_ticket_path(:department => @ticket_type), class: "btn btn-primary" %>
+    <% if current_user.category == "Chuck Norris" || current_user.category == "Sec COMPUTO" ||  current_user.category == "Admin COMPUTO" %>
+      <%= link_to 'DESCARGAR RESULTADOS', url_for(:tech => current_user.id, :format => "xls"), class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+</div>
+
+<%# --- SECCIÓN DE GRÁFICAS Y ESTADÍSTICAS --- %>
 <div class="stats text-center">
-<div id="chart_div">
-<table id="mystats1">
-  <caption>PERIODO: </caption>
-  <caption><%= p @current_year %></caption>
-  <thead>
-    <tr>
-      <th></th>
-      <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
-      <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
-      <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
-      <th>EN REVISION (<%= @revision.count.to_s %>)</th>
-      <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
-      <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th></th>
-      <td><%= @notattended.count.to_s %></td>
-      <td><%= @waiting.count.to_s %></td>
-      <td><%= @inprocess.count.to_s %></td>
-      <td><%= @revision.count.to_s %></td>
-      <td><%= @finished.count.to_s %></td>
-      <td><%= @canceled.count.to_s %></td>
-    </tr>
-  </tbody>
-</table></div>
+  <div id="chart_div">
+    <table id="mystats1">
+      <caption>PERIODO: </caption>
+      <caption><%= @current_year %></caption>
+      <thead>
+        <tr>
+          <th></th>
+          <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
+          <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
+          <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
+          <th>EN REVISION (<%= @revision.count.to_s %>)</th>
+          <th>ATENDIDOS (<%= @finished.count.to_s %>)</th>
+          <th>CANCELADOS (<%= @canceled.count.to_s %>)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th></th>
+          <td><%= @notattended.count.to_s %></td>
+          <td><%= @waiting.count.to_s %></td>
+          <td><%= @inprocess.count.to_s %></td>
+          <td><%= @revision.count.to_s %></td>
+          <td><%= @finished.count.to_s %></td>
+          <td><%= @canceled.count.to_s %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-<!---->
+
+<%# --- PESTAÑAS POR ESTATUS --- %>
 <div class="status-bar">
-  <button class="btn btn-primary btn-notattended" <%= disabled = @notattended.count == 0 ? 'disabled':''%> onclick="openStatus('notattended')">NO ATENDIDOS (<%=@notattended.count.to_s%>)</button>
-  <button class="btn btn-primary btn-waiting" <%= disabled = @waiting.count == 0 ? 'disabled':''%> onclick="openStatus('waiting')">EN ESPERA (<%=@waiting.count.to_s%>)</button>
-  <button class="btn btn-primary btn-inprocess" <%= disabled = @inprocess.count == 0 ? 'disabled':''%> onclick="openStatus('inprocess')">EN PROCESO (<%=@inprocess.count.to_s%>)</button>
-  <button class="btn btn-primary btn-revision" <%= disabled = @revision.count == 0 ? 'disabled':''%> onclick="openStatus('revision')">EN REVISION (<%=@revision.count.to_s%>)</button>
-  <button class="btn btn-primary btn-finished" <%= disabled = @finished.count == 0 ? 'disabled':''%> onclick="openStatus('finished')">ATENDIDOS (<%=@finished.count.to_s%>)</button>
-  <button class="btn btn-primary btn-canceled" <%= disabled = @canceled.count == 0 ? 'disabled':''%> onclick="openStatus('canceled')">CANCELADOS (<%=@canceled.count.to_s%>)</button>
+  <button class="btn btn-primary btn-notattended" <%= @notattended.count == 0 ? 'disabled' : '' %> onclick="openStatus('notattended')">NO ATENDIDOS (<%= @notattended.count.to_s %>)</button>
+  <button class="btn btn-primary btn-waiting" <%= @waiting.count == 0 ? 'disabled' : '' %> onclick="openStatus('waiting')">EN ESPERA (<%= @waiting.count.to_s %>)</button>
+  <button class="btn btn-primary btn-inprocess" <%= @inprocess.count == 0 ? 'disabled' : '' %> onclick="openStatus('inprocess')">EN PROCESO (<%= @inprocess.count.to_s %>)</button>
+  <button class="btn btn-primary btn-revision" <%= @revision.count == 0 ? 'disabled' : '' %> onclick="openStatus('revision')">EN REVISION (<%= @revision.count.to_s %>)</button>
+  <button class="btn btn-primary btn-finished" <%= @finished.count == 0 ? 'disabled' : '' %> onclick="openStatus('finished')">ATENDIDOS (<%= @finished.count.to_s %>)</button>
+  <button class="btn btn-primary btn-canceled" <%= @canceled.count == 0 ? 'disabled' : '' %> onclick="openStatus('canceled')">CANCELADOS (<%= @canceled.count.to_s %>)</button>
 </div>
+
 <div id="notattended" class="w3-container status">
   <h4 class="subtitle">NO ATENDIDOS</h4>
   <% @tickets_notattended.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
   <% end %>
-  <%= paginate @tickets_notattended%>
+  <%= paginate @tickets_notattended %>
 </div>
 
-<div id="waiting" class="w3-container status" style="display:none">
+<div id="waiting" class="w3-container status" style="display:none;">
   <h4 class="subtitle">EN ESPERA</h4>
   <% @tickets_waiting.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
   <% end %>
-  <%= paginate @tickets_waiting%>
+  <%= paginate @tickets_waiting %>
 </div>
 
-<div id="inprocess" class="w3-container status" style="display:none">
+<div id="inprocess" class="w3-container status" style="display:none;">
   <h4 class="subtitle">EN PROCESO</h4>
   <% @tickets_inprocess.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
@@ -68,7 +93,7 @@
   <%= paginate @tickets_inprocess %>
 </div>
 
-<div id="revision" class="w3-container status" style="display:none">
+<div id="revision" class="w3-container status" style="display:none;">
   <h4 class="subtitle">EN REVISION</h4>
   <% @tickets_revision.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
@@ -76,7 +101,7 @@
   <%= paginate @tickets_revision %>
 </div>
 
-<div id="finished" class="w3-container status" style="display:none">
+<div id="finished" class="w3-container status" style="display:none;">
   <h4 class="subtitle">ATENDIDOS</h4>
   <% @tickets_finished.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
@@ -84,21 +109,23 @@
   <%= paginate @tickets_finished %>
 </div>
 
-<div id="canceled" class="w3-container status" style="display:none">
+<div id="canceled" class="w3-container status" style="display:none;">
   <h4 class="subtitle">CANCELADOS</h4>
   <% @tickets_canceled.each do |ticket| %>
     <%= render :partial => 'generic_ticket', locals: {ticket: ticket} %> 
   <% end %>
   <%= paginate @tickets_canceled %>
 </div>
-<script>
 
-function openStatus(status) {
-  var i;
-  var x = document.getElementsByClassName("status");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";  
+<br />
+
+<script type="text/javascript">
+  function openStatus(status) {
+    var i;
+    var x = document.getElementsByClassName("status");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";  
+    }
+    document.getElementById(status).style.display = "block";  
   }
-  document.getElementById(status).style.display = "block";  
-}
 </script>
