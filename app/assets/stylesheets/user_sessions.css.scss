@@ -1,3 +1,195 @@
 // Place all the styles related to the user_sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+/* ==========================================================================
+   Estilos de Inicio de Sesión (Login ASIF / IFUNAM)
+   ========================================================================== */
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 15px;
+  width: 100%;
+}
+
+.login-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.login-card-header {
+  background-color: #174a6e;
+  color: #ffffff;
+  padding: 24px;
+  text-align: center;
+
+  .login-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #ffffff;
+  }
+
+  .login-subtitle {
+    font-size: 0.88rem;
+    color: #e2e8f0;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+.login-card-body {
+  padding: 28px 32px;
+}
+
+/* Campos de Formulario */
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 6px;
+  }
+
+  .form-control {
+    width: 100%;
+    height: 42px;
+    padding: 8px 14px;
+    font-size: 0.92rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      border-color: #1484ae;
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(20, 132, 174, 0.15);
+    }
+  }
+}
+
+/* Input Group para correo con dominio @fisica.unam.mx */
+.input-group-domain {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .form-control {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    flex: 1;
+  }
+
+  .domain-addon {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-left: none;
+    height: 42px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    user-select: none;
+  }
+}
+
+/* Botón de Submit */
+.btn-login-submit {
+  width: 100%;
+  height: 44px;
+  background-color: #1484ae;
+  border: 1px solid #1484ae;
+  color: #ffffff !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    background-color: #174a6e;
+    border-color: #174a6e;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Enlace de Olvidó Contraseña */
+.forgot-password-link {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #0187dc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #174a6e;
+    text-decoration: underline;
+  }
+}
+
+.login-divider {
+  border: 0;
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 24px 0;
+}
+
+/* Sección de Estudiante Asociado */
+.student-section {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+
+  p {
+    font-size: 0.84rem;
+    color: #475569;
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+
+    b {
+      color: #1e293b;
+    }
+  }
+
+  .btn-student {
+    display: inline-block;
+    padding: 8px 18px;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155 !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #f1f5f9;
+      border-color: #94a3b8;
+      color: #0f172a !important;
+    }
+  }
+}

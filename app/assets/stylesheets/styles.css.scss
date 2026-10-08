@@ -2,15 +2,8 @@
 Theme Name: ASIF's Layout 
 Theme URI: https://asif.fisica.unam.mx  
 Description: Administrator for Services Requests at IFUNAM
-Version: 1.1
+Version: 1.5
 Author: Daniel Rosales & AI Collaborator
-*/
-/*
-Theme Name: ASIF's Layout 
-Theme URI: https://asif.fisica.unam.mx  
-Description: Administrator for Services Requests at IFUNAM
-Version: 1.0
-Author: GOZ 
 */
 
 /* Website Structure */
@@ -20,8 +13,8 @@ $page-width: 1200px;
 body {
   background: {
     color: #FFFFFF;
-    image: url("../assets/bg.png");
-    repeat: repeat-x;    
+    //image: url("../assets/bg.png");
+    //repeat: repeat-x;    
   }
   margin: 0px;
 }
@@ -31,40 +24,72 @@ body {
     margin: auto;
 }
 
-#header1 {
-    width: $page-width;
-    height: 88px; 
-    float: left;
-}
+/* ==========================================================================
+   Header Institucional (Ancho Completo de Pantalla - 100%)
+   ========================================================================== */
 
-#title {
-    width: 130px;
-    height: 70px;
-       float: left;
-    margin: {
-      left: 10px;
-      top: 0px;
-    }
-    font: {
-          family: 'Montserrat', sans-serif;
-      size: 55px;
-    }
-       color:  #ffa300;
-}
+#header1, .main-header {
+    width: 100% !important;
+    background-color: #174a6e;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+    padding: 14px 0;
+    margin-bottom: 15px;
 
-#title2 {
-    width: 500px;
-    height: 30px;
-       float: left;
-    margin: {
-      top: 27px;
+    .header-content {
+      max-width: $page-width;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      gap: 24px;
     }
-    font: {
-          family: 'Montserrat', sans-serif;
-      size: 19px;
-          font-weight: bold;
+
+    /* Espacio para los Logos a la izquierda */
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      .header-logo {
+        max-height: 60px;
+        width: auto;
+        object-fit: contain;
+      }
     }
-       color:  #ffffff;
+
+    /* Bloque del Título y Subtítulo */
+    .header-title-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      color: #ffa300;
+      margin: 0;
+      line-height: 1;
+      float: none;
+      width: auto;
+      height: auto;
+    }
+
+    #title2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 6px 0 0 0;
+      float: none;
+      width: auto;
+      height: auto;
+    }
 }
 
 /* ==========================================================================
@@ -106,11 +131,7 @@ body {
       .sidebar-icon {
         max-width: 100%;
         height: auto;
-        //border-radius: 50%;
-        //box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
         padding: 4px;
-        //background: #f8fafc;
-        //border: 1px solid #e2e8f0;
       }
     }
 
@@ -248,24 +269,100 @@ body {
     }
 }
 
-#footer {
-    width: $page-width;
-    float: left;
-    text-align: center;
-    margin: {
-      top: 5px;
-      bottom: 10px;      
+/* ==========================================================================
+   Footer Institucional UNAM / IFUNAM (Ancho Completo de Pantalla - 100%)
+   ========================================================================== */
+
+#footer, .main-footer {
+    width: 100% !important;
+    clear: both;
+    margin: 40px 0 0 0;
+    padding: 40px 0;
+    background-color: #174a6e;
+    border-radius: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+
+    .footer-content {
+      max-width: $page-width;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
     }
-    padding-top: 5px;
-    font: {
-      family: 'Montserrat', sans-serif;
-      size: 13px;
-      weight: bold;
+
+    .footer-brand {
+      .footer-institution {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0 0 4px 0;
+      }
+
+      .footer-address {
+        font-size: 0.82rem;
+        color: #e2e8f0;
+        margin: 0;
+        padding: 0.5em 0;
+      }
     }
-    color:  #195073;
+
+    .footer-rights {
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 12px;
+      width: 100%;
+
+      p {
+        font-size: 0.8rem;
+        margin: 0 0 6px 0;
+        color: #f1f5f9;
+        line-height: 1.4;
+      }
+
+      .footer-subtext {
+        font-size: 0.74rem;
+        color: #cbd5e1;
+      }
+    }
+
+    a {
+      color: #0dcaf0 !important;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease, text-decoration 0.2s ease;
+
+      &:hover, &:focus {
+        color: #38bdf8 !important;
+        text-decoration: underline;
+      }
+    }
+    /* Badge alineado a la derecha */
+    .footer-version {
+      position: absolute;
+      right: 20px;
+    }
+
+    .version-badge {
+      background-color: #0d6efd; /* Azul estilo Bootstrap */
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 10px; /* Borde redondeado tipo "pill" */
+      font-family: monospace, sans-serif;
+      display: inline-block;
+      line-height: 1.2;
+    }
 }
 
-/* Other styles*/
+/* Other styles */
 
 .mylink {
     font: {
@@ -343,18 +440,18 @@ body {
 .ticket_content {
   background-color: #d4d4d4;
   padding: 5px;
-  margin-bottom:19px;
+  margin-bottom: 19px;
 }
 
 .ticket_status {
   background-color: #ffffe0;
-  border: dashed 1.5px  #ffa300;
+  border: dashed 1.5px #ffa300;
   padding: 5px;
 }
 
 .ticket_revision {
   background-color: #a9dbed;
-  border: dashed 1.5px  #004e80;
+  border: dashed 1.5px #004e80;
   padding: 5px;
   width: 350px;
 }
@@ -367,7 +464,7 @@ body {
 
 .ticket_category {
     color: #FFF;
-  float: right;
+    float: right;
 }
 
 .ticket_responsible {
@@ -389,7 +486,7 @@ body {
 }
 
 .ticket_status2 {
-  float: right;
+    float: right;
 }
 
 h1 {
@@ -406,7 +503,7 @@ h3 {
 }
 
 .button {
-   padding:3;
+   padding: 3px;
    float: left;
 }
 
@@ -425,13 +522,12 @@ h3 {
   #left_menu,
   #footer,
   .stats,
-  left_menu,
   #nav {
     display: none !important;
   }
 }
 
-.search-box{
+.search-box {
   padding: 1em 0;
   font-size: large;
 }
@@ -454,7 +550,7 @@ h3 {
   border-radius: 10px;
 }
 
-.lbl-primary{
+.lbl-primary {
   background-color: #1484AE;
   border-color: #1484AE;
   color: white;
@@ -483,7 +579,7 @@ h3 {
   border: 2px solid;
 }
 
-.search-button{
+.search-button {
   padding: 0.5rem;
   font-size: 14px;
   text-decoration: none;
@@ -494,19 +590,19 @@ h3 {
   float: right;
   margin: 0 2em;
   border: 2px solid;
+
+  &:hover {
+    color: white;
+    background-color: #7c7575;
+    border-color: #7c7575;
+    border: 2px solid;
+    position: absolute;
+    float: right;
+    margin: 0 2em;
+  }
 }
 
-.search-button:hover{
-  color: white;
-  background-color: #7c7575;
-  border-color: #7c7575;
-  border: 2px solid;
-  position: absolute;
-  float: right;
-  margin: 0 2em;
-}
-
-.action-button{
+.action-button {
   padding: 0.5rem;
   font-size: 14px !important;
   text-decoration: none;
@@ -516,19 +612,19 @@ h3 {
   border: 2px solid;
   margin-top: 1em;
   border-radius: 10px;
+
+  &:hover {
+    padding: 0.5rem;
+    font-size: 14px !important;
+    color: #7c7575 !important;
+    background-color: transparent;
+    border-color: #7c7575;
+    border: 2px solid;
+    margin-top: 1em;
+  }
 }
 
-.action-button:hover{
-  padding: 0.5rem;
-  font-size: 14px !important;
-  color: #7c7575 !important;
-  background-color: transparent;
-  border-color: #7c7575;
-  border: 2px solid;
-  margin-top: 1em;
-}
-
-.action-button-taken{
+.action-button-taken {
   padding: 0.5rem;
   font-size: 14px !important;
   text-decoration: none;
@@ -539,20 +635,20 @@ h3 {
   border: 2px solid;
   margin-top: 1em;
   border-radius: 10px;
+
+  &:hover {
+    padding: 0.5rem;
+    font-size: 14px !important;
+    color: #028001 !important;
+    background-color: transparent;
+    border-color: #028001;
+    border: 2px solid;
+    margin-top: 1em;
+    opacity: 0.6;
+  }
 }
 
-.action-button-taken:hover{
-  padding: 0.5rem;
-  font-size: 14px !important;
-  color: #028001 !important;
-  background-color: transparent;
-  border-color: #028001;
-  border: 2px solid;
-  margin-top: 1em;
-  opacity: 0.6;
-}
-
-.action-button-closed{
+.action-button-closed {
   padding: 0.5rem;
   font-size: 14px !important;
   text-decoration: none;
@@ -563,39 +659,39 @@ h3 {
   border: 2px solid;
   margin-top: 1em;
   border-radius: 10px;
+
+  &:hover {
+    padding: 0.5rem;
+    font-size: 14px !important;
+    color: #D45508 !important;
+    background-color: transparent;
+    border-color: #D45508;
+    border: 2px solid;
+    margin-top: 1em;
+    opacity: 0.6;
+  }
 }
 
-.action-button-closed:hover{
-  padding: 0.5rem;
-  font-size: 14px !important;
-  color: #D45508 !important;
-  background-color: transparent;
-  border-color: #D45508;
-  border: 2px solid;
-  margin-top: 1em;
-  opacity: 0.6;
-}
-
-.btn-notattended, .lbl-notattended{
+.btn-notattended, .lbl-notattended {
   background-color: #AA0001;
   border-color: #AA0001;
+
+  &:hover {
+    background-color: transparent;
+    border-color: #AA0001;
+    color: #AA0001;
+  }
 }
 
-.btn-notattended:hover{
-  background-color: transparent;
-  border-color: #AA0001;
-  color: #AA0001;
-}
-
-.btn-waiting, .lbl-waiting{
+.btn-waiting, .lbl-waiting {
   background-color: #008080;
   border-color: #008080;
-}
 
-.btn-waiting:hover{
-  background-color: transparent;
-  border-color: #008080;
-  color: #008080;
+  &:hover {
+    background-color: transparent;
+    border-color: #008080;
+    color: #008080;
+  }
 }
 
 button:disabled,
@@ -605,91 +701,91 @@ button[disabled], button[disabled]:hover {
   color: #666666 !important;
 }
 
-.btn-inprocess, .lbl-inprocess{
+.btn-inprocess, .lbl-inprocess {
   background-color: #D4AA01;
   border-color: #D4AA01;
+
+  &:hover {
+    background-color: transparent;
+    border-color: #D4AA01;
+    color: #D4AA01;
+  }
 }
 
-.btn-inprocess:hover{
-  background-color: transparent;
-  border-color: #D4AA01;
-  color: #D4AA01;
-}
-
-.btn-revision, .lbl-revision{
+.btn-revision, .lbl-revision {
   background-color: #D45508;
   border-color: #D45508;
+
+  &:hover {
+    background-color: transparent;
+    border-color: #D45508;
+    color: #D45508;
+  }
 }
 
-.btn-revision:hover{
-  background-color: transparent;
-  border-color: #D45508;
-  color: #D45508;
-}
-
-.btn-finished, .lbl-finished{
+.btn-finished, .lbl-finished {
   background-color: #028001;
   border-color: #028001;
+
+  &:hover {
+    background-color: transparent;
+    border-color: #028001;
+    color: #028001;
+  }
 }
 
-.btn-finished:hover{
-  background-color: transparent;
-  border-color: #028001;
-  color: #028001;
-}
-
-.btn-canceled, .lbl-canceled{
+.btn-canceled, .lbl-canceled {
   background-color: #6D0202;
   border-color: #6D0202;
+
+  &:hover {
+    background-color: transparent;
+    border-color: #6D0202;
+    color: #6D0202;
+  }
 }
 
-.btn-canceled:hover{
-  background-color: transparent;
-  border-color: #6D0202;
-  color: #6D0202;
-}
-
-.lbl-approved{
+.lbl-approved {
   background-color: transparent;
   border-color: #028001;
   color: #028001 !important;
   border: 1px solid;
 }
 
-.notlbl-approved{
+.notlbl-approved {
   background-color: transparent;
   border-color: #D45508;
   color: #D45508 !important;
   border: 1px solid;
 }
 
-.maintitle{
+.maintitle {
   margin-bottom: 1em 0 0 0;
-  text-align:center;
+  text-align: center;
 }
 
-.subtitle{
-  color:#1484AE;
+.subtitle {
+  color: #1484AE;
   font-size: 20px;
 }
 
-.text-center{
-  text-align:center;
+.text-center {
+  text-align: center;
 }
 
-.status-bar{
+.status-bar {
   margin: 1.5em 0;
   width: 100%;
 }
 
-.tickets-status-search{
+.tickets-status-search {
   background-color: rgba(212, 212, 212, 0.1);
   border-left: solid 1.5px #195073;
   border-right: solid 1.5px #195073;
   padding: 1em 1em 0 1em;
 }
 
-.tickets-content-search{
+.tickets-content-search {
   margin-bottom: 1em;
   background-color: rgba(212, 212, 212, 0.1);
   border-left: solid 1.5px #195073;
@@ -699,7 +795,7 @@ button[disabled], button[disabled]:hover {
   border-radius: 0 0 10px 10px;
 }
 
-.lbl-status{
+.lbl-status {
   padding: 1em;
   border-radius: 50px;
   color: white;
@@ -709,11 +805,11 @@ button[disabled], button[disabled]:hover {
   text-align: center;
 }
 
-.line-3{
+.line-3 {
   line-height: 3em !important;
 }
 
-.lbl-fit-content{
+.lbl-fit-content {
   width: fit-content;
 }
 
@@ -749,7 +845,7 @@ p.ticket_responsible2 {
   padding: 0 !important;
 }
 
-small.date{
+small.date {
   font: {
     family: 'Montserrat', sans-serif;
   }
@@ -758,7 +854,7 @@ small.date{
   padding: 0 !important;
 }
 
-input[type=text].small-field{
+input[type=text].small-field {
   width: 20%;
   box-sizing: border-box;
   border: 2px solid #ccc;
@@ -772,7 +868,7 @@ input[type=text].small-field{
   margin: 0 5px 10px 0;
 }
 
-select.small-field{
+select.small-field {
   width: 30%;
   font-size: 14px;
   padding: 12px 15px;
@@ -782,7 +878,7 @@ select.small-field{
   margin: 0 10px 10px 0;
 }
 
-.search-advanced-button{
+.search-advanced-button {
   font-size: 14px;
   text-decoration: none;
   background-color: #bcb5b5;
@@ -790,17 +886,16 @@ select.small-field{
   color: white;
   margin: 0.5 2em;
   border: 2px solid;
+
+  &:hover {
+    color: white;
+    background-color: #7c7575;
+    border-color: #7c7575;
+    border: 2px solid;
+    margin: 0.5 2em;
+  }
 }
 
-.search-advanced-button:hover{
-  color: white;
-  background-color: #7c7575;
-  border-color: #7c7575;
-  border: 2px solid;
-  margin: 0.5 2em;
-}
-
-/* Fuerza a que la lista flotante se mantenga sobre cualquier gráfico o contenedor */
 .ui-autocomplete {
   position: absolute !important;
   z-index: 999999 !important;
@@ -816,16 +911,12 @@ select.small-field{
   padding: 6px 10px !important;
   cursor: pointer !important;
   display: block !important;
-}
 
-.ui-menu-item:hover, .ui-state-focus {
-  background-color: #007bff !important;
-  color: #ffffff !important;
+  &:hover, &.ui-state-focus {
+    background-color: #007bff !important;
+    color: #ffffff !important;
+  }
 }
-
-/* ==========================================
-   ESTILOS PARA MENSAJES FLASH / NOTIFICACIONES
-   ========================================== */
 
 .flash {
   padding: 12px 16px;
@@ -839,37 +930,31 @@ select.small-field{
   display: flex;
   align-items: center;
   border-left: 5px solid transparent;
-}
 
-.flash.notice, 
-.flash.success {
-  background-color: #e6f4ea;
-  color: #137333;
-  border-color: #1e8e3e;
-}
+  &.notice, &.success {
+    background-color: #e6f4ea;
+    color: #137333;
+    border-color: #1e8e3e;
+  }
 
-.flash.alert, 
-.flash.error {
-  background-color: #fce8e6;
-  color: #c5221f;
-  border-color: #d93025;
-}
+  &.alert, &.error {
+    background-color: #fce8e6;
+    color: #c5221f;
+    border-color: #d93025;
+  }
 
-.flash.warning {
-  background-color: #fef7e0;
-  color: #b06000;
-  border-color: #f9ab00;
-}
+  &.warning {
+    background-color: #fef7e0;
+    color: #b06000;
+    border-color: #f9ab00;
+  }
 
-.flash.info {
-  background-color: #e8f0fe;
-  color: #1a73e8;
-  border-color: #1a73e8;
+  &.info {
+    background-color: #e8f0fe;
+    color: #1a73e8;
+    border-color: #1a73e8;
+  }
 }
-
-/* ==========================================================================
-   Encabezado y Panel de Búsqueda Bootstrap
-   ========================================================================== */
 
 .header-flex-container {
   display: flex;
@@ -877,7 +962,7 @@ select.small-field{
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 15px;
-  margin-bottom: 20px;
+  margin: 20px 0;
   padding-bottom: 12px;
   border-bottom: 1px solid #e2e8f0;
 
@@ -916,10 +1001,6 @@ select.small-field{
     margin-top: 5px;
   }
 }
-
-/* ==========================================================================
-   Panel de Filtros en Par de Columnas (Flexbox estricto)
-   ========================================================================== */
 
 .search-filter-card {
   background: #f8fafc;
@@ -1041,7 +1122,6 @@ select.small-field{
   }
 }
 
-/* Tarjeta de Administración de Tickets */
 .ticket-admin-card {
   padding: 0;
   overflow: hidden;
@@ -1071,10 +1151,10 @@ select.small-field{
   color: #212529;
   margin-bottom: 10px;
   line-height: 1.5;
-}
 
-.ticket-admin-description .description-text {
-  color: #333333;
+  .description-text {
+    color: #333333;
+  }
 }
 
 .ticket-admin-meta {
@@ -1136,3 +1216,4 @@ select.small-field{
 .form-actions-row {
   margin-top: 15px;
 }
+

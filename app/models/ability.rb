@@ -32,32 +32,25 @@ class Ability
 
     # Permisos de CÓMPUTO
     if user.category == "Admin COMPUTO" || is_global
-      can :read, :show_computer_tickets
+      #can :read, :show_computer_tickets
       can :read, :show_computer_tickets_with_advanced_search
     end
 
     # Permisos de ELECTRÓNICA
     if user.category == "Admin ELECTRONICA" || is_global
-      can :read, :show_computer_tickets_with_advanced_search
+      #can :read, :show_computer_tickets_with_advanced_search
       can :read, :show_electronic_tickets_with_advanced_search
     end
 
-    # Permisos de TALLER / MANTENIMIENTO
-    #if user.category == "Admin TALLER" || is_global
-      #can :read, :show_workshop_tickets
-    #end
     # Permisos de TALLER
-    if user.category == "Admin TALLER"
-      can :read, :show_workshop_tickets # Permiso para tickets_path
-    end
-
-    if is_global
-      can :read, :show_workshop_tickets_with_search # Permiso para show_workshop_tickets_with_search_path
+    if user.category == "Admin TALLER" || is_global
+      can :read, :show_workshop_tickets_with_advanced_search
+      can :autocomplete_user_name, User
     end
 
     # Permisos de MANTENIMIENTO
     if user.category == "Admin MANTENIMIENTO" || is_global
-      can :read, :show_maintenance_tickets
+      #can :read, :show_maintenance_tickets
       can :read, :show_maintenance_tickets_with_advanced_search
       can :autocomplete_user_name, User
     end
@@ -75,6 +68,7 @@ class Ability
     # 1. Permisos para Editar / Administrar Solicitud
     admin_departments = case user.category
                         when "Sec COMPUTO", "Admin COMPUTO" then ['computo']
+                        when "Admin TALLER" 		    then ['taller']
                         #when "Admin COMUNICACION"     	    then ['comunicacion']
                         when "SAC", "Admin ELECTRONICA"     then ['electronica']
                         when "Admin MANTENIMIENTO"          then ['mantenimiento']

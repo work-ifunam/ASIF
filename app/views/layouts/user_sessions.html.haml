@@ -1,33 +1,53 @@
 !!!
 %html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "es", :lang => "es"}
- %head
-  %title ASIF 
-  %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
-  %meta{"http-equiv" => "content-language", "content" => "en"}
-  %meta{"http-equiv" => "description", "content" => " "}
-  %meta{"http-equiv" => "keywords", "content" => " "}
-  %meta{"http-equiv" => "author", "content" => "Daniel Rosales"}
-  %meta{"http-equiv" => "copyright", "content" => " "}
-  %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
-  %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
-  = stylesheet_link_tag "application"
- %body
-  %div#wrapper
-   %div#header1
-    %div#title
-     ASIF  
-    %div#title2
-     Administrador de Solicitudes del Instituto de F&iacute;sica
-   %div#main_content
-    %div#left_menu
-     
-    %div#content
-     - flash.each do |type, msg|
-      %div{:class => "flash #{type}"}= msg
-     = yield      
-   %div#footer
-    Instituto de F&iacute;sica UNAM -
-    = @current_year
-   %div.clear
+  %head
+    %title ASIF - Iniciar Sesión
+    %meta{"http-equiv" => "content-type", "content" => "text/html; charset=ISO-8859-1"}
+    %meta{"http-equiv" => "content-language", "content" => "es"}
+    %meta{"http-equiv" => "description", "content" => "ASIF (Administrador de Solicitudes del Instituto de Física) es la plataforma web institucional diseñada para centralizar, gestionar y dar seguimiento transparente a las solicitudes de servicio técnico y mantenimiento de la comunidad del IFUNAM. A través de un sistema unificado de tickets, facilita la comunicación directa entre los usuarios y las distintas unidades de apoyo."}
+    %meta{"http-equiv" => "keywords", "content" => "ASIF, IFUNAM"}
+    %meta{"http-equiv" => "author", "content" => "Daniel Rosales"}
+    %meta{"http-equiv" => "copyright", "content" => "IFUNAM"}
+    %link{"rel" => "stylesheet", "type" => "text/css", "href" => "https://fonts.googleapis.com/css?family=Montserrat"}
+    %link{"rel" => "shortcut icon", "href" => "../assets/favicon.ico"}
+    = stylesheet_link_tag "application"
+    = stylesheet_link_tag "users_session"
+    = javascript_include_tag "https://kit.fontawesome.com/b8078faaf5.js"
+    = javascript_include_tag "application"
+  %body
+    %header#header1.main-header
+      .header-content
+        .header-logos
+          = link_to 'https://www.unam.mx', target: '_blank', class: 'header-logo-link' do
+            = image_tag("Escudo-UNAM-blanco.png", class: "header-logo", alt: "UNAM") rescue nil
+          = link_to 'https://www.fisica.unam.mx', target: '_blank', class: 'header-logo-link' do
+            = image_tag("if_blanco.png", class: "header-logo", alt: "IFUNAM") rescue nil
+        .header-title-block
+          %div#title ASIF
+          %div#title2 Administrador de Solicitudes del Instituto de F&iacute;sica
 
+    %div#wrapper
+      %div#main_content
+        %div#content{:style => "width: 100%; margin: 0;"}
+          - flash.each do |type, msg|
+            %div{:class => "flash #{type}"}= msg
+          = yield      
+      %div.clear
 
+    %footer#footer.main-footer
+      .footer-content
+        .footer-brand
+          %p.footer-institution
+            = @current_year
+            Instituto de F&iacute;sica, UNAM
+          %p.footer-address Circuito de la Investigación Científica s/n, Ciudad Universitaria, C.P. 04510, Ciudad de México.
+          %p.footer-address.text-center
+            contacto:
+            = link_to ENV['EMAIL_ADDRESS'], "mailto:#{ENV['EMAIL_ADDRESS']}", target: '_blank'
+        .footer-rights
+          %p.footer-institution.text-center
+            = link_to 'Avisos de Privacidad', 'https://www.fisica.unam.mx/privacidad/?lang=es', target: '_blank'
+          %p.footer-subtext
+            Última actualización: #{APP_LAST_UPDATED}
+          .footer-version
+            %span.version-badge= "v.#{APP_VERSION}"
