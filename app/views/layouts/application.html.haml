@@ -83,14 +83,8 @@
                   %i.fas.fa-chevron-right.sidebar-chevron
 
             %li.sidebar-item
-              - if can? :read, :show_workshop_tickets
-                = link_to tickets_path, class: "sidebar-link #{'active' if current_page?(tickets_path)}" do
-                  .sidebar-link-content
-                    %i.fas.fa-wrench
-                    %span Taller
-                  %i.fas.fa-chevron-right.sidebar-chevron
-              - elsif can? :read, :show_workshop_tickets_with_search
-                = link_to show_workshop_tickets_with_search_path, class: "sidebar-link #{'active' if current_page?(show_workshop_tickets_with_search_path)}" do
+              - if can? :read, :show_workshop_tickets_with_advanced_search
+                = link_to show_workshop_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_workshop_tickets_with_advanced_search_path)}" do
                   .sidebar-link-content
                     %i.fas.fa-wrench
                     %span Taller
