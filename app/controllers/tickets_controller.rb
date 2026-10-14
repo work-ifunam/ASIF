@@ -122,23 +122,21 @@ def index
   def show_tickets_with_advanced_search
     # Obtiene el departamento de los parámetros o del buscador; por defecto 'computo'
     @ticket_type = params[:department] || (params[:search] && params[:search][:department]) || 'computo'
-    # Autorización genérica y dinámica:
+    
+    # ÚNICA AUTORIZACIÓN NECESARIA AHORA:
     authorize! :read_advanced_search, Ticket.new(department: @ticket_type)
   
-    # Diccionario con las configuraciones únicas de cada método original
+    # Diccionario LIMPIO (ya no necesitamos la llave auth:)
     configs = {
-      'computo'       => { auth: :show_computer_tickets_with_advanced_search,       exclude: 'Admin COMPUTO',      tech: '%COMPUTO%' },
-      'taller'        => { auth: :show_workshop_tickets_with_advanced_search,       exclude: 'Personal TALLER',    tech: '%TALLER%' },
-      'electronica'   => { auth: :show_electronic_tickets_with_advanced_search,     exclude: 'Admin ELECTRONICA',  tech: '%ELECTRONICA%' },
-      'comunicacion'  => { auth: :show_communication_tickets_with_advanced_search,  exclude: 'Admin COMUNICACION', tech: '%COMUNICACION%' },
-      'mantenimiento' => { auth: :show_maintenance_tickets_with_advanced_search,    exclude: '',                   tech: '%MANTENIMIENTO%' }
+      'computo'       => { exclude: 'Admin COMPUTO',      tech: '%COMPUTO%' },
+      'taller'        => { exclude: 'Personal TALLER',    tech: '%TALLER%' },
+      'electronica'   => { exclude: 'Admin ELECTRONICA',  tech: '%ELECTRONICA%' },
+      'comunicacion'  => { exclude: 'Admin COMUNICACION', tech: '%COMUNICACION%' },
+      'mantenimiento' => { exclude: '',                   tech: '%MANTENIMIENTO%' }
     }
 
     config = configs[@ticket_type]
   
-    # Validar el permiso asignado en Ability según el departamento
-    authorize! :read, config[:auth]
-
     logger.debug "--------------------------------------"
     logger.debug "SHOW #{@ticket_type.upcase} TICKETS WITH ADVANCED SEARCH"
   

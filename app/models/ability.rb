@@ -32,19 +32,19 @@ class Ability
 
     # Permisos de CÓMPUTO
     if user.category == "Admin COMPUTO" || is_global
-      can :read, :show_computer_tickets_with_advanced_search
+      #can :read, :show_computer_tickets_with_advanced_search
       can :read_advanced_search, Ticket, department: 'computo'
     end
 
     # Permisos de ELECTRÓNICA
     if user.category == "Admin ELECTRONICA" || is_global
-      can :read, :show_electronic_tickets_with_advanced_search
+      #can :read, :show_electronic_tickets_with_advanced_search
       can :read_advanced_search, Ticket, department: 'electronica'
     end
 
     # Permisos de TALLER
     if user.category == "Admin TALLER" || is_global
-      can :read, :show_workshop_tickets_with_advanced_search
+      #can :read, :show_workshop_tickets_with_advanced_search
       can :read_advanced_search, Ticket, department: 'taller'
       can :autocomplete_user_name, User
     end
@@ -52,15 +52,16 @@ class Ability
     # Permisos de MANTENIMIENTO
     if user.category == "Admin MANTENIMIENTO" || is_global
       #can :read, :show_maintenance_tickets
-      can :read, :show_maintenance_tickets_with_advanced_search
+      #can :read, :show_maintenance_tickets_with_advanced_search
       can :read_advanced_search, Ticket, department: 'mantenimiento'
       can :autocomplete_user_name, User
     end
 
     # Permisos de COMUNICACIÓN
     if user.category == "Admin COMUNICACION" || is_global
-      can :read, :show_communication_tickets_with_advanced_search
+      #can :read, :show_communication_tickets_with_advanced_search
       can :read_advanced_search, Ticket, department: 'comunicacion'
+      can :autocomplete_user_name, User
     end
 
     # =========================================================================
