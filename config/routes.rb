@@ -7,6 +7,8 @@ SuperSimpleHELPDESK::Application.routes.draw do
   resources :technicians
   resources :assignations
   resources :categories
+  get 'tickets/advanced_search', to: 'tickets#show_tickets_with_advanced_search', as: 'show_tickets_with_advanced_search'
+
   resources :tickets
   resources :users do
 	get :autocomplete_user_name, on: :member

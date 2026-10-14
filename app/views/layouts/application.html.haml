@@ -68,9 +68,11 @@
                   %span Mis Solicitudes
                 %i.fas.fa-chevron-right.sidebar-chevron
 
-            %li.sidebar-item 
-              - if can? :read, :show_computer_tickets_with_advanced_search
-                = link_to show_computer_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_computer_tickets_with_advanced_search_path)}" do
+            %li.sidebar-item
+              -# if can? :read, :show_computer_tickets_with_advanced_search
+                =# link_to show_computer_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_computer_tickets_with_advanced_search_path)}" do
+              - if can? :read_advanced_search, Ticket.new(department: 'computo')
+                = link_to show_tickets_with_advanced_search_path(department: 'computo'), class: "sidebar-link #{'active' if current_page?(show_tickets_with_advanced_search_path(department: 'computo'))}" do
                   .sidebar-link-content
                     %i.fas.fa-desktop
                     %span Cómputo
@@ -83,8 +85,8 @@
                   %i.fas.fa-chevron-right.sidebar-chevron
 
             %li.sidebar-item
-              - if can? :read, :show_workshop_tickets_with_advanced_search
-                = link_to show_workshop_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_workshop_tickets_with_advanced_search_path)}" do
+              - if can? :read_advanced_search, Ticket.new(department: 'taller')
+                = link_to show_tickets_with_advanced_search_path(department: 'taller'), class: "sidebar-link #{'active' if current_page?(show_tickets_with_advanced_search_path(department: 'taller'))}" do
                   .sidebar-link-content
                     %i.fas.fa-wrench
                     %span Taller
@@ -97,8 +99,8 @@
                   %i.fas.fa-chevron-right.sidebar-chevron
 
             %li.sidebar-item
-              - if can? :read, :show_electronic_tickets_with_advanced_search
-                = link_to show_electronic_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_electronic_tickets_with_advanced_search_path)}" do
+              - if can? :read_advanced_search, Ticket.new(department: 'electronica')
+                = link_to show_tickets_with_advanced_search_path(department: 'electronica'), class: "sidebar-link #{'active' if current_page?(show_tickets_with_advanced_search_path(department: 'electronica'))}" do
                   .sidebar-link-content
                     %i.fas.fa-microchip
                     %span Electrónica
@@ -111,8 +113,8 @@
                   %i.fas.fa-chevron-right.sidebar-chevron
 
             %li.sidebar-item
-              - if can? :read, :show_communication_tickets_with_advanced_search
-                = link_to show_communication_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_communication_tickets_with_advanced_search_path)}" do
+              - if can? :read_advanced_search, Ticket.new(department: 'comunicacion')
+                = link_to show_tickets_with_advanced_search_path(department: 'comunicacion'), class: "sidebar-link #{'active' if current_page?(show_tickets_with_advanced_search_path(department: 'comunicacion'))}" do
                   .sidebar-link-content
                     %i.fas.fa-bullhorn
                     %span Comunicación
@@ -125,8 +127,8 @@
                   %i.fas.fa-chevron-right.sidebar-chevron
 
             %li.sidebar-item
-              - if can? :read, :show_maintenance_tickets_with_advanced_search
-                = link_to show_maintenance_tickets_with_advanced_search_path, class: "sidebar-link #{'active' if current_page?(show_maintenance_tickets_with_advanced_search_path)}" do
+              - if can? :read_advanced_search, Ticket.new(department: 'mantenimiento')
+                = link_to show_tickets_with_advanced_search_path(department: 'mantenimiento'), class: "sidebar-link #{'active' if current_page?(show_tickets_with_advanced_search_path(department: 'mantenimiento'))}" do
                   .sidebar-link-content
                     %i.fas.fa-tools
                     %span Mantenimiento

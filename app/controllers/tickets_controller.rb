@@ -118,7 +118,110 @@ def index
       }
     end
   end
-#Personal Tickets
+  
+  def show_tickets_with_advanced_search
+    # Obtiene el departamento de los parámetros o del buscador; por defecto 'computo'
+    @ticket_type = params[:department] || (params[:search] && params[:search][:department]) || 'computo'
+    # Autorización genérica y dinámica:
+    authorize! :read_advanced_search, Ticket.new(department: @ticket_type)
+  
+    # Diccionario con las configuraciones únicas de cada método original
+    configs = {
+      'computo'       => { auth: :show_computer_tickets_with_advanced_search,       exclude: 'Admin COMPUTO',      tech: '%COMPUTO%' },
+      'taller'        => { auth: :show_workshop_tickets_with_advanced_search,       exclude: 'Personal TALLER',    tech: '%TALLER%' },
+      'electronica'   => { auth: :show_electronic_tickets_with_advanced_search,     exclude: 'Admin ELECTRONICA',  tech: '%ELECTRONICA%' },
+      'comunicacion'  => { auth: :show_communication_tickets_with_advanced_search,  exclude: 'Admin COMUNICACION', tech: '%COMUNICACION%' },
+      'mantenimiento' => { auth: :show_maintenance_tickets_with_advanced_search,    exclude: '',                   tech: '%MANTENIMIENTO%' }
+    }
+
+    config = configs[@ticket_type]
+  
+    # Validar el permiso asignado en Ability según el departamento
+    authorize! :read, config[:auth]
+
+    logger.debug "--------------------------------------"
+    logger.debug "SHOW #{@ticket_type.upcase} TICKETS WITH ADVANCED SEARCH"
+  
+    @search = TicketSearch.new(params[:search])
+    @exclude_category = config[:exclude]
+    @tech_search = config[:tech]
+  
+    # Detecta el folio si viene en params[:folio] o en params[:search][:folio]
+    folio_param = params[:folio].presence || params[:search].try(:[], :folio).presence || @search.folio.presence
+
+    if folio_param.present?
+      logger.debug "--------------------------------------"
+      logger.debug "SHOW TICKETS WITH ADVANCED SEARCH------ONLY FOLIO: #{folio_param}"
+      logger.debug "--------------------------------------"
+      @tickets = @search.scope_with_folio(@ticket_type, folio_param)
+      @download = @tickets
+    else
+      logger.debug "--------------------------------------"
+      logger.debug "SHOW TICKETS WITH ADVANCED SEARCH------IGNORING FOLIO"
+      logger.debug "--------------------------------------"
+      @tickets = @search.advanced_scope(@ticket_type)
+
+      if params[:date_from].present? && params[:date_to].present?
+        logger.debug "--------------------------------------"
+        logger.debug "ENTER TO DOWNLOAD OPTION"
+        user_search_param = params[:user_search].presence || params[:search].try(:[], :user_search).presence
+        @download = @search.tech_full_scope(
+          params[:cat], 
+          @ticket_type, 
+          params[:date_from], 
+          params[:date_to], 
+          params[:tech_id], 
+          user_search_param
+        )
+      else
+        @download = @tickets
+      end
+    end
+
+    # Filtros por estatus y paginación
+    @notattended = @search.advanced_scope_with_status('NO_ATENDIDO', @ticket_type)
+    @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
+
+    @revision = @search.advanced_scope_with_status('EN_REVISION', @ticket_type)
+    @tickets_revision = Kaminari.paginate_array(@revision).page(params[:page])
+
+    @finished = @search.advanced_scope_with_status('ENTREGADO', @ticket_type)
+    @tickets_finished = Kaminari.paginate_array(@finished).page(params[:page])
+
+    @inprocess = @search.advanced_scope_with_status('EN_PROCESO', @ticket_type)
+    @tickets_inprocess = Kaminari.paginate_array(@inprocess).page(params[:page])
+
+    @waiting = @search.advanced_scope_with_status('EN_ESPERA', @ticket_type)
+    @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
+
+    @canceled = @search.advanced_scope_with_status('CANCELADO', @ticket_type)
+    @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
+
+    # --- CÁLCULO DE LA PESTAÑA CON MÁS REGISTROS ---
+    counts = {
+      'notattended' => @notattended.count,
+      'waiting'     => @waiting.count,
+      'inprocess'   => @inprocess.count,
+      'revision'    => @revision.count,
+      'finished'    => @finished.count,
+      'canceled'    => @canceled.count
+    }
+
+    max_pair = counts.max_by { |_, count| count }
+    @default_status = (max_pair && max_pair[1] > 0) ? max_pair[0] : 'finished'
+
+    respond_to do |format|
+      format.html { render 'show_tickets_with_advanced_search' } # Renderiza la vista unificada
+      format.json { render json: @tickets }
+      format.xls do
+        headers["Content-Type"] = "application/vnd.ms-excel; charset=UTF-8"
+        headers["Content-Disposition"] = "attachment; filename=\"ticket_#{folio_param || 'busqueda'}.xls\""
+        render xls: @download
+      end
+    end
+  end
+
+  #Personal Tickets
   def show_personal_tickets
     @ticket_type = 'computo'
        tickets =  Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech ', department: 'computo', tech: current_user.tech).order('tickets.created_at DESC')
