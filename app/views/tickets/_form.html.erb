@@ -18,10 +18,11 @@
     <div class="search-row">
       <div class="search-col-6">
         <%= f.label :category, "Seleccione una categoría:" %>
-        <%= f.select :category, 
+	<%= f.select :category, 
                      @category.collect { |record| [record.name, record.id] }, 
                      { prompt: "Seleccione categoría" }, 
-                     class: 'form-control' %>
+                     class: 'form-control',
+                     required: true %>
       </div>
 
       <div class="search-col-6">
