@@ -1,5 +1,7 @@
 class Ticket < ActiveRecord::Base
   attr_accessible :category, :description, :priority, :status, :technician, :user_id, :id, :department, :revision, :ideal_time, :revision_old, :folio, :ext, :location, :schedule_time
+
+  validates :category, presence: { message: "debe ser seleccionada" }
   belongs_to :user
   has_many :assignments
   has_many :technicians, :through => :assignments
