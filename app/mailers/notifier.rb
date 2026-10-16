@@ -18,7 +18,7 @@ class Notifier < ActionMailer::Base
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
          ) do |format|
-      format.text
+      format.html # Habilita la búsqueda de la plantilla .html.erb
     end
   end
 
@@ -40,7 +40,7 @@ class Notifier < ActionMailer::Base
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
          ) do |format|
-      format.text
+      format.html # Habilita la búsqueda de la plantilla .html.erb
     end
   end
 
@@ -92,15 +92,12 @@ class Notifier < ActionMailer::Base
     @location = ticket.location
     @folio = ticket.folio
     @link = "electronica"
-    #mail(:to => "sac-if@fisica.unam.mx , mcuautle@fisica.unam.mx, jicruzm@fisica.unam.mx, jicruz@fisica.unam.mx",
-    #mail(:to => "sac-if@fisica.unam.mx",
-    #mail(:to => "jicruzm@fisica.unam.mx",
     mail(:to => "sac-if@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - ELECTRONICA",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
          ) do |format|
-      format.text
+      format.html # Habilita la búsqueda de la plantilla .html.erb
     end
   end
 
@@ -118,13 +115,11 @@ class Notifier < ActionMailer::Base
       emails << tech.email + "," + " "
     end
     mail(:to => emails,
-    #mail(:to => emails, "sac-if@fisica.unam.mx",
-    #mail(:to => "lnovoa@fisica.unam.mx, sofia@fisica.unam.mx",
          :subject => "Tiene una nueva solicitud en ASIF - UNIDAD DE COMUNICACION",
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
          ) do |format|
-      format.text
+      format.html # Habilita la búsqueda de la plantilla .html.erb
     end
   end
 
@@ -142,7 +137,7 @@ class Notifier < ActionMailer::Base
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
          ) do |format|
-      format.text
+      format.html # Habilita la búsqueda de la plantilla .html.erb
     end
   end
 
