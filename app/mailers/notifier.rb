@@ -184,7 +184,7 @@ def send_reply_to_user(ticket)
          :from => "asif@fisica.unam.mx",
          :fail_to => "asif@fisica.unam.mx"
          ) do |format|
-      format.text
+      format.html # Habilita la búsqueda de la plantilla .html.erb
     end
   end
 

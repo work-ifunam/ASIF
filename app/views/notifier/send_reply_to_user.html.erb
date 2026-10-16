@@ -1,0 +1,73 @@
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 6px; background-color: #ffffff; overflow: hidden;">
+  
+  <!-- Encabezado Principal -->
+  <div style="background-color: #0056b3; color: #ffffff; padding: 15px 20px; font-size: 14px; border-bottom: 3px solid #003d82;">
+    <span style="float: right; font-weight: bold;">SOLICITUD No. <%= @folio %></span>
+    <span style="font-weight: bold;">ACTUALIZACIÓN EN SU SOLICITUD</span>
+    <div style="clear: both;"></div>
+  </div>
+
+  <!-- Panel de Estado y Asignación -->
+  <div style="padding: 20px; background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0;">
+    <h2 style="margin: 0 0 15px 0; font-size: 18px; color: #333333;">
+      ESTADO: <span style="color: #0056b3;"><%= @status %></span>
+    </h2>
+    
+    <div style="margin-bottom: 10px; font-size: 14px; color: #555555;">
+      <span style="display: inline-block; margin-right: 15px;">
+        <strong>FECHA ESTIMADA DE ENTREGA:</strong> 
+        <%= @ideal_time.nil? ? @message1 : @ideal_time.strftime("%d/%m/%Y") %>
+      </span>
+    </div>
+    
+    <div style="font-size: 14px; color: #555555;">
+      <span>
+        <strong>TRABAJO ASIGNADO A:</strong> 
+        <%= @techs.count == 0 ? @message2 : @technicians %>
+      </span>
+    </div>
+  </div>
+
+  <div style="padding: 20px;">
+    <!-- Observaciones del Responsable -->
+    <% if @revision.present? %>
+      <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #333333; text-transform: uppercase;">Observaciones por parte del responsable:</h3>
+      <div style="background-color: #fff3cd; border: 1px solid #ffeeba; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 25px; border-radius: 4px; color: #856404; font-size: 14px; line-height: 1.6;">
+        <div style="margin: 0;">
+          <%= simple_format(sanitize(@revision, tags: %w(b i u strong em a br p ul li hr))) %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Detalles de la Solicitud Original -->
+    <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #333333; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">SOLICITUD ORIGINAL</h3>
+    
+    <div style="margin-bottom: 15px; font-size: 14px; color: #555555; line-height: 1.6;">
+      <strong>CATEGORÍA:</strong> <%= @category.name %><br>
+      <strong>SOLICITANTE:</strong> <%= @user.firstname %> <%= @user.lastname %><br>
+      
+      <% if @location.present? %>
+        <strong>UBICACIÓN:</strong> <%= @location %><br>
+      <% end %>
+      
+      <strong>CONTACTO:</strong> <%= @user.email %> 
+      <% if @extension.present? || @ext.present? %>
+        | <strong>Ext:</strong> <%= @ext %>
+      <% end %>
+    </div>
+
+    <!-- Caja de Descripción -->
+    <div style="background-color: #ffffff; border: 1px solid #e9ecef; border-left: 4px solid #0056b3; padding: 15px; margin-bottom: 20px; border-radius: 4px; color: #444444; font-size: 14px; line-height: 1.6;">
+      <div style="margin: 0;">
+        <%= simple_format(sanitize(@description, tags: %w(b i u strong em a br p ul li hr))) %>
+      </div>
+    </div>
+
+    <!-- Advertencia de correo automático -->
+    <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px dotted #cccccc;">
+      <span style="font-size: 11px; color: #888888; font-weight: bold;">
+        *** ESTE CORREO SE GENERA DE MANERA AUTOMÁTICA, NO HAGA REPLY ***
+      </span>
+    </div>
+  </div>
+</div>
