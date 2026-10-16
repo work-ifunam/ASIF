@@ -1,6 +1,6 @@
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 6px; background-color: #ffffff; overflow: hidden;">
   
-  <div style="background-color: #0056b3; color: #ffffff; padding: 15px 20px; font-size: 14px; border-bottom: 3px solid #003d82;">
+  <div style="background-color: #194A84; color: #ffffff; padding: 15px 20px; font-size: 14px; border-bottom: 3px solid #003d82;">
     <span style="float: right; font-weight: bold;">SOLICITUD No. <%= @folio %></span>
     <span style="font-weight: bold;">TIENE UNA NUEVA ASIGNACIÓN EN ASIF</span>
     <div style="clear: both;"></div>
@@ -26,14 +26,14 @@
   </div>
 
   <div style="padding: 20px;">
-    <div style="background-color: #ffffff; border: 1px solid #e9ecef; border-left: 4px solid #0056b3; padding: 15px; margin-bottom: 25px; border-radius: 4px; color: #444444; font-size: 14px; line-height: 1.6;">
+    <div style="background-color: #ffffff; border: 1px solid #e9ecef; border-left: 4px solid #194A84; padding: 15px; margin-bottom: 25px; border-radius: 4px; color: #444444; font-size: 14px; line-height: 1.6;">
       <div style="margin: 0;">
 	<%= simple_format(sanitize(@description, tags: %w(b i u strong em a br p ul li hr))) %>
       </div>
     </div>
 
     <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">
-      <a href="https://asif.fisica.unam.mx/tickets/<%= @id %>/edit?department=<%= @link %>" style="display: inline-block; padding: 12px 25px; background-color: #0056b3; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 4px; font-size: 14px; text-transform: uppercase;">
+      <a href="https://asif.fisica.unam.mx/tickets/<%= @id %>/edit?department=<%= @link %>" style="display: inline-block; padding: 12px 25px; background-color: #194A84; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 4px; font-size: 14px; text-transform: uppercase;">
         ATENDER SOLICITUD
       </a>
     </div>
