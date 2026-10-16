@@ -62,7 +62,7 @@ class Notifier < ActionMailer::Base
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
              ) do |format|
-          format.text
+          format.html # Habilita la búsqueda de la plantilla .html.erb
         end
     elsif @category.id == 19
         mail(:to => "taller@fisica.unam.mx",
@@ -70,7 +70,7 @@ class Notifier < ActionMailer::Base
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
              ) do |format|
-          format.text
+          format.html # Habilita la búsqueda de la plantilla .html.erb
         end
     else
         mail(:to => "taller@fisica.unam.mx, fmarquez@fisica.unam.mx",
@@ -78,7 +78,7 @@ class Notifier < ActionMailer::Base
              :from => "asif@fisica.unam.mx",
              :fail_to => "asif@fisica.unam.mx"
              ) do |format|
-          format.text
+          format.html # Habilita la búsqueda de la plantilla .html.erb
         end
     end
   end
