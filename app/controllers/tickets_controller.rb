@@ -223,20 +223,20 @@ def index
   def show_personal_tickets
     @ticket_type = 'computo'
        tickets =  Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech ', department: 'computo', tech: current_user.tech).order('tickets.created_at DESC')
-       @computer_tickets_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech', department: 'computo', tech: current_user.tech).where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @tickets_tech = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech', department: 'computo', tech: current_user.tech).where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
        @revision = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_REVISION').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
        @notattended = Ticket.find(:all, :conditions => ['status = ? AND department = ? AND extract(year  from created_at) = ?', "NO_ATENDIDO","computo", @current_year], :order => "created_at DESC")
        @finished = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'ENTREGADO').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
        @inprocess = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_PROCESO').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
        @waiting = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'EN_ESPERA').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
-       @canceled = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'CANCELADOS').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
+       @canceled = Ticket.joins(:technicians).where('department = :department AND assignments.technician_id = :tech AND status = :status', department: 'computo', tech: current_user.tech, status: 'CANCELADO').where('extract(year from tickets.created_at) = ?', @current_year).order('tickets.created_at DESC')
        @tickets_notattended = Kaminari.paginate_array(@notattended).page(params[:page])
        @tickets_revision = Kaminari.paginate_array(@revision).page(params[:page])
        @tickets_finished = Kaminari.paginate_array(@finished).page(params[:page])
        @tickets_inprocess = Kaminari.paginate_array(@inprocess).page(params[:page])
        @tickets_waiting = Kaminari.paginate_array(@waiting).page(params[:page])
        @tickets_canceled = Kaminari.paginate_array(@canceled).page(params[:page])
-       @tickets_notattended_count = @notattended.count 
+       @tickets_assigned_count = @tickets_tech.count 
        @download = @computer_tickets_tech
     #tickets =  Ticket.joins(:technicians).where(:all, :conditions => ['department = ? AND assignments.technician_id =?', 'computo', current_user.tech], :order => "created_at DESC")
     #tickets =  Ticket.joins(:technicians).where('department = "computo" and current_user.tech = assignments.technician_id', :order => "created_at DESC")
