@@ -14,8 +14,7 @@
 <div class="header-flex-container">
   <div class="header-text-block">
     <h1 class="header-title">
-      <% not_count = @tickets_notattended_count != nil ? @tickets_notattended_count:0 %>
-      Solicitudes Asignadas (<%= @computer_tickets_tech.count.to_i + not_count %>)
+      Solicitudes Asignadas (<%= @tickets_assigned_count %>)
     </h1>
   </div>
 
@@ -36,7 +35,7 @@
       <thead>
         <tr>
           <th></th>
-          <th>NO ATENDIDOS (<%= @notattended.count.to_s %>)</th>
+          <th></th>
           <th>EN ESPERA (<%= @waiting.count.to_s %>)</th>
           <th>EN PROCESO (<%= @inprocess.count.to_s %>)</th>
           <th>EN REVISION (<%= @revision.count.to_s %>)</th>
@@ -47,7 +46,7 @@
       <tbody>
         <tr>
           <th></th>
-          <td><%= @notattended.count.to_s %></td>
+          <td></td>
           <td><%= @waiting.count.to_s %></td>
           <td><%= @inprocess.count.to_s %></td>
           <td><%= @revision.count.to_s %></td>

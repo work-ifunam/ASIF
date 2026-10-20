@@ -675,23 +675,25 @@ h3 {
 .btn-notattended, .lbl-notattended {
   background-color: #AA0001;
   border-color: #AA0001;
+}
 
-  &:hover {
-    background-color: transparent;
-    border-color: #AA0001;
-    color: #AA0001;
-  }
+.btn-notattended:hover {
+  background-color: transparent;
+  border-color: #AA0001;
+  color: #AA0001;
+  border: 2px solid;
 }
 
 .btn-waiting, .lbl-waiting {
   background-color: #008080;
   border-color: #008080;
+}
 
-  &:hover {
-    background-color: transparent;
-    border-color: #008080;
-    color: #008080;
-  }
+.btn-waiting:hover {
+  background-color: transparent;
+  border-color: #008080;
+  color: #008080;
+  border: 2px solid;
 }
 
 button:disabled,
@@ -704,45 +706,49 @@ button[disabled], button[disabled]:hover {
 .btn-inprocess, .lbl-inprocess {
   background-color: #D4AA01;
   border-color: #D4AA01;
+}
 
-  &:hover {
-    background-color: transparent;
-    border-color: #D4AA01;
-    color: #D4AA01;
-  }
+.btn-inprocess:hover {
+  background-color: transparent;
+  border-color: #D4AA01;
+  color: #D4AA01;
+  border: 2px solid;
 }
 
 .btn-revision, .lbl-revision {
   background-color: #D45508;
   border-color: #D45508;
+}
 
-  &:hover {
-    background-color: transparent;
-    border-color: #D45508;
-    color: #D45508;
-  }
+.btn-revision:hover {
+  background-color: transparent;
+  border-color: #D45508;
+  color: #D45508;
+  border: 2px solid;
 }
 
 .btn-finished, .lbl-finished {
   background-color: #028001;
   border-color: #028001;
+}
 
-  &:hover {
-    background-color: transparent;
-    border-color: #028001;
-    color: #028001;
-  }
+.btn-finished:hover {
+  background-color: transparent;
+  border-color: #028001;
+  color: #028001;
+  border: 2px solid;
 }
 
 .btn-canceled, .lbl-canceled {
   background-color: #6D0202;
   border-color: #6D0202;
+}
 
-  &:hover {
-    background-color: transparent;
-    border-color: #6D0202;
-    color: #6D0202;
-  }
+.btn-canceled:hover {
+  background-color: transparent;
+  border-color: #6D0202;
+  color: #6D0202;
+  border: 2px solid;
 }
 
 .lbl-approved {
